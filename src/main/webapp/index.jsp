@@ -1,3 +1,6 @@
+<%@ page import="java.sql.Connection" %>
+<%@ page import="com.DB.DBConnect" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +32,10 @@
 		<h1 class="text-center text-white">Complaint Management System</h1>
 	</div>
 
-
+<%
+Connection conn = DBConnect.getConnection();
+out.println(conn);
+%>
 
 
 	<%@include file="all_component/footer.jsp"%>
