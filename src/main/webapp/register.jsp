@@ -31,25 +31,33 @@
 						<form >
 
 							<div class="form-group">
-								<label for="exampleInputEmail1">Enter Full Name</label> 
+								<label for="exampleInputEmail1">Enter Emp.ID / Aadhar ID</label> 
 								<input
-									type="text" class="form-control" name="fname">
+									type="number" class="form-control" required="required" name="eid">
 							</div>
 							
 							<div class="form-group">
-								<label for="exampleInputEmail1">Enter Emp.ID</label> 
+								<label for="exampleInputEmail1">Enter Full Name</label> 
 								<input
-									type="number" class="form-control" name="eid">
+									type="text" class="form-control" required="required" name="fname">
 							</div>
-
+							
+							
+							
+							<div class="form-group">
+								<label for="exampleInputEmail1">Enter Qtr No</label> 
+								<input
+									type="text" class="form-control" required="required" name="qtrno">
+							</div>
+							
 							<div class="form-group">
 								<label for="exampleInputEmail1">Email address</label> <input
-									type="email" class="form-control" name="email">
+									type="email" class="form-control" required="required" name="email">
 
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">Phone No</label> <input
-									type="number" class="form-control" name="phno">
+									type="number" class="form-control" required="required" name="phno">
 							</div>
 
 							<div class="form-group">
