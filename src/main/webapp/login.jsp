@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Registration</title>
+<title>Login</title>
 <%@ include file="all_component/allCss.jsp" %>
 <style type="text/css">
 .paint-card {
@@ -20,12 +20,12 @@
 
 <%@include file="all_component/navbar.jsp" %>
 
-<div class="container p-2">
+<div class="container p-5" style="margin-top: 50px; margin-bottom: 300px;">
 		<div class="row">
-			<div class="col-md-4 offset-md-4">
+			<div class="col-md-6 offset-md-3 ">
 				<div class="card paint-card">
 					<div class="card-body">
-						<h3 class="text-center mb-5">Register User</h3>
+						<h3 class="text-center mb-5">Login</h3>
 
 					
 						<form >
@@ -36,29 +36,7 @@
 									type="number" class="form-control" required="required" name="eid">
 							</div>
 							
-							<div class="form-group">
-								<label for="exampleInputEmail1">Enter Full Name</label> 
-								<input
-									type="text" class="form-control" required="required" name="fname">
-							</div>
 							
-							
-							
-							<div class="form-group">
-								<label for="exampleInputEmail1">Enter Qtr No</label> 
-								<input
-									type="text" class="form-control" required="required" name="qtrno">
-							</div>
-							
-							<div class="form-group">
-								<label for="exampleInputEmail1">Email address</label> <input
-									type="email" class="form-control" required="required" name="email">
-
-							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Phone No</label> <input
-									type="number" class="form-control" required="required" name="phno">
-							</div>
 
 							<div class="form-group">
 								<label for="exampleInputPassword1">Password</label> <input
@@ -71,7 +49,9 @@
 									for="exampleCheck1">Agree terms & Condition</label>
 							</div>
 							<div class="text-center p-2">
-								<button type="submit" class="btn btn-primary btn-block btn-sm">Register</button>
+								<button type="submit" class="btn btn-primary btn-block btn-sm">Login</button>
+								<h6 class="text-center">OR</h6>
+								<a href="register.jsp" class="btn btn-success btn-block btn-sm">Register</a>
 							</div>
 						</form>
 					</div>
