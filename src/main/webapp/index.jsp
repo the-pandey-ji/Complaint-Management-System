@@ -5,7 +5,16 @@
 <title>Complaint Management System</title>
 <%@include file="all_component/allCss.jsp"%>
 <style type="text/css">
-
+.back-img {
+	background-image: url('/Complaint-Management-System/img/download.jpeg');
+	background-size: cover;
+	background-position: center;
+	height: 80vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-repeat: no-repeat;
+}
 </style>
 
 
@@ -14,8 +23,10 @@
 
 	
 	<%@include file="all_component/navbar.jsp"%>
+	
 	<div class="container-fluid back-img">
-		<h2 class="text-center text-success">Complaint Management System</h2>
+
+		<h1 class="text-center text-white">Complaint Management System</h1>
 	</div>
 
 
