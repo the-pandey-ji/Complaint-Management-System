@@ -9,7 +9,7 @@
 <%@include file="all_component/allCss.jsp"%>
 <style type="text/css">
 .back-img {
-	background-image: url('/Complaint-Management-System/img/download.jpeg');
+	background-image: url('<%= request.getContextPath() %>/img/download.jpeg');
 	background-size: cover;
 	background-position: center;
 	height: 80vh;

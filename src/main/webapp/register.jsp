@@ -33,13 +33,13 @@
 							<div class="form-group">
 								<label for="exampleInputEmail1">Enter Emp.ID / Aadhar ID</label> 
 								<input
-									type="number" class="form-control" required="required" name="eid">
+									type="number" class="form-control" required="required" name="empn">
 							</div>
 							
 							<div class="form-group">
 								<label for="exampleInputEmail1">Enter Full Name</label> 
 								<input
-									type="text" class="form-control" required="required" name="fname">
+									type="text" class="form-control" required="required" name="username">
 							</div>
 							
 							
@@ -57,7 +57,7 @@
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">Phone No</label> <input
-									type="number" class="form-control" required="required" name="phno">
+									type="text" class="form-control" required="required" name="phone">
 							</div>
 
 							<div class="form-group">
@@ -67,7 +67,7 @@
 							</div>
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input" name="check"
-									id="exampleCheck1"> <label class="form-check-label"
+									id="exampleCheck1" required="required"> <label class="form-check-label" 
 									for="exampleCheck1">Agree terms and Condition</label>
 							</div>
 							<div class="text-center p-2">
