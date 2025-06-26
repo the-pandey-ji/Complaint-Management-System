@@ -28,7 +28,7 @@
 						<h3 class="text-center mb-5">Register User</h3>
 
 					
-						<form >
+						<form action="register" method="post">
 
 							<div class="form-group">
 								<label for="exampleInputEmail1">Enter Emp.ID / Aadhar ID</label> 
@@ -68,7 +68,7 @@
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input" name="check"
 									id="exampleCheck1"> <label class="form-check-label"
-									for="exampleCheck1">Agree terms & Condition</label>
+									for="exampleCheck1">Agree terms and Condition</label>
 							</div>
 							<div class="text-center p-2">
 								<button type="submit" class="btn btn-primary btn-block btn-sm">Register</button>

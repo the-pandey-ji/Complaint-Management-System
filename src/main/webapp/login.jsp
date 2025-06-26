@@ -46,7 +46,7 @@
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input" name="check"
 									id="exampleCheck1"> <label class="form-check-label"
-									for="exampleCheck1">Agree terms & Condition</label>
+									for="exampleCheck1">Agree terms and Condition</label>
 							</div>
 							<div class="text-center p-2">
 								<button type="submit" class="btn btn-primary btn-block btn-sm">Login</button>
