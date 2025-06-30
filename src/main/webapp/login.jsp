@@ -28,12 +28,12 @@
 						<h3 class="text-center mb-5">Login</h3>
 
 					
-						<form >
+						<form action="login" method="post">
 
 							<div class="form-group">
 								<label for="exampleInputEmail1">Enter Emp.ID / Aadhar ID</label> 
 								<input
-									type="number" class="form-control" required="required" name="eid">
+									type="number" class="form-control" required="required" name="empn">
 							</div>
 							
 							

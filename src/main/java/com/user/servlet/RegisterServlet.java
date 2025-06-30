@@ -6,6 +6,7 @@ import java.io.IOException;
    import javax.servlet.http.HttpServlet;
    import javax.servlet.http.HttpServletRequest;
    import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.DAO.UserDAOImpl;
 import com.DB.DBConnect;
@@ -40,11 +41,13 @@ import com.entity.User;
 				user.setPhone(phone);
 				user.setPassword(password);
 				
+				HttpSession session = request.getSession();
+				
 				
 				UserDAOImpl dao = new UserDAOImpl(DBConnect.getConnection());
 				boolean f = dao.userRegister(user);
 				if (f) {
-					request.setAttribute("successMsg", "Registration Successful");
+					session.setAttribute("succMsg", "Registration Successful! Please Login.");
 					response.sendRedirect("login.jsp");
 				} else {
 					request.setAttribute("errorMsg", "Something went wrong, please try again.");
