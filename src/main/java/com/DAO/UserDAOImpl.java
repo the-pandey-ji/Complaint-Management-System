@@ -40,7 +40,41 @@ public class UserDAOImpl implements UserDAO{
 		
 		return false;
 	}
+
+
+	@Override
+	public User userLogin(int empn, String password) {
 	
+
+		User us = null;
+		try {
+			String query = "select * from usermaster where empn=? and password=?";
+			java.sql.PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, empn);
+			pstmt.setString(2, password);
+
+			java.sql.ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				us = new User();  
+				us.setEmpn(rs.getInt("empn"));
+				us.setUsername(rs.getString("username"));
+				us.setQtrno(rs.getString("qtrno"));
+				us.setEmail(rs.getString("email"));
+				us.setPhone(rs.getString("phone"));
+				us.setPassword(rs.getString("password"));
+				// You can set other fields if needed
+				// For example, if you have a field for user creation date or status
+				
+				
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return us;
+	}
 	
 
 }
