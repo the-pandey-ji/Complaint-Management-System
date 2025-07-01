@@ -23,11 +23,12 @@
 						
 
 
-						<form enctype="multipart/form-data">
+						<form action="../addcomplaint" method="post"
+						enctype="multipart/form-data">
 
 							<div class="form-group">
 								<label for="exampleInputEmail1">Complaint Title</label> <input
-									name="bname" type="text" class="form-control">
+									name="title" type="text" class="form-control">
 							</div>
 							
 							<div class="form-group">
@@ -38,7 +39,7 @@
 
 							<div class="form-group">
 								<label for="inputState">Complaint Categories</label> <select
-									id="inputState" name="categories" class="form-control">
+									id="inputState" name="category" class="form-control">
 									<option selected>--select--</option>
 									
 									<option value = "civil">Civil</option>
@@ -59,7 +60,7 @@
 
 							<div class="form-group">
 								<label for="exampleFormControlFile1">Upload Photo</label> <input
-									name="bimg" type="file" class="form-control-file"
+									name="imagefile" type="file" class="form-control-file"
 									id="exampleFormControlFile1">
 							</div>
 

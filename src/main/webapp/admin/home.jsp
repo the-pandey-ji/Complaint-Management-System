@@ -8,7 +8,12 @@
 
 <%@include file="allCss.jsp" %>
 
-
+<style type="text/css">
+a {
+	text-decoration: none;
+	color: black;
+}
+</style>
 </head>
 <body>
 
