@@ -53,11 +53,7 @@ public class LoginServlet extends HttpServlet {
 				if (us != null) {
 					// Valid user, set session attributes
 					session.setAttribute("user", us);
-					session.setAttribute("empn", us.getEmpn());
-					session.setAttribute("username", us.getUsername());
-					session.setAttribute("qtrno", us.getQtrno());
-					session.setAttribute("email", us.getEmail());
-					session.setAttribute("phone", us.getPhone());
+					
 					
 
 					// Redirect to user dashboard
