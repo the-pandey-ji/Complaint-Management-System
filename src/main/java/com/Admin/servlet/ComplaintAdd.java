@@ -1,5 +1,6 @@
 package com.Admin.servlet;
 
+import java.io.File;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -48,9 +49,6 @@ public class ComplaintAdd extends HttpServlet {
 			Part imagePart = request.getPart("imagefile");
 			String fileName = imagePart.getSubmittedFileName();
 			
-			// Save the image file to the server (optional, if you want to store it)
-			// String imagePath = "path/to/save/" + fileName;
-			// imagePart.write(imagePath);
 			
 			//HttpSession session = request.getSession();
 			
@@ -58,10 +56,28 @@ public class ComplaintAdd extends HttpServlet {
 			Complaintdtls cm = new Complaintdtls(fileName, category, title, description, qtrno, empn, username, phone, status, "Not yet actioned");
 //			System.out.println(cm);
 			ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
+			
+//			
+//			String imagePath = request.getServletContext().getRealPath("") + "images" ;
+//			File imageDir = new File(imagePath);
+//			if (!imageDir.exists()) {
+//				imageDir.mkdirs(); // Create directory if it does not exist
+//			}
+//			imagePart.write(imagePath + File.separator + fileName); // Save the image file
+
+			
+//			System.out.println("Image Path: " + imagePath);
+//			C:\eclipse\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Complaint-Management-System\images
+			
 			boolean f = dao.addComplaint(cm);
 			HttpSession session = request.getSession();
 			
 			if (f) {
+				
+				String imagePath = request.getServletContext().getRealPath("") + "images" ;
+				File imageDir = new File(imagePath);
+				imagePart.write(imagePath + File.separator + fileName);
+				
 				session.setAttribute("succMsg", "Complaint added successfully.");
 				response.sendRedirect("admin/addComplaint.jsp");
 			} else {
