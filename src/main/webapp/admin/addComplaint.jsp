@@ -21,23 +21,39 @@
 						<h4 class="text-center">Add Complaint</h4>
 
 						
+						<div>
+        <!-- Display success message -->
+        <%
+            String succMsg = (String) session.getAttribute("succMsg");
+            if (succMsg != null) {
+        %>
+            <div style="color: 
+green;">
+                <%= succMsg %>
+            </div>
+        <%
+            session.removeAttribute("succMsg");
+            }
+        %>
 
+        <!-- Display failed message -->
+        <%
+            String failedMsg = (String) session.getAttribute("failedMsg");
+            if (failedMsg != null) {
+        %>
+            <div style="color: 
+red;">
+                <%= failedMsg %>
+            </div>
+        <%
+            session.removeAttribute("failedMsg");
+            }
+        %>
+    </div>
 
 						<form action="../addcomplaint" method="post"
 						enctype="multipart/form-data">
-
-							<div class="form-group">
-								<label for="exampleInputEmail1">Complaint Title</label> <input
-									name="title" type="text" class="form-control">
-							</div>
-							
-							<div class="form-group">
-								<label for="text">Complaint Description</label>  
-								<textarea name="description" class="form-control" id="description" rows="3"></textarea>
-							</div>
-							
-
-							<div class="form-group">
+						<div class="form-group">
 								<label for="inputState">Complaint Categories</label> <select
 									id="inputState" name="category" class="form-control">
 									<option selected>--select--</option>
@@ -48,15 +64,37 @@
 
 								</select>
 							</div>
+						
 
 							<div class="form-group">
-								<label for="inputState">Complaint Status</label> <select
-									id="inputState" name="status" class="form-control">
-									<option selected>--select--</option>
-									<option value="Active">Active</option>
-									<option value="Inactive">Inactive</option>
-								</select>
+								<label for="exampleInputEmail1">Complaint Title</label> <input
+									name="title" type="text" class="form-control">
 							</div>
+							
+							<div class="form-group">
+								<label for="text">Complaint Description</label>  
+								<textarea name="description" class="form-control" id="description" rows="3"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="exampleInputEmail1">Qtr No</label> <input
+									name="qtrno" type="text" class="form-control">
+							</div>
+							
+							<div class="form-group">
+								<label for="exampleInputEmail1">Employee no / Aadhar id</label> <input
+									name="empn" type="text" class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputEmail1">User name</label> <input
+									name="username" type="text" class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputEmail1">Contact number</label> <input
+									name="phone" type="number" class="form-control">
+							</div>
+							
+
+							
 
 							<div class="form-group">
 								<label for="exampleFormControlFile1">Upload Photo</label> <input
