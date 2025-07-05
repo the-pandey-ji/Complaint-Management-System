@@ -3,6 +3,8 @@ package com.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.entity.Complaintdtls;
 
@@ -58,6 +60,45 @@ public class ComplaintDAOImpl implements ComplaintDAO {
 	    return flag;
 	}
 
-	// Other methods can be implemented here as needed
+
+
+	@Override
+	public List<Complaintdtls> getAllComplaints() {
+		
+		// This method should return a list of all complaints from the database
+		
+		List<Complaintdtls> complaintsList = new ArrayList<Complaintdtls>();
+		Complaintdtls complaint = null;
+		try {
+			String query = "SELECT * FROM complaintdtls";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				complaint = new Complaintdtls();
+				complaint.setid(rs.getInt("id"));
+				complaint.setImage(rs.getString("imagefile"));
+					complaint.setCategory(rs.getString("category"));
+					complaint.setTitle(rs.getString("title"));
+					complaint.setDescription(rs.getString("description"));
+					complaint.setQtrno(rs.getString("qtrno"));
+					complaint.setEmpn(rs.getInt("empn"));
+					complaint.setUsername(rs.getString("username"));
+					complaint.setPhone(rs.getString("phone"));
+					complaint.setCreatedate(rs.getString("compdatetime"));
+					complaint.setStatus(rs.getString("status"));
+					complaint.setAction(rs.getString("actiontaken"));
+					complaintsList.add(complaint);
+			}
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return complaintsList;
+	}
+
+
+
 
 }

@@ -1,7 +1,7 @@
 package com.entity;
 
 public class Complaintdtls {
-	private int cid;
+	private int id;
 	private String imagefile;
 	private String category;
 	private String title;
@@ -13,6 +13,11 @@ public class Complaintdtls {
 	private String phone;
 	private String status;
 	private String action;
+	
+	public Complaintdtls() {
+		super();
+	}
+	
 	public Complaintdtls(String imagefile, String category, String title, String description, String qtrno,
 			 int empn, String username, String phone, String status, String action) {
 		super();
@@ -29,14 +34,15 @@ public class Complaintdtls {
 		this.status = status;
 		this.action = action;
 	}
+
 	
 	
-	public int getCid() {
-		return cid;
+	public int getid() {
+		return id;
 	}
 
-	public void setCid(int cid) {
-		this.cid = cid;
+	public void setid(int id) {
+		this.id = id;
 	}
 	
 	public String getImage() {
@@ -107,7 +113,7 @@ public class Complaintdtls {
 	}
 	@Override
 	public String toString() {
-		return "Complaintdtls [cid=" + cid + ", image=" + imagefile + ", category=" + category + ", title=" + title
+		return "Complaintdtls [cid=" + id + ", image=" + imagefile + ", category=" + category + ", title=" + title
 				+ ", description=" + description + ", qtrno=" + qtrno + ", createdate=" + createdate + ", empn=" + empn
 				+ ", username=" + username + ", phone=" + phone + ", status=" + status + ", action=" + action + "]";
 	}

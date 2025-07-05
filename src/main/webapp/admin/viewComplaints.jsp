@@ -1,5 +1,10 @@
 <%@page import="java.util.List"%>
 <%@page import="com.DB.DBConnect"%>
+<%@page import="com.DAO.ComplaintDAOImpl"%>
+<%@page import="com.DAO.ComplaintDAO"%>
+<%@page import="com.entity.Complaintdtls"%>
+
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -23,44 +28,65 @@
 				<tr>
 					<th scope="col">ID</th>
 					<th scope="col">Image</th>
+					<th scope="col">Category</th>
 					<th scope="col">Complaint Title</th>
 					<th scope="col">Complaint Description</th>
+					<th scope="col">Complaint Date</th>
+					<th scope="col">Qtr No.</th>
 					<th scope="col">UserID</th>
 					<th scope="col">User</th>
-					<th scope="col">Qtr No.</th>
 					<th scope="col">Phone</th>
-					<th scope="col">Category</th>
 					<th scope="col">Status</th>
-					<th scope="col">Action</th>
+					<th scope="col">Action Taken</th>
 					<th scope="col">Edit</th>
 					<th scope="col">Delete</th>
 				</tr>
 			</thead>
 			<tbody>
-				
-				<tr>
-					<td>001</td>
-					<td><img src=""
-						style="width: 50px; height: 50Px;"></td>
-					<td>Window glass broken</td>
-					<td>Window glass broken description</td>
-					<td>1234</td>
-					<td>test1</td>
-					<td>B-21</td>
-					<td>9123456789</td>
-					<td>civil</td>
-					<td>pending</td>
-					<td>Carpenter sent</td>
-					
-					
-					<td><a href=""
+			
+			<%
+			ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
+			List<Complaintdtls> list = dao.getAllComplaints();
+			if (list != null && !list.isEmpty()) {
+                for (Complaintdtls complaint : list) {
+			
+			%>
+			
+			<tr>
+					<td><%= complaint.getId() %></td>
+					<td><img src="<%= complaint.getImage() %>"
+						style="width: 50px; height: 50px;"></td>
+					<td><%= complaint.getCategory() %></td>
+					<td><%= complaint.getTitle() %></td>
+					<td><%= complaint.getDescription() %></td>
+					<td><%= complaint.getDate() %></td>
+					<td><%= complaint.getQtrNo() %></td>
+					<td><%= complaint.getUserId() %></td>
+					<td><%= complaint.getUserName() %></td>
+					<td><%= complaint.getPhone() %></td>
+					<td><%= complaint.getStatus() %></td>
+					<td><%= complaint.getActionTaken() %></td>
+
+					<td><a href="editComplaint.jsp?id=<%= complaint.getId() %>"
 						class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>
 							Edit</a></td>
-							<td> <a href=""
+					<td><a href="deleteComplaint.jsp?id=<%= complaint.getId() %>"
 						class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>
 							Delete</a></td>
-				</tr>
-			
+
+					<%
+					}
+			}
+					else {
+					%>
+                 <tr>
+              		<td colspan="14" class="text-center">No complaints found</td>
+               	 </tr>
+            <%
+                	                                
+                }
+			%>
+				 
 
 			</tbody>
 		</table>
