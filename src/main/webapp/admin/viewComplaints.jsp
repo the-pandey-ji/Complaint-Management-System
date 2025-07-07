@@ -49,28 +49,29 @@
 			List<Complaintdtls> list = dao.getAllComplaints();
 			if (list != null && !list.isEmpty()) {
                 for (Complaintdtls complaint : list) {
+                	
 			
 			%>
 			
 			<tr>
-					<td><%= complaint.getId() %></td>
-					<td><img src="<%= complaint.getImage() %>"
+					<td><%= complaint.getid() %></td>
+					<td><img src="../images/<%= complaint.getImage() %>"
 						style="width: 50px; height: 50px;"></td>
 					<td><%= complaint.getCategory() %></td>
 					<td><%= complaint.getTitle() %></td>
 					<td><%= complaint.getDescription() %></td>
-					<td><%= complaint.getDate() %></td>
-					<td><%= complaint.getQtrNo() %></td>
-					<td><%= complaint.getUserId() %></td>
-					<td><%= complaint.getUserName() %></td>
+					<td><%= complaint.getCreatedate() %></td>
+					<td><%= complaint.getQtrno() %></td>
+					<td><%= complaint.getEmpn() %></td>
+					<td><%= complaint.getUsername() %></td>
 					<td><%= complaint.getPhone() %></td>
 					<td><%= complaint.getStatus() %></td>
-					<td><%= complaint.getActionTaken() %></td>
+					<td><%= complaint.getAction() %></td>
 
-					<td><a href="editComplaint.jsp?id=<%= complaint.getId() %>"
+					<td><a href="editComplaint.jsp?id=<%= complaint.getid() %>"
 						class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>
 							Edit</a></td>
-					<td><a href="deleteComplaint.jsp?id=<%= complaint.getId() %>"
+					<td><a href="deleteComplaint.jsp?id=<%= complaint.getid() %>"
 						class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>
 							Delete</a></td>
 

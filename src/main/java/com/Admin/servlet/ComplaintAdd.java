@@ -76,7 +76,12 @@ public class ComplaintAdd extends HttpServlet {
 				
 				String imagePath = request.getServletContext().getRealPath("") + "images" ;
 				File imageDir = new File(imagePath);
+				if (!imageDir.exists()) {
+				    imageDir.mkdirs(); // Create directory if it does not exist
+				}
 				imagePart.write(imagePath + File.separator + fileName);
+				
+//				System.out.println("Image Path: " + imagePath+ File.separator + fileName);
 				
 				session.setAttribute("succMsg", "Complaint added successfully.");
 				response.sendRedirect("admin/addComplaint.jsp");
