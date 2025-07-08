@@ -18,7 +18,7 @@ import com.entity.Complaintdtls;
 /**
  * Servlet implementation class ComplaintAdd
  */
-@WebServlet("/editComplaint")
+@WebServlet("/complaintEdit")
 @MultipartConfig
 public class EditComplaint extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -53,7 +53,7 @@ public class EditComplaint extends HttpServlet {
 			//HttpSession session = request.getSession();
 			
 			
-			Complaintdtls cm = new Complaintdtls(fileName, category, title, description, qtrno, empn, username, phone, status, "Not yet actioned");
+			Complaintdtls cme = new Complaintdtls(id,fileName, category, title, description, qtrno, empn, username, phone, status, "Not yet actioned");
 //			System.out.println(cm);
 			ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
 			
@@ -61,7 +61,7 @@ public class EditComplaint extends HttpServlet {
 			
 			
 			
-			boolean f = dao.addComplaint(cm);
+			boolean f = dao.editComplaint(cme);
 			HttpSession session = request.getSession();
 			
 			if (f) {

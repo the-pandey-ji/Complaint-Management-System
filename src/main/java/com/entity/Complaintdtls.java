@@ -34,7 +34,25 @@ public class Complaintdtls {
 		this.status = status;
 		this.action = action;
 	}
-
+	
+	
+	// Constructor with id for editing existing complaints
+	public Complaintdtls(int id,String imagefile, String category, String title, String description, String qtrno,
+			 int empn, String username, String phone, String status, String action) {
+		super();
+		this.id = id;
+		this.imagefile = imagefile;
+		this.category = category;
+		this.title = title;
+		this.description = description;
+		this.qtrno = qtrno;
+		
+		this.empn = empn;
+		this.username = username;
+		this.phone = phone;
+		this.status = status;
+		this.action = action;
+	}
 	
 	
 	public int getid() {

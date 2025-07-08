@@ -12,7 +12,7 @@ public interface ComplaintDAO {
 	
 	public Complaintdtls getComplaintById(int id);
 	
-	public boolean updateComplaint(Complaintdtls cm);
+	public boolean editComplaint(Complaintdtls cme);
 
 
 }

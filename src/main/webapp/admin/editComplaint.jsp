@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Admin: Add Complaint</title>
+<title>Admin: Edit Complaint</title>
 <%@include file="allCss.jsp"%>
 </head>
 <body style="background-color: #f0f2f2;">
@@ -20,7 +20,7 @@
 			<div class="col-md-4 offset-md-4">
 				<div class="card">
 					<div class="card-body">
-						<h4 class="text-center">Add Complaint</h4>
+						<h4 class="text-center">Edit Complaint</h4>
 
 						
 						<div>
@@ -60,7 +60,7 @@ red;">
 						
 						%>
 					
-						<form action="../editComplaint" method="post"
+						<form action="../complaintEdit" method="post"
 						enctype="multipart/form-data">
 							<input type="hidden" name="id" value="<%=complaint.getid()%>">
 
