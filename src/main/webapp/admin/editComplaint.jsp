@@ -1,5 +1,7 @@
 <%@page import="java.util.List"%>
 <%@page import="com.DB.DBConnect"%>
+<%@page import="com.DAO.ComplaintDAOImpl"%>
+<%@page import="com.entity.Complaintdtls"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -51,59 +53,84 @@ red;">
         %>
     </div>
 
-						<form action="../addcomplaint" method="post"
+						<%
+						int id = Integer.parseInt(request.getParameter("id"));
+						ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
+						Complaintdtls complaint = dao.getComplaintById(id);
+						
+						%>
+					
+						<form action="../editComplaint" method="post"
 						enctype="multipart/form-data">
-						<div class="form-group">
+							<input type="hidden" name="id" value="<%=complaint.getid()%>">
+
+							
+							<div class="form-group">
 								<label for="inputState">Complaint Categories</label> <select
-									id="inputState" name="category" class="form-control">
-									<option selected>--select--</option>
-									
-									<option value = "Civil">Civil</option>
+									id="inputState"  name="category" class="form-control" >
+									<%
+									if("Civil".equals(complaint.getCategory())) {
+									%>
+
 									<option value = "Electrical">Electrical</option>
-									
+									<%
+									} else {
+									%>
+									<option value = "Civil">Civil</option>
+									<%
+                                    }
+									%>
 
 								</select>
 							</div>
 						
 
 							<div class="form-group">
-								<label for="exampleInputEmail1">Complaint Title</label> <input
-									name="title" type="text" class="form-control">
+							    <label for="exampleInputEmail1">Complaint Title</label> 
+							    <input name="title" type="text" class="form-control" value="<%= complaint.getTitle() %>">
 							</div>
 							
 							<div class="form-group">
 								<label for="text">Complaint Description</label>  
-								<textarea name="description" class="form-control" id="description" rows="3"></textarea>
+								<textarea name="description" class="form-control" id="description" rows="3"><%=complaint.getDescription()%></textarea>
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">Qtr No</label> <input
-									name="qtrno" type="text" class="form-control">
+									name="qtrno" type="text" class="form-control" value="<%= complaint.getQtrno() %>">
 							</div>
 							
 							<div class="form-group">
 								<label for="exampleInputEmail1">Employee no / Aadhar id</label> <input
-									name="empn" type="text" class="form-control">
+									name="empn" type="text" class="form-control" value="<%= complaint.getEmpn() %>">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">User name</label> <input
-									name="username" type="text" class="form-control">
+									name="username" type="text" class="form-control" 	value="<%= complaint.getUsername() %>">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">Contact number</label> <input
-									name="phone" type="number" class="form-control">
+									name="phone" type="number" class="form-control" value="<%= complaint.getPhone() %>">
 							</div>
-							
-
 							
 
 							<div class="form-group">
+								<label for="inputState">Complaint Date</label> <input
+									name="createdate" type="text" class="form-control"
+									value="<%=complaint.getCreatedate()%>" readonly>
+							</div>
+
+							<div class="form-group">
+							<div class="form-group">
+							<img src="../images/<%= complaint.getImage() %>"
+						style="width: 100px; height: 100px;">
+							</div>
 								<label for="exampleFormControlFile1">Upload Photo</label> <input
 									name="imagefile" type="file" class="form-control-file"
-									id="exampleFormControlFile1">
+									id="exampleFormControlFile1" >
 							</div>
 
 
-							<button type="submit" class="btn btn-primary">Add</button>
+							<button type="submit" class="btn btn-primary">Update</button>
 						</form>
 
 					</div>

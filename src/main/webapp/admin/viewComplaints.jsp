@@ -18,7 +18,7 @@
 <body>
 	<%@include file="navbar.jsp"%>
 	
-	<h3 class="text-center">Hello Admin</h3>
+	<h3 class="text-center">Edit Complaint</h3>
 
 	
 	
