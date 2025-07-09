@@ -1,4 +1,6 @@
 
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page import="com.entity.User" %>
 <div class="container-fluid"
 	style="height: 5px; background-color: #303f9f"></div>
 
@@ -10,13 +12,28 @@
 				<i class="fas fa-book"></i> Complaint Management System
 			</h3>
 		</div>
+		
+		
 		<div class="col-md-2 ml-auto">
-				<a href="login.jsp" class="btn btn-success "><i
+		 <%
+		   
+	        User user = (User) session.getAttribute("user");
+	        if (user != null && "Admin".equals(user.getUsername())) {
+	    %>
+	        <span class="text-white">Welcome, <%= user.getUsername() %>!</span>
+	        <a href="../logout.jsp" class="btn btn-danger ml-2"><i class="fas fa-sign-out-alt"></i> Logout</a>
+	    <%
+	        } else {
+	    %>
+				<a href="../login.jsp" class="btn btn-success "><i
 					class="fas fa-sign-in-alt"></i> Login</a> 
-					<a href="register.jsp"
+					<a href="../register.jsp"
 					class="btn btn-primary text-white ml-2"><i class="fas fa-user-plus"></i>
 					Register</a>
 			</div>
+		<%
+		}
+		%>
 
 	</div>
 </div>
@@ -33,13 +50,18 @@
 
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active"><a class="nav-link" href="index.jsp">Home
+			<li class="nav-item active"><a class="nav-link" href="home.jsp">Home
 					<span class="sr-only">(current)</span>
 			</a></li>
 	
-
+	<li class="nav-item active"><a class="nav-link" href="addComplaint.jsp">Add complaint
+					<span class="sr-only">(current)</span>
+			</a></li>
 			
-
+			
+			<li class="nav-item active"><a class="nav-link"
+				href="viewComplaints.jsp">View complaints <span class="sr-only">(current)</span>
+				</a></li>
 		</ul>
 		
 		

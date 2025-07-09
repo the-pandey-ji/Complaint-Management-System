@@ -70,7 +70,7 @@ public class ComplaintDAOImpl implements ComplaintDAO {
 		List<Complaintdtls> complaintsList = new ArrayList<Complaintdtls>();
 		Complaintdtls complaint = null;
 		try {
-			String query = "SELECT * FROM complaintdtls";
+			String query = "SELECT * FROM complaintdtls ORDER BY status ASC, id DESC";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery();
 

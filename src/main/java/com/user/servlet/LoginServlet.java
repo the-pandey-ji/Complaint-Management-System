@@ -43,7 +43,12 @@ public class LoginServlet extends HttpServlet {
 			if (0000==empn && "0000".equals(password)) {
 				
 				User us = new User();
+				us.setUsername("Admin");
+				
+				
+				
 				session.setAttribute("user", us);
+				
 				// Redirect to admin dashboard
 				response.sendRedirect("admin/home.jsp");
 			} else if (empn > 0 && password != null && !password.isEmpty()) {
