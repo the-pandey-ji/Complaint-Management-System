@@ -18,7 +18,7 @@
 <body>
 	<%@include file="navbar.jsp"%>
 	
-	<h3 class="text-center">Edit Complaint</h3>
+	<h3 class="text-center">View All Complaint</h3>
 
 	
 	
@@ -39,7 +39,7 @@
 					<th scope="col">Status</th>
 					<th scope="col">Action Taken</th>
 					<th scope="col">Edit</th>
-					<th scope="col">Delete</th>
+					<th scope="col">Close Complaint</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -71,9 +71,9 @@
 					<td><a href="editComplaint.jsp?id=<%= complaint.getid() %>"
 						class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>
 							Edit</a></td>
-					<td><a href="deleteComplaint.jsp?id=<%= complaint.getid() %>"
+					<td><a href="closeComplaint.jsp?id=<%= complaint.getid() %>"
 						class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>
-							Delete</a></td>
+							Close</a></td>
 
 					<%
 					}

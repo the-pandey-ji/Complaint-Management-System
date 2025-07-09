@@ -75,7 +75,7 @@ public class EditComplaint extends HttpServlet {
 				
 //				System.out.println("Image Path: " + imagePath+ File.separator + fileName);
 				
-				session.setAttribute("succMsg", "Complaint added successfully.");
+				session.setAttribute("succMsg", "Complaint Updated successfully.");
 				response.sendRedirect("admin/addComplaint.jsp");
 			} else {
 				session.setAttribute("failedMsg", "Something went wrong. Please try again.");

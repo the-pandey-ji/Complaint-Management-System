@@ -13,6 +13,8 @@ public interface ComplaintDAO {
 	public Complaintdtls getComplaintById(int id);
 	
 	public boolean editComplaint(Complaintdtls cme);
+	
+	public boolean closeComplaint(int id, String action); // Method to close a complaint
 
 
 }

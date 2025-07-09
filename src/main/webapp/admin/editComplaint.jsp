@@ -66,22 +66,28 @@ red;">
 
 							
 							<div class="form-group">
-								<label for="inputState">Complaint Categories</label> <select
-									id="inputState"  name="category" class="form-control" >
-									<%
-									if("Civil".equals(complaint.getCategory())) {
-									%>
-
-									<option value = "Electrical">Electrical</option>
-									<%
-									} else {
-									%>
-									<option value = "Civil">Civil</option>
-									<%
-                                    }
-									%>
-
-								</select>
+							    <label for="inputState">Complaint Categories</label>
+							    <select id="inputState" name="category" class="form-control">
+							        <option selected value="<%= complaint.getCategory() != null ? complaint.getCategory() : "" %>">
+							            <%= complaint.getCategory() != null ? complaint.getCategory() : "Select Category" %>
+							        </option>
+							        <%
+							            if ("Civil".equalsIgnoreCase(complaint.getCategory())) {
+							        %>
+							            <option value="Electrical">Electrical</option>
+							        <%
+							            } else if ("Electrical".equalsIgnoreCase(complaint.getCategory())) {
+							        %>
+							            <option value="Civil">Civil</option>
+							        <%
+							            } else {
+							        %>
+							            <option value="Civil">Civil</option>
+							            <option value="Electrical">Electrical</option>
+							        <%
+							            }
+							        %>
+							    </select>
 							</div>
 						
 
@@ -126,7 +132,7 @@ red;">
 							</div>
 								<label for="exampleFormControlFile1">Upload Photo</label> <input
 									name="imagefile" type="file" class="form-control-file"
-									id="exampleFormControlFile1" >
+									id="exampleFormControlFile1">
 							</div>
 
 

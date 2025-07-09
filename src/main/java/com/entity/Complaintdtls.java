@@ -131,7 +131,7 @@ public class Complaintdtls {
 	}
 	@Override
 	public String toString() {
-		return "Complaintdtls [cid=" + id + ", image=" + imagefile + ", category=" + category + ", title=" + title
+		return "Complaintdtls [id=" + id + ", image=" + imagefile + ", category=" + category + ", title=" + title
 				+ ", description=" + description + ", qtrno=" + qtrno + ", createdate=" + createdate + ", empn=" + empn
 				+ ", username=" + username + ", phone=" + phone + ", status=" + status + ", action=" + action + "]";
 	}

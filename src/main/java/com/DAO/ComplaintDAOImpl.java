@@ -160,5 +160,30 @@ public boolean editComplaint(Complaintdtls cme) {
     return flag;
 }
 
+@Override
+public boolean closeComplaint(int id, String actionTaken) {
+    boolean result = false;
+    try {
+        String query = "UPDATE COMPLAINTDTLS SET status = ?, actiontaken = ? WHERE id = ?";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setString(1, "Closed");
+        pstmt.setString(2, actionTaken);
+        pstmt.setInt(3, id);
+
+        int rows = pstmt.executeUpdate();
+        if (rows > 0) {
+            result = true;
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return result;
+
+}
+
+
+
+
+
 
 }
