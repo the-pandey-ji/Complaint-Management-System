@@ -47,8 +47,19 @@ public class EditComplaint extends HttpServlet {
 			int empn = Integer.parseInt(request.getParameter("empn"));
 			
 			Part imagePart = request.getPart("imagefile");
-			String fileName = imagePart.getSubmittedFileName();
+			String fileName = null;
 			
+			
+
+	        // Check if a new file is uploaded
+	        if (imagePart != null && imagePart.getSize() > 0) {
+	            fileName = imagePart.getSubmittedFileName();
+	        } else {
+	            // Retrieve the existing image from the database
+	            ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
+	            Complaintdtls existingComplaint = dao.getComplaintById(id);
+	            fileName = existingComplaint.getImage(); // Use the existing image
+	        }
 			
 			//HttpSession session = request.getSession();
 			
