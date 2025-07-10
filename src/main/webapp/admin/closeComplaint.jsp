@@ -3,6 +3,16 @@
 <%@page import="com.DAO.ComplaintDAOImpl"%>
 <%@page import="com.DAO.ComplaintDAO"%>
 <%@page import="com.entity.Complaintdtls"%>
+<%@ page import="com.entity.User" %>
+<%
+    // Check if the user is logged in
+    User user = (User) session.getAttribute("Userobj");
+    if (user == null) {
+        // Redirect to login page if not logged in
+        response.sendRedirect("../login.jsp");
+        return;
+    }
+%>
 
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"

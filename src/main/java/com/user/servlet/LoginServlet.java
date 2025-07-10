@@ -44,10 +44,8 @@ public class LoginServlet extends HttpServlet {
 				
 				User us = new User();
 				us.setUsername("Admin");
-				
-				
-				
-				session.setAttribute("user", us);
+		
+				session.setAttribute("Userobj", us);
 				
 				// Redirect to admin dashboard
 				response.sendRedirect("admin/home.jsp");
@@ -57,7 +55,7 @@ public class LoginServlet extends HttpServlet {
 				
 				if (us != null) {
 					// Valid user, set session attributes
-					session.setAttribute("user", us);
+					session.setAttribute("Userobj", us);
 					
 					
 

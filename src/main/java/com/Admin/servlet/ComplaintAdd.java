@@ -34,7 +34,21 @@ public class ComplaintAdd extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		 // Check if the user session exists
+        HttpSession sessionback = request.getSession(false); // Get the current session, do not create a new one
+//        System.out.println("Session back: " + sessionback);
+        
+        if (sessionback == null || sessionback.getAttribute("Userobj") == null) {
+            // Redirect to login page if session is invalid or user is logged out
+            response.sendRedirect("/Complaint-Management-System/login.jsp");
+            return;
+        }
+		
+		
 		try {
+			
+			
+	
 			
 			String category = request.getParameter("category");
 			String title = request.getParameter("title");
@@ -48,12 +62,24 @@ public class ComplaintAdd extends HttpServlet {
 			
 			Part imagePart = request.getPart("imagefile");
 			String fileName = imagePart.getSubmittedFileName();
+	
+			//qtrtype selection code
+//			  // Retrieve values from the form
+//	        String selection = request.getParameter("selection");
+//	        String qtrno = request.getParameter("qtrno");
+//
+//	        // Combine selection and qtrno if needed
+//	        String fullQtrNo = selection + "-" + qtrno;
+//
+//	        // Process the data (e.g., save to database)
+//	        System.out.println("Quarter Number: " + fullQtrNo);
+//
+//	        // Redirect or respond
+//	        response.sendRedirect("success.jsp");
 			
 			
-			//HttpSession session = request.getSession();
 			
-			
-			Complaintdtls cm = new Complaintdtls(fileName, category, title, description, qtrno, empn, username, phone, status, "Not yet actioned");
+			Complaintdtls cm = new Complaintdtls(fileName, category, title, description, qtrno, empn, username, phone, status, "Not yet addressed");
 //			System.out.println(cm);
 			ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
 			

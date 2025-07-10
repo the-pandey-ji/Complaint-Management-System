@@ -17,6 +17,16 @@ public class CloseComplaint extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
+    	 // Check if the user session exists
+        HttpSession sessionback = request.getSession(false); // Get the current session, do not create a new one
+//        System.out.println("Session back: " + sessionback);
+        
+        if (sessionback == null || sessionback.getAttribute("Userobj") == null) {
+            // Redirect to login page if session is invalid or user is logged out
+            response.sendRedirect("/Complaint-Management-System/login.jsp");
+            return;
+        }
+    	
 		try {
 		
         int id = Integer.parseInt(request.getParameter("id"));

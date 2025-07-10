@@ -13,6 +13,8 @@
 
 .error {
 	color: red;
+	
+	
 }
 </style>
 </head>
@@ -25,8 +27,21 @@
 			<div class="col-md-6 offset-md-3 ">
 				<div class="card paint-card">
 					<div class="card-body">
+					
+									<!-- Display success message -->
+      <%
+          String succMsg = (String) session.getAttribute("succMsg");
+          if (succMsg != null) {
+      %>
+          <h4 class="success text-center text-success"><%= succMsg %></h4>
+          <%
+              session.removeAttribute("succMsg"); // Clear the message after displaying
+          }
+      %>
 						<h3 class="text-center mb-5">Login</h3>
-
+					
+					
+	
 					
 						<form action="login" method="post">
 
