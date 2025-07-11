@@ -48,7 +48,7 @@ import com.entity.User;
 				boolean f = dao.userRegister(user);
 				if (f) {
 					session.setAttribute("succMsg", "Registration Successful! Please Login.");
-					response.sendRedirect("login.jsp");
+					response.sendRedirect("index.jsp");
 				} else {
 					request.setAttribute("errorMsg", "Something went wrong, please try again.");
 					response.sendRedirect("register.jsp");

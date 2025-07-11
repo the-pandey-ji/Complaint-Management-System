@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
 			long empn = Long.parseLong(request.getParameter("empn"));
 			String password = request.getParameter("password");
 			
-			if (0000==empn && "0000".equals(password)) {
+			if (10121==empn && "10121".equals(password)) {
 				
 				User us = new User();
 				us.setUsername("Admin");
@@ -65,14 +65,14 @@ public class LoginServlet extends HttpServlet {
 				} else {
 					// Invalid credentials
 					request.setAttribute("errorMsg", "Invalid Employee Number or Password.");
-					response.sendRedirect("login.jsp");
+					response.sendRedirect("index.jsp");
 					return;
 				}
 				
 			} else {
 				// Invalid credentials
 				request.setAttribute("errorMsg", "Invalid Employee Number or Password.");
-				response.sendRedirect("login.jsp");
+				response.sendRedirect("index.jsp");
 			}
 
 			System.out.println("Employee Number: " + empn + ", Password: " + password);
@@ -81,7 +81,7 @@ public class LoginServlet extends HttpServlet {
 		 catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("errorMsg", "An error occurred while processing your request.");
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("index.jsp");
 		}
 	}
 

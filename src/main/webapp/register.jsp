@@ -65,11 +65,11 @@
 									type="password" class="form-control" id="exampleInputPassword1"
 									required="required" name="password">
 							</div>
-							<div class="form-check">
+							<!-- <div class="form-check">
 								<input type="checkbox" class="form-check-input" name="check"
 									id="exampleCheck1" required="required"> <label class="form-check-label" 
 									for="exampleCheck1">Agree terms and Condition</label>
-							</div>
+							</div> -->
 							<div class="text-center p-2">
 								<button type="submit" class="btn btn-primary btn-block btn-sm">Register</button>
 							</div>

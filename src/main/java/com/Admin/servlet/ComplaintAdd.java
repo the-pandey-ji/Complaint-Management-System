@@ -40,8 +40,10 @@ public class ComplaintAdd extends HttpServlet {
             Part imagePart = request.getPart("imagefile");
             String fileName = imagePart.getSubmittedFileName();
             String defaultImage = "default.png"; // Default image file name
-            String imagePath = request.getServletContext().getRealPath("") + "Complaint-Management-System/images";
-
+//            String imagePath = request.getServletContext().getRealPath("") + "Complaint-Management-System/images";
+            String imagePath = request.getServletContext().getRealPath("") + "images" ;
+            
+            
             // Validate file type and size
            if (fileName != null && !fileName.isEmpty()) {
                String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();

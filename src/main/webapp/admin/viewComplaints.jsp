@@ -88,9 +88,16 @@ if (!user.getUsername().equals("Admin")) {
 					<td><a href="editComplaint.jsp?id=<%= complaint.getid() %>"
 						class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>
 							Edit</a></td>
-					<td><a href="closeComplaint.jsp?id=<%= complaint.getid() %>"
+							
+					<td>
+					  <a href="closeComplaint.jsp?id=<%= complaint.getid() %>"
+					     class="btn btn-sm btn-danger <%= complaint.getStatus().equals("Closed") ? "disabled" : "" %>">
+					    <i class="fas fa-trash-alt"></i> Close
+					  </a>
+					</td>
+					<%-- <td><a href="closeComplaint.jsp?id=<%= complaint.getid() %>"
 						class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>
-							Close</a></td>
+							Close</a></td> --%>
 
 					<%
 					}
