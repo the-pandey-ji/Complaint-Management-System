@@ -5,20 +5,13 @@
 <%@page import="com.entity.Complaintdtls"%>
 	<%@ page import="com.entity.User" %>
 <%
-// Check if the user is logged in
-User user = (User) session.getAttribute("Userobj");
-
-if (user == null) {
-    // Redirect to login page if not logged in
-    response.sendRedirect("../login.jsp");
-    return;
-}
-
-if (!user.getUsername().equals("Admin")) {
-    // Redirect to home page if the user is not Admin
-    response.sendRedirect("../home.jsp");
-    return;
-}
+    // Check if the user is logged in
+    User user = (User) session.getAttribute("Userobj");
+    if (user == null) {
+        // Redirect to login page if not logged in
+        response.sendRedirect("login.jsp");
+        return;
+    }
 %>
 
 
@@ -29,11 +22,11 @@ if (!user.getUsername().equals("Admin")) {
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Admin: All Complaints</title>
-<%@include file="allCss.jsp"%>
+<title> All Complaints</title>
+<%@include file="all_component/allCss.jsp"%>
 </head>
 <body>
-	<%@include file="navbar.jsp"%>
+	<%@include file="all_component/navbar.jsp"%>
 	
 	<h3 class="text-center">View All Complaint</h3>
 
@@ -55,15 +48,15 @@ if (!user.getUsername().equals("Admin")) {
 					<th scope="col">Phone</th>
 					<th scope="col">Status</th>
 					<th scope="col">Action Taken</th>
-					<th scope="col">Edit</th>
-					<th scope="col">Close Complaint</th>
+					<!-- <th scope="col">Edit</th>
+					<th scope="col">Close Complaint</th> -->
 				</tr>
 			</thead>
 			<tbody>
 			
 			<%
 			ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
-			List<Complaintdtls> list = dao.getAllComplaints();
+			List<Complaintdtls> list = dao.getUserComplaints(user.getEmpn());
 			if (list != null && !list.isEmpty()) {
                 for (Complaintdtls complaint : list) {
                 	
@@ -72,7 +65,7 @@ if (!user.getUsername().equals("Admin")) {
 			
 			<tr>
 					<td><%= complaint.getid() %></td>
-					<td><img src="../images/<%= complaint.getImage() %>"
+					<td><img src="images/<%= complaint.getImage() %>"
 						style="width: 50px; height: 50px;"></td>
 					<td><%= complaint.getCategory() %></td>
 					<td><%= complaint.getTitle() %></td>
@@ -85,13 +78,13 @@ if (!user.getUsername().equals("Admin")) {
 					<td><%= complaint.getStatus() %></td>
 					<td><%= complaint.getAction() %></td>
 
-					<td><a href="editComplaint.jsp?id=<%= complaint.getid() %>"
+					<%-- <td><a href="editComplaint.jsp?id=<%= complaint.getid() %>"
 						class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>
 							Edit</a></td>
 					<td><a href="closeComplaint.jsp?id=<%= complaint.getid() %>"
 						class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>
 							Close</a></td>
-
+ --%>
 					<%
 					}
 			}
@@ -110,6 +103,6 @@ if (!user.getUsername().equals("Admin")) {
 		</table>
 	</div>
 	<div style="margin-top: 430px;">
-		<%@include file="footer.jsp"%></div>
+		<%@include file="all_component/footer.jsp"%></div>
 </body>
 </html>

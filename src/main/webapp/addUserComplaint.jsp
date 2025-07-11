@@ -4,19 +4,13 @@
 	pageEncoding="ISO-8859-1"%>
 	
 	<%@ page import="com.entity.User" %>
+
 <%
 // Check if the user is logged in
 User user = (User) session.getAttribute("Userobj");
-
 if (user == null) {
     // Redirect to login page if not logged in
-    response.sendRedirect("../index.jsp");
-    return;
-}
-
-if (!user.getUsername().equals("Admin")) {
-    // Redirect to home page if the user is not Admin
-    response.sendRedirect("../home.jsp");
+    response.sendRedirect("login.jsp");
     return;
 }
 %>
@@ -24,11 +18,11 @@ if (!user.getUsername().equals("Admin")) {
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Admin: Add Complaint</title>
-<%@include file="allCss.jsp"%>
+<title>Add Complaint</title>
+<%@include file="all_component/allCss.jsp"%>
 </head>
 <body style="background-color: #f0f2f2;">
-	<%@include file="navbar.jsp"%>
+	<%@include file="all_component/navbar.jsp"%>
 	
 
 	<div class="caontainer" style="margin-top: 30px">
@@ -69,7 +63,7 @@ red;">
         %>
     </div>
 
-						<form action="../addcomplaint" method="post"
+						<form action="addcomplaint" method="post"
 						enctype="multipart/form-data">
 						<div class="form-group">
 								<label for="inputState">Complaint Categories</label> <select
@@ -115,7 +109,7 @@ red;">
 							</div> -->
 							
 							<div class="form-group">
-								<label for="exampleInputEmail1">Employee no / Mobile No.</label> <input
+								<label for="exampleInputEmail1">Employee no / Aadhar id</label> <input
 									name="empn" type="text" class="form-control">
 							</div>
 							<div class="form-group">
@@ -148,6 +142,6 @@ red;">
 	</div>
 
 	<div style="margin-top: 100px;">
-		<%@include file="footer.jsp"%></div>
+		<%@include file="all_component/footer.jsp"%></div>
 </body>
 </html>

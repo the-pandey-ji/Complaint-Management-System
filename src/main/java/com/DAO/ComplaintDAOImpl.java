@@ -45,7 +45,7 @@ public class ComplaintDAOImpl implements ComplaintDAO {
 	        pstmt.setString(8, cm.getPhone());
 	        pstmt.setString(9, cm.getStatus());
 	        pstmt.setString(10, cm.getAction());
-	        pstmt.setInt(11, cm.getEmpn());
+	        pstmt.setLong(11, cm.getEmpn());
 
 	        int i = pstmt.executeUpdate();
 
@@ -82,7 +82,7 @@ public class ComplaintDAOImpl implements ComplaintDAO {
 					complaint.setTitle(rs.getString("title"));
 					complaint.setDescription(rs.getString("description"));
 					complaint.setQtrno(rs.getString("qtrno"));
-					complaint.setEmpn(rs.getInt("empn"));
+					complaint.setEmpn(rs.getLong("empn"));
 					complaint.setUsername(rs.getString("username"));
 					complaint.setPhone(rs.getString("phone"));
 					complaint.setCreatedate(rs.getString("compdatetime"));
@@ -115,7 +115,7 @@ public class ComplaintDAOImpl implements ComplaintDAO {
 				complaint.setTitle(rs.getString("title"));
 				complaint.setDescription(rs.getString("description"));
 				complaint.setQtrno(rs.getString("qtrno"));
-				complaint.setEmpn(rs.getInt("empn"));
+				complaint.setEmpn(rs.getLong("empn"));
 				complaint.setUsername(rs.getString("username"));
 				complaint.setPhone(rs.getString("phone"));
 				complaint.setCreatedate(rs.getString("compdatetime"));
@@ -147,7 +147,7 @@ public boolean editComplaint(Complaintdtls cme) {
         pstmt.setString(7, cme.getPhone());
         pstmt.setString(8, cme.getStatus());
         pstmt.setString(9, cme.getAction());
-        pstmt.setInt(10, cme.getEmpn());
+        pstmt.setLong(10, cme.getEmpn());
         pstmt.setInt(11, cme.getid());
 
         int i = pstmt.executeUpdate();
@@ -182,6 +182,234 @@ public boolean closeComplaint(int id, String actionTaken) {
 }
 
 
+@Override
+public List<Complaintdtls> getActiveComplaints() {
+    List<Complaintdtls> activeComplaints = new ArrayList<>();
+    try {
+        String query = "SELECT * FROM complaintdtls WHERE status='Active' ORDER BY id DESC";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            Complaintdtls complaint = new Complaintdtls();
+            complaint.setid(rs.getInt("id"));
+            complaint.setImage(rs.getString("imagefile"));
+            complaint.setCategory(rs.getString("category"));
+            complaint.setTitle(rs.getString("title"));
+            complaint.setDescription(rs.getString("description"));
+            complaint.setQtrno(rs.getString("qtrno"));
+            complaint.setEmpn(rs.getLong("empn"));
+            complaint.setUsername(rs.getString("username"));
+            complaint.setPhone(rs.getString("phone"));
+            complaint.setCreatedate(rs.getString("compdatetime"));
+            complaint.setStatus(rs.getString("status"));
+            complaint.setAction(rs.getString("actiontaken"));
+            activeComplaints.add(complaint);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return activeComplaints;
+}
+
+@Override
+public List<Complaintdtls> getClosedComplaints() {
+    List<Complaintdtls> closedComplaints = new ArrayList<>();
+    try {
+        String query = "SELECT * FROM complaintdtls WHERE status='Closed' ORDER BY id DESC";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            Complaintdtls complaint = new Complaintdtls();
+            complaint.setid(rs.getInt("id"));
+            complaint.setImage(rs.getString("imagefile"));
+            complaint.setCategory(rs.getString("category"));
+            complaint.setTitle(rs.getString("title"));
+            complaint.setDescription(rs.getString("description"));
+            complaint.setQtrno(rs.getString("qtrno"));
+            complaint.setEmpn(rs.getLong("empn"));
+            complaint.setUsername(rs.getString("username"));
+            complaint.setPhone(rs.getString("phone"));
+            complaint.setCreatedate(rs.getString("compdatetime"));
+            complaint.setStatus(rs.getString("status"));
+            complaint.setAction(rs.getString("actiontaken"));
+            closedComplaints.add(complaint);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return closedComplaints;
+}
+
+
+
+
+@Override
+public List<Complaintdtls> getCivilComplaints() {
+    List<Complaintdtls> civilComplaints = new ArrayList<>();
+    try {
+        String query = "SELECT * FROM complaintdtls WHERE category='Civil' ORDER BY id DESC";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            Complaintdtls complaint = new Complaintdtls();
+            complaint.setid(rs.getInt("id"));
+            complaint.setImage(rs.getString("imagefile"));
+            complaint.setCategory(rs.getString("category"));
+            complaint.setTitle(rs.getString("title"));
+            complaint.setDescription(rs.getString("description"));
+            complaint.setQtrno(rs.getString("qtrno"));
+            complaint.setEmpn(rs.getLong("empn"));
+            complaint.setUsername(rs.getString("username"));
+            complaint.setPhone(rs.getString("phone"));
+            complaint.setCreatedate(rs.getString("compdatetime"));
+            complaint.setStatus(rs.getString("status"));
+            complaint.setAction(rs.getString("actiontaken"));
+            civilComplaints.add(complaint);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return civilComplaints;
+}
+
+
+@Override
+public List<Complaintdtls> getElectricalComplaints() {
+    List<Complaintdtls> electricalComplaints = new ArrayList<>();
+    try {
+        String query = "SELECT * FROM complaintdtls WHERE category='Electrical' ORDER BY id DESC";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            Complaintdtls complaint = new Complaintdtls();
+            complaint.setid(rs.getInt("id"));
+            complaint.setImage(rs.getString("imagefile"));
+            complaint.setCategory(rs.getString("category"));
+            complaint.setTitle(rs.getString("title"));
+            complaint.setDescription(rs.getString("description"));
+            complaint.setQtrno(rs.getString("qtrno"));
+            complaint.setEmpn(rs.getLong("empn"));
+            complaint.setUsername(rs.getString("username"));
+            complaint.setPhone(rs.getString("phone"));
+            complaint.setCreatedate(rs.getString("compdatetime"));
+            complaint.setStatus(rs.getString("status"));
+            complaint.setAction(rs.getString("actiontaken"));
+            electricalComplaints.add(complaint);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return electricalComplaints;
+}
+
+
+@Override
+public List<Complaintdtls> getUserComplaints(long empn) {
+    List<Complaintdtls> userComplaints = new ArrayList<>();
+    try {
+        String query = "SELECT * FROM complaintdtls WHERE empn=? ORDER BY id DESC";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setLong(1, empn);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            Complaintdtls complaint = new Complaintdtls();
+            complaint.setid(rs.getInt("id"));
+            complaint.setImage(rs.getString("imagefile"));
+            complaint.setCategory(rs.getString("category"));
+            complaint.setTitle(rs.getString("title"));
+            complaint.setDescription(rs.getString("description"));
+            complaint.setQtrno(rs.getString("qtrno"));
+            complaint.setEmpn(rs.getLong("empn"));
+            complaint.setUsername(rs.getString("username"));
+            complaint.setPhone(rs.getString("phone"));
+            complaint.setCreatedate(rs.getString("compdatetime"));
+            complaint.setStatus(rs.getString("status"));
+            complaint.setAction(rs.getString("actiontaken"));
+            userComplaints.add(complaint);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return userComplaints;
+}
+
+@Override
+public List<Complaintdtls> getUserComplaintsByType(long empn, String type) {
+    List<Complaintdtls> userComplaintsByType = new ArrayList<>();
+    try {
+        String query = "SELECT * FROM complaintdtls WHERE empn=? AND category=? ORDER BY id DESC";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setLong(1, empn);
+        pstmt.setString(2, type);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            Complaintdtls complaint = new Complaintdtls();
+            complaint.setid(rs.getInt("id"));
+            complaint.setImage(rs.getString("imagefile"));
+            complaint.setCategory(rs.getString("category"));
+            complaint.setTitle(rs.getString("title"));
+            complaint.setDescription(rs.getString("description"));
+            complaint.setQtrno(rs.getString("qtrno"));
+            complaint.setEmpn(rs.getLong("empn"));
+            complaint.setUsername(rs.getString("username"));
+            complaint.setPhone(rs.getString("phone"));
+            complaint.setCreatedate(rs.getString("compdatetime"));
+            complaint.setStatus(rs.getString("status"));
+            complaint.setAction(rs.getString("actiontaken"));
+            userComplaintsByType.add(complaint);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return userComplaintsByType;
+}
+
+
+
+	
+@Override
+public List<Complaintdtls> getUserPreviousOneComplaint(long empn) {
+    List<Complaintdtls> userPreviousOneComplaint = new ArrayList<>();
+    try {
+        String query = "SELECT * FROM complaintdtls WHERE empn=? ORDER BY id DESC FETCH FIRST 1 ROWS ONLY";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setLong(1, empn);
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            Complaintdtls complaint = new Complaintdtls();
+            complaint.setid(rs.getInt("id"));
+            complaint.setImage(rs.getString("imagefile"));
+            complaint.setCategory(rs.getString("category"));
+            complaint.setTitle(rs.getString("title"));
+            complaint.setDescription(rs.getString("description"));
+            complaint.setQtrno(rs.getString("qtrno"));
+            complaint.setEmpn(rs.getLong("empn"));
+            complaint.setUsername(rs.getString("username"));
+            complaint.setPhone(rs.getString("phone"));
+            complaint.setCreatedate(rs.getString("compdatetime"));
+            complaint.setStatus(rs.getString("status"));
+            complaint.setAction(rs.getString("actiontaken"));
+            userPreviousOneComplaint.add(complaint);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return userPreviousOneComplaint;
+}
 
 
 

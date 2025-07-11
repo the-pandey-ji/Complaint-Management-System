@@ -23,7 +23,7 @@ public class LogoutServlet extends HttpServlet {
 			HttpSession session2=request.getSession();
 			session2.setAttribute("succMsg", "Logout Successfully");
 			// Redirect to the login page or home page after logout
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("index.jsp");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

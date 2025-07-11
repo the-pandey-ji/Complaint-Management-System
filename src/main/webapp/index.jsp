@@ -34,7 +34,7 @@ body {
 	border-radius: 10px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	text-align: center;
-	max-width: 450px;
+	max-width: 650px;
 	width: 100%;
 }
 
@@ -189,7 +189,7 @@ td {
 					<span class="sr-only">(current)</span>
 			</a></li>
 	
-
+<!-- 
 			<li class="nav-item dropdown"><a
 				class="nav-link active dropdown-toggle" href="#" id="navbarDropdown"
 				role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -203,7 +203,7 @@ td {
 						href="catogory_book.jsp"></a>
 				
 
-				</div></li>
+				</div></li> -->
 
 		<!-- 	<li class="nav-item active"><a class="nav-link disabled"
 				href="all_old_book.jsp"><i class="fas fa-book-open"></i> Old
@@ -238,12 +238,12 @@ td {
         <form action="login" method="post">
             <img src="/Complaint-Management-System/img/nflimage.png" alt="NFL Logo" height="200" width="230">
             <h1 class="flash">National Fertilizers Limited, Panipat</h1>
-            <h2>Complaint-Tracker</h2>
+            <h2>Complaint Tracker</h2>
             <div class="table-container">
                 <table>
                     <tbody><tr>
                         <td align="right">
-                           <label for="exampleInputEmail1">Enter Emp.ID / Aadhar ID</label>
+                           <label for="exampleInputEmail1">Enter Emp.ID / Mobile No.</label>
                         </td>
                         <td align="left">
                             <input
@@ -263,8 +263,8 @@ td {
                     <tr>
                         <td colspan="2">
                                               
-                    </td></tr><tr>
-                        <td align="center">
+                    </td></tr><tr align="justify">
+                        <td align="right">
                             <input type="submit" value="Login">
                         </td>
                         <td align="center">

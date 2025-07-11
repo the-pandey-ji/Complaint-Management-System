@@ -2,7 +2,7 @@ package com.entity;
 
 public class User {
 	
-	private int empn;
+	private long empn;
 	private String username;
 	private String qtrno;
 	private String email;
@@ -17,10 +17,10 @@ public class User {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public int getEmpn() {
+	public long getEmpn() {
 		return empn;
 	}
-	public void setEmpn(int empn) {
+	public void setEmpn(long empn) {
 		this.empn = empn;
 	}
 	public String getUsername() {

@@ -1,6 +1,6 @@
 
 <%@ page import="com.entity.User" %>
-<%
+<%-- <%
     // Check if the user is logged in
     User usernav = (User) session.getAttribute("Userobj");
     if (usernav == null) {
@@ -8,7 +8,23 @@
         response.sendRedirect("../login.jsp");
         return;
     }
-%>
+%> --%>
+<%-- <%
+// Check if the user is logged in
+User user1 = (User) session.getAttribute("Userobj");
+
+if (user1 == null) {
+    // Redirect to login page if not logged in
+    response.sendRedirect("../index.jsp");
+    return;
+}
+
+if (!user1.getUsername().equals("Admin")) {
+    // Redirect to home page if the user is not Admin
+    response.sendRedirect("../home.jsp");
+    return;
+}
+%> --%>
 <div class="container-fluid"
 	style="height: 5px; background-color: #303f9f"></div>
 
@@ -38,7 +54,7 @@
 	    <%
 	        } else {
 	    %>
-				<a href="../login.jsp" class="btn btn-success "><i
+				<a href="../index.jsp" class="btn btn-success "><i
 					class="fas fa-sign-in-alt"></i> Login</a> 
 					<a href="../register.jsp"
 					class="btn btn-primary text-white ml-2"><i class="fas fa-user-plus"></i>

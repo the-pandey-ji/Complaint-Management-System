@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
 		// Handle POST request
 //		response.getWriter().write("POST request handled successfully.");
 		try {
-			int empn = Integer.parseInt(request.getParameter("empn"));
+			long empn = Long.parseLong(request.getParameter("empn"));
 			String password = request.getParameter("password");
 			
 			if (0000==empn && "0000".equals(password)) {

@@ -54,7 +54,7 @@ public class EditComplaint extends HttpServlet {
 			String phone = request.getParameter("phone");
 			String status = "Active"; // Default status"
 			
-			int empn = Integer.parseInt(request.getParameter("empn"));
+			long empn = Long.parseLong(request.getParameter("empn"));
 			
 			Part imagePart = request.getPart("imagefile");
 			String fileName = null;

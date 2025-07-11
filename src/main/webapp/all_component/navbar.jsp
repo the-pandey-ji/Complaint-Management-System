@@ -1,5 +1,5 @@
-
 <%@ page import="com.entity.User" %>
+
 
 <div class="container-fluid"
 	style="height: 5px; background-color: #303f9f"></div>
@@ -21,7 +21,7 @@
 		
 		
 		
-		<div class="col-md-2 ml-auto">
+		<div class="col-md-3 ml-auto">
 		 <%
 		   
 	        User user1 = (User) session.getAttribute("Userobj");
@@ -35,7 +35,7 @@
 				<a href="login.jsp" class="btn btn-success "><i
 					class="fas fa-sign-in-alt"></i> Login</a> 
 					<a href="register.jsp"
-					class="btn btn-primary text-white ml-2"><i class="fas fa-user-plus"></i>
+					class="btn btn-primary text-white ml-auto text-right"><i class="fas fa-user-plus"></i>
 					Register</a>
 			</div>
 		<%
@@ -91,25 +91,31 @@
 
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active"><a class="nav-link" href="index.jsp">Home
+			<li class="nav-item active"><a class="nav-link" href="home.jsp">Home
 					<span class="sr-only">(current)</span>
 			</a></li>
+			<li class="nav-item active"><a class="nav-link" href="addUserComplaint.jsp">Add Complaint</a></li>
+			
 	
 
 			<li class="nav-item dropdown"><a
 				class="nav-link active dropdown-toggle" href="#" id="navbarDropdown"
 				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false"> Categories </a>
+				aria-expanded="false"> View Complaints </a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item"
-						href="all_recent_book.jsp">All</a>
+				
+				<a class="dropdown-item nav-item active"
+						href="allComplaints.jsp">All Complaints</a>
+					<a class="dropdown-item nav-item active"
+						href="civilComplaints.jsp">Civil Complaints</a>
 					
 
-					<a class="dropdown-item"
-						href="catogory_book.jsp"></a>
+					<a class="dropdown-item nav-item active"
+						href="eComplaints.jsp">Electrical Complaints</a>
 				
 
 				</div></li>
+				
 
 		<!-- 	<li class="nav-item active"><a class="nav-link disabled"
 				href="all_old_book.jsp"><i class="fas fa-book-open"></i> Old

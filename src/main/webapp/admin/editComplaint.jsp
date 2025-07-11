@@ -7,13 +7,20 @@
 	
 	<%@ page import="com.entity.User" %>
 <%
-    // Check if the user is logged in
-    User user = (User) session.getAttribute("Userobj");
-    if (user == null) {
-        // Redirect to login page if not logged in
-        response.sendRedirect("../login.jsp");
-        return;
-    }
+// Check if the user is logged in
+User user = (User) session.getAttribute("Userobj");
+
+if (user == null) {
+    // Redirect to login page if not logged in
+    response.sendRedirect("../index.jsp");
+    return;
+}
+
+if (!user.getUsername().equals("Admin")) {
+    // Redirect to home page if the user is not Admin
+    response.sendRedirect("../home.jsp");
+    return;
+}
 %>
 <!DOCTYPE html>
 <html>

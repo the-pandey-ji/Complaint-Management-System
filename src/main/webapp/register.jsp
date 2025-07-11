@@ -31,7 +31,7 @@
 						<form action="register" method="post">
 
 							<div class="form-group">
-								<label for="exampleInputEmail1">Enter Emp.ID / Aadhar ID</label> 
+								<label for="exampleInputEmail1">Enter Emp.ID / Mobile No.</label> 
 								<input
 									type="number" class="form-control" required="required" name="empn">
 							</div>

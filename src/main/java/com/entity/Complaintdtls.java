@@ -8,7 +8,7 @@ public class Complaintdtls {
 	private String description;
 	private String qtrno;
 	private String createdate;
-	private int empn;
+	private long empn;
 	private String username;
 	private String phone;
 	private String status;
@@ -19,7 +19,7 @@ public class Complaintdtls {
 	}
 	
 	public Complaintdtls(String imagefile, String category, String title, String description, String qtrno,
-			 int empn, String username, String phone, String status, String action) {
+			 long empn, String username, String phone, String status, String action) {
 		super();
 
 		this.imagefile = imagefile;
@@ -38,7 +38,7 @@ public class Complaintdtls {
 	
 	// Constructor with id for editing existing complaints
 	public Complaintdtls(int id,String imagefile, String category, String title, String description, String qtrno,
-			 int empn, String username, String phone, String status, String action) {
+			 long empn, String username, String phone, String status, String action) {
 		super();
 		this.id = id;
 		this.imagefile = imagefile;
@@ -99,10 +99,10 @@ public class Complaintdtls {
 	public void setCreatedate(String createdate) {
 		this.createdate = createdate;
 	}
-	public int getEmpn() {
+	public long getEmpn() {
 		return empn;
 	}
-	public void setEmpn(int empn) {
+	public void setEmpn(long empn) {
 		this.empn = empn;
 	}
 	public String getUsername() {

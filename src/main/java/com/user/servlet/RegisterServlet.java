@@ -22,7 +22,7 @@ import com.entity.User;
            // Handle POST request
            response.getWriter().write("POST request handled successfully.");
 			try {
-				int empn = Integer.parseInt(request.getParameter("empn"));
+				long empn = Long.parseLong(request.getParameter("empn"));
 				String username = request.getParameter("username");
 				String qtrno = request.getParameter("qtrno");
 				String email = request.getParameter("email");

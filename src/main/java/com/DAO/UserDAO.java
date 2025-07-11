@@ -5,6 +5,6 @@ import com.entity.User;
 public interface UserDAO {
 	public boolean userRegister(User us);
 	
-	public User userLogin(int empn, String password);
+	public User userLogin(long empn, String password);
 
 }
