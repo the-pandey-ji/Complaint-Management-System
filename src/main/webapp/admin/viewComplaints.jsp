@@ -10,7 +10,7 @@ User user = (User) session.getAttribute("Userobj");
 
 if (user == null) {
     // Redirect to login page if not logged in
-    response.sendRedirect("../login.jsp");
+    response.sendRedirect("../index.jsp");
     return;
 }
 

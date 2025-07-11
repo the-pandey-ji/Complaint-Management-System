@@ -56,7 +56,7 @@
 			
 			<%
 			ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
-			List<Complaintdtls> list = dao.getUserComplaintsByType(user.getEmpn(),"Civil");
+			List<Complaintdtls> list = dao.getUserComplaintsByType(user.getEmpn(),"Electrical");
 			if (list != null && !list.isEmpty()) {
                 for (Complaintdtls complaint : list) {
                 	

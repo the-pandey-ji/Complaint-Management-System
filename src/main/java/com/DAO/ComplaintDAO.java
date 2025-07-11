@@ -18,6 +18,7 @@ public interface ComplaintDAO {
 		
 	public List<Complaintdtls> getActiveComplaints();
 	
+	
 	public List<Complaintdtls> getClosedComplaints();
 	
 	public List<Complaintdtls> getCivilComplaints();
@@ -33,6 +34,8 @@ public interface ComplaintDAO {
 	public List<Complaintdtls> getUserComplaintsByType(long empn, String type);
 	
 	public List<Complaintdtls> getUserPreviousOneComplaint(long empn);
+	
+	public List<Complaintdtls> getActiveComplaintsOfUser(long empn);
 	
 
 }

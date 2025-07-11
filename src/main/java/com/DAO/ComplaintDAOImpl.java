@@ -412,6 +412,41 @@ public List<Complaintdtls> getUserPreviousOneComplaint(long empn) {
 }
 
 
+@Override
+
+public List<Complaintdtls> getActiveComplaintsOfUser(long empn) {
+    List<Complaintdtls> getActiveComplaintsOfUser = new ArrayList<>();
+    try {
+    	String query = "SELECT * FROM complaintdtls WHERE empn=? AND status=? ORDER BY id DESC";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setLong(1, empn);
+        pstmt.setString(2, "Active");
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            Complaintdtls complaint = new Complaintdtls();
+            complaint.setid(rs.getInt("id"));
+            complaint.setImage(rs.getString("imagefile"));
+            complaint.setCategory(rs.getString("category"));
+            complaint.setTitle(rs.getString("title"));
+            complaint.setDescription(rs.getString("description"));
+            complaint.setQtrno(rs.getString("qtrno"));
+            complaint.setEmpn(rs.getLong("empn"));
+            complaint.setUsername(rs.getString("username"));
+            complaint.setPhone(rs.getString("phone"));
+            complaint.setCreatedate(rs.getString("compdatetime"));
+            complaint.setStatus(rs.getString("status"));
+            complaint.setAction(rs.getString("actiontaken"));
+            getActiveComplaintsOfUser.add(complaint);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return getActiveComplaintsOfUser;
+}
+	
+
 
 
 }

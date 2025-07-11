@@ -32,7 +32,7 @@
 	    <%
 	        } else {
 	    %>
-				<a href="login.jsp" class="btn btn-success "><i
+				<a href="index.jsp" class="btn btn-success "><i
 					class="fas fa-sign-in-alt"></i> Login</a> 
 					<a href="register.jsp"
 					class="btn btn-primary text-white ml-auto text-right"><i class="fas fa-user-plus"></i>
@@ -123,20 +123,21 @@
 		</ul>
 		
 		<form class="form-inline my-2 my-lg-0">
-			<a href="setting.jsp" class="btn btn-light my-2 my-sm-0"
+			<!-- <a href="setting.jsp" class="btn btn-light my-2 my-sm-0"
 				type="submit"> <i class="fas fa-cog"></i> Setting
-			</a> <a href="helpline.jsp" class="btn btn-light my-2 my-sm-0 ml-1 mr-2"
+			</a> --> 
+			<a href="helpline.jsp" class="btn btn-light my-2 my-sm-0 ml-1 mr-2"
 				type="submit"> <i class="fas fa-phone-square-alt"></i> Contact
 				Us
 			</a>
 		</form>
 	
-			<form class="form-inline my-2 my-lg-0" action="search_Complaint.jsp"
+			<!-- <form class="form-inline my-2 my-lg-0" action="search_Complaint.jsp"
 				method="post">
 				<input class="form-control mr-sm-2 " type="search" name="ch"
 					placeholder="Search" aria-label="Search">
 				<button class="btn btn-primary my-2 my-sm-0 " type="submit">Search</button>
-			</form>
+			</form> -->
 		
 		
 	</div>

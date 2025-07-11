@@ -211,20 +211,21 @@ td {
 		</ul>
 		
 		<form class="form-inline my-2 my-lg-0">
-			<a href="setting.jsp" class="btn btn-light my-2 my-sm-0"
+			<!-- <a href="setting.jsp" class="btn btn-light my-2 my-sm-0"
 				type="submit"> <i class="fas fa-cog"></i> Setting
-			</a> <a href="helpline.jsp" class="btn btn-light my-2 my-sm-0 ml-1 mr-2"
+			</a> --> 
+			<a href="helpline.jsp" class="btn btn-light my-2 my-sm-0 ml-1 mr-2"
 				type="submit"> <i class="fas fa-phone-square-alt"></i> Contact
 				Us
 			</a>
 		</form>
 	
-			<form class="form-inline my-2 my-lg-0" action="search_Complaint.jsp"
+			<!-- <form class="form-inline my-2 my-lg-0" action="search_Complaint.jsp"
 				method="post">
 				<input class="form-control mr-sm-2 " type="search" name="ch"
 					placeholder="Search" aria-label="Search">
 				<button class="btn btn-primary my-2 my-sm-0 " type="submit">Search</button>
-			</form>
+			</form> -->
 		
 		
 	</div>
@@ -232,9 +233,19 @@ td {
 
 	
 	<%-- <%@include file="all_component/navbar.jsp"%> --%>
+	
 	<div class="login">
 	
 	<div class="container1">
+	<%
+          String succMsg = (String) session.getAttribute("succMsg");
+          if (succMsg != null) {
+      %>
+          <h4 class="success text-center text-success"><%= succMsg %></h4>
+          <%
+              session.removeAttribute("succMsg"); // Clear the message after displaying
+          }
+      %>
         <form action="login" method="post">
             <img src="/Complaint-Management-System/img/nflimage.png" alt="NFL Logo" height="200" width="230">
             <h1 class="flash">National Fertilizers Limited, Panipat</h1>

@@ -1,4 +1,5 @@
-package com.Admin.servlet;
+
+package com.UserComplaint.servlet;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,9 +16,9 @@ import com.DAO.ComplaintDAOImpl;
 import com.DB.DBConnect;
 import com.entity.Complaintdtls;
 
-@WebServlet("/addcomplaint")
+@WebServlet("/addcomplaintuser") // Correct servlet mapping
 @MultipartConfig(maxFileSize = 10 * 1024 * 1024) // Set max file size to 10MB
-public class ComplaintAdd extends HttpServlet {
+public class AddUserComplaint extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,20 +41,20 @@ public class ComplaintAdd extends HttpServlet {
             Part imagePart = request.getPart("imagefile");
             String fileName = imagePart.getSubmittedFileName();
             String defaultImage = "default.png"; // Default image file name
-            String imagePath = request.getServletContext().getRealPath("") + "Complaint-Management-System/images";
+            String imagePath = request.getServletContext().getRealPath("") + File.separator + "Complaint-Management-System" + File.separator + "images";
 
             // Validate file type and size
-           if (fileName != null && !fileName.isEmpty()) {
-               String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
-               if (!fileExtension.equals("jpg") && !fileExtension.equals("png") && !fileExtension.equals("jpeg")) {
-                   session.setAttribute("failedMsg", "Invalid file type. Only JPG, PNG, and JPEG are allowed.");
-                  response.sendRedirect("admin/addComplaint.jsp");
-                   return;
-               }
+            if (fileName != null && !fileName.isEmpty()) {
+                String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+                if (!fileExtension.equals("jpg") && !fileExtension.equals("png") && !fileExtension.equals("jpeg")) {
+                    session.setAttribute("failedMsg", "Invalid file type. Only JPG, PNG, and JPEG are allowed.");
+                    response.sendRedirect("addUserComplaint.jsp");
+                    return;
+                }
 
                 if (imagePart.getSize() > 10 * 1024 * 1024) { // 10MB size limit
                     session.setAttribute("failedMsg", "File size exceeds the 10MB limit.");
-                    response.sendRedirect("admin/addComplaint.jsp");
+                    response.sendRedirect("addUserComplaint.jsp");
                     return;
                 }
 
@@ -74,10 +75,10 @@ public class ComplaintAdd extends HttpServlet {
             boolean f = dao.addComplaint(cm);
             if (f) {
                 session.setAttribute("succMsg", "Complaint added successfully.");
-                response.sendRedirect("admin/addComplaint.jsp");
+                response.sendRedirect("addUserComplaint.jsp");
             } else {
                 session.setAttribute("failedMsg", "Something went wrong. Please try again.");
-                response.sendRedirect("admin/addComplaint.jsp");
+                response.sendRedirect("addUserComplaint.jsp");
             }
         } catch (Exception e) {
             e.printStackTrace();
