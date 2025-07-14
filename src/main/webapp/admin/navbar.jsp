@@ -42,30 +42,31 @@ if (!user1.getUsername().equals("Admin")) {
 		
 		
 		
-		
-		<div class="col-md-2 ml-auto">
-		 <%
-		   
-	        User user1 = (User) session.getAttribute("Userobj");
-	        if (user1 != null && "Admin".equals(user1.getUsername())) {
-	    %>
-	        <span class="text-white btn btn-success ml-2">Welcome, <%= user1.getUsername() %>!</span>
-	        <a data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-danger ml-2 text-white"><i class="fas fa-sign-out-alt"></i> Logout</a>
-	    <%
-	        } else {
-	    %>
-				<a href="../index.jsp" class="btn btn-success "><i
-					class="fas fa-sign-in-alt"></i> Login</a> 
-					<a href="../register.jsp"
-					class="btn btn-primary text-white ml-2"><i class="fas fa-user-plus"></i>
-					Register</a>
-			</div>
-		<%
-		}
-		%>
-
+	<div class="col-md-2 ml-auto">
+  <%
+    User user1 = (User) session.getAttribute("Userobj");
+    if (user1 != null && "Admin".equals(user1.getUsername())) {
+  %>
+      <span class="text-white btn btn-success ml-2">Welcome, <%= user1.getUsername() %>!</span>
+      <a data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-danger ml-2 text-white">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+  <%
+    } else {
+  %>
+      <a href="../index.jsp" class="btn btn-success">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </a> 
+      <a href="../register.jsp" class="btn btn-primary text-white ml-2">
+        <i class="fas fa-user-plus"></i> Register
+      </a>
+  <%
+    }
+  %>
+</div>
 	</div>
 </div>
+
 
 <!-- Logout Modal -->
 

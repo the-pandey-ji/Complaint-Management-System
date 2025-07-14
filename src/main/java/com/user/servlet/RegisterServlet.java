@@ -24,11 +24,19 @@ import com.entity.User;
 			try {
 				long empn = Long.parseLong(request.getParameter("empn"));
 				String username = request.getParameter("username");
+//				String qtrno = request.getParameter("qtrno");
 				String qtrno = request.getParameter("qtrno");
+				if (qtrno == null || qtrno.isEmpty()) {
+				    request.setAttribute("failedMsg", "Quarter number is required.");
+				    response.sendRedirect("register.jsp");
+				    System.out.println("Quarter number is null or empty.");
+				    System.out.println("Redirectin"+qtrno);
+				    return;
+				}
 				String email = request.getParameter("email");
 				String phone = request.getParameter("phone");
 				String password = request.getParameter("password");
-				String check = request.getParameter("check");
+				//String check = request.getParameter("check");
 				
 //				System.out.println("Employee Number: " + empn + ", Username: " + username + ", Email: " + email
 //						+ ", Phone: " + phone + ", Password: " + password);

@@ -161,7 +161,7 @@ td {
 		
 		<div class="col-md-2 ml-auto">
 		 
-				<a href="login.jsp" class="btn btn-success "><i
+				<a href="index.jsp" class="btn btn-success "><i
 					class="fas fa-sign-in-alt"></i> Login</a> 
 					<a href="register.jsp"
 					class="btn btn-primary text-white ml-2"><i class="fas fa-user-plus"></i>

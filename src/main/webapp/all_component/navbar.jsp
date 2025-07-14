@@ -122,7 +122,7 @@
 					Complaint</a></li> -->
 		</ul>
 		
-		<form class="form-inline my-2 my-lg-0">
+		<div class="form-inline my-2 my-lg-0">
 			<!-- <a href="setting.jsp" class="btn btn-light my-2 my-sm-0"
 				type="submit"> <i class="fas fa-cog"></i> Setting
 			</a> --> 
@@ -130,7 +130,7 @@
 				type="submit"> <i class="fas fa-phone-square-alt"></i> Contact
 				Us
 			</a>
-		</form>
+		</div>
 	
 			<!-- <form class="form-inline my-2 my-lg-0" action="search_Complaint.jsp"
 				method="post">
