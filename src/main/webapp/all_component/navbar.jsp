@@ -121,6 +121,15 @@
 				href="all_old_book.jsp"><i class="fas fa-book-open"></i> Old
 					Complaint</a></li> -->
 		</ul>
+		<div class="form-inline my-2 my-lg-0">
+			<!-- <a href="setting.jsp" class="btn btn-light my-2 my-sm-0"
+				type="submit"> <i class="fas fa-cog"></i> Setting
+			</a> --> 
+			<a href="changePassword.jsp" class="btn btn-light my-2 my-sm-0 ml-1 mr-2"
+				type="submit"> <i class="fas "></i> Change Password
+			
+			</a>
+		</div>
 		
 		<div class="form-inline my-2 my-lg-0">
 			<!-- <a href="setting.jsp" class="btn btn-light my-2 my-sm-0"

@@ -54,6 +54,11 @@ public class LoginServlet extends HttpServlet {
                         response.sendRedirect("home.jsp");
                     }
                 }
+				else {
+					// Invalid credentials
+					session.setAttribute("errorMsg", "Invalid Employee Number or Password.");
+					response.sendRedirect("index.jsp");
+				}
             } else {
                 // Invalid input
                 session.setAttribute("errorMsg", "Invalid Employee Number or Password.");

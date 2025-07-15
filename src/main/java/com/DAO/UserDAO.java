@@ -8,5 +8,7 @@ public interface UserDAO {
 	public User userLogin(long empn, String password);
 	
 	public User getUserByEmpn(long empn);
+	
+	public boolean updatePassword(long empn, String newPassword);
 
 }

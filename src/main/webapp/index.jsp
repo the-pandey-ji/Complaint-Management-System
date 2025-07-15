@@ -246,6 +246,20 @@ td {
               session.removeAttribute("succMsg"); // Clear the message after displaying
           }
       %>
+
+			 <%
+            String failedMsg = (String) session.getAttribute("errorMsg");
+            if (failedMsg != null) {
+        %>
+            <div style="color: red;font-size:25px; font-weight: bold;">
+                <%= failedMsg %>
+            </div>
+        <%
+            session.removeAttribute("errorMsg");
+            }
+        %>
+      
+      	
         <form action="login" method="post">
             <img src="/Complaint-Management-System/img/nflimage.png" alt="NFL Logo" height="200" width="230">
             <h1 class="flash">National Fertilizers Limited, Panipat</h1>
@@ -345,7 +359,8 @@ td {
 <%-- <%
 Connection conn = DBConnect.getConnection();
 out.println(conn);
-%> --%>
+%>
+			--%>
 
 
 	<%@include file="all_component/footer.jsp"%>

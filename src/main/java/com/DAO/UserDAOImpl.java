@@ -115,6 +115,26 @@ public class UserDAOImpl implements UserDAO{
 		return us;
 	}
 	
+	@Override
+	public boolean updatePassword(long empn, String newPassword) {
+		try {
+			String query = "update usermaster set password=? where empn=?";
+			java.sql.PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, newPassword);
+			pstmt.setLong(2, empn);
+
+			int i = pstmt.executeUpdate();
+
+			if (i == 1) {
+				return true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
 	
 	
 
