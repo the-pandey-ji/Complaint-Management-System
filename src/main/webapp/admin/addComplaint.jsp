@@ -21,14 +21,34 @@ else if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
 
 }
     
-
 %>
+
+<%
+String backgroundImage = "";
+if (user.getRole().equals("AC")) {
+    backgroundImage = "url('../img/ac_background.jpg')";
+} else if (user.getRole().equals("AE")) {
+    backgroundImage = "url('../img/ae_background.jpg')";
+}
+%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Admin: Add Complaint</title>
 <%@include file="allCss.jsp"%>
+<style type="text/css">
+
+ body {
+ 
+            background-image: <%= backgroundImage %>;
+            background-position: center;
+            background-size: 100%;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+</style>
 </head>
 <body style="background-color: #f0f2f2;">
 	<%@include file="navbar.jsp"%>
@@ -48,7 +68,7 @@ else if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
             String succMsg = (String) session.getAttribute("succMsg");
             if (succMsg != null) {
         %>
-            <div style="color: green; ;font-size:25px; font-weight: bold;">
+            <div style="color: green; font-size:25px; font-weight: bold;">
                 <%= succMsg %>
             </div>
         <%

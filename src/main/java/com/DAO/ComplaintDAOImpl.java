@@ -251,7 +251,7 @@ public List<Complaintdtls> getClosedComplaints() {
 public List<Complaintdtls> getCivilComplaints() {
     List<Complaintdtls> civilComplaints = new ArrayList<>();
     try {
-        String query = "SELECT * FROM complaintdtls WHERE category='Civil' ORDER BY id DESC";
+        String query = "SELECT * FROM complaintdtls WHERE category='Civil' ORDER BY status ASC, id DESC";
         PreparedStatement pstmt = conn.prepareStatement(query);
         ResultSet rs = pstmt.executeQuery();
 
@@ -283,7 +283,7 @@ public List<Complaintdtls> getCivilComplaints() {
 public List<Complaintdtls> getElectricalComplaints() {
     List<Complaintdtls> electricalComplaints = new ArrayList<>();
     try {
-        String query = "SELECT * FROM complaintdtls WHERE category='Electrical' ORDER BY id DESC";
+        String query = "SELECT * FROM complaintdtls WHERE category='Electrical' ORDER BY status ASC, id DESC";
         PreparedStatement pstmt = conn.prepareStatement(query);
         ResultSet rs = pstmt.executeQuery();
 

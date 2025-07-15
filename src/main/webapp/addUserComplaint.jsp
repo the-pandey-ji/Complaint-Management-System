@@ -43,7 +43,7 @@ if (user == null) {
                             String succMsg = (String) session.getAttribute("succMsg");
                             if (succMsg != null) {
                         %>
-                            <div style="color: green;">
+                            <div style="color: green; font-size:25px; font-weight: bold;">
                                 <%= succMsg %>
                             </div>
                         <%
@@ -56,7 +56,7 @@ if (user == null) {
                             String failedMsg = (String) session.getAttribute("failedMsg");
                             if (failedMsg != null) {
                         %>
-                            <div style="color: red;">
+                            <div style="color: red;font-size:25px; font-weight: bold;">
                                 <%= failedMsg %>
                             </div>
                         <%

@@ -241,7 +241,7 @@ td {
           String succMsg = (String) session.getAttribute("succMsg");
           if (succMsg != null) {
       %>
-          <h4 class="success text-center text-success"><%= succMsg %></h4>
+          <h4 class="success text-center text-success" style="font-size:30px; font-weight: bold;"><%= succMsg %></h4>
           <%
               session.removeAttribute("succMsg"); // Clear the message after displaying
           }

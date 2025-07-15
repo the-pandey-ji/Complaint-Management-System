@@ -25,14 +25,14 @@ else if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
 %>
 
 
-<%
+<%-- <%
     String backgroundImage = "";
     if (user.getRole().equals("AC")) {
-        backgroundImage = "url('../img/ac_background2.jpg')";
+        backgroundImage = "url('../img/ac_background4.jpg')";
     } else if (user.getRole().equals("AE")) {
         backgroundImage = "url('../img/ae_background.jpg')";
     }
-%>
+%> --%>
 
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -44,15 +44,21 @@ else if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
 <meta charset="ISO-8859-1">
 <title>Admin: All Complaints</title>
 <%@include file="allCss.jsp"%>
- <style>
+<%--  <style>
         body {
-            background-image: <%= backgroundImage %>;
-            background-size: cover;
-            background-repeat: no-repeat;
             
+            background-image: <%= backgroundImage %>;
+           
+               background-attachment: fixed;	
+            background-size: 100%;
+            background-repeat: no-repeat;
+           
             
         }
-    </style>
+        td{
+       font-weight: bold;
+        }
+    </style> --%>
 </head>
 <body>
 	<%@include file="navbar.jsp"%>

@@ -29,7 +29,7 @@ else if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
     if (user.getRole().equals("AC")) {
         backgroundImage = "url('../img/ac_background2.jpg')";
     } else if (user.getRole().equals("AE")) {
-        backgroundImage = "url('../img/ae_background.jpg')";
+        backgroundImage = "url('../img/ae_background2.jpg')";
     }
 %>
 
@@ -46,8 +46,11 @@ a {
 	color: black;
 }
  body {
+ 
             background-image: <%= backgroundImage %>;
-            background-size: cover;
+            background-position: center;
+            background-size: 60%;
+            background-attachment: fixed;
             background-repeat: no-repeat;
 </style>
 </head>

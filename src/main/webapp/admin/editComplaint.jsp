@@ -51,7 +51,7 @@ else if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
             if (succMsg != null) {
         %>
             <div style="color: 
-green;">
+green;font-size:25px; font-weight: bold;">
                 <%= succMsg %>
             </div>
         <%
@@ -65,7 +65,7 @@ green;">
             if (failedMsg != null) {
         %>
             <div style="color: 
-red;">
+red;font-size:25px; font-weight: bold;">
                 <%= failedMsg %>
             </div>
         <%
