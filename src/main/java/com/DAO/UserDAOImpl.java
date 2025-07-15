@@ -17,7 +17,7 @@ public class UserDAOImpl implements UserDAO{
 	public boolean userRegister(User us) {
 		
 		try {
-			String query = "insert into usermaster(empn,username,qtrno,email,phone,password,usercreationdate,status) values(?,?,?,?,?,?,SYSDATE,'A')";
+			String query = "insert into usermaster(empn,username,qtrno,email,phone,password,usercreationdate,status) values(?,?,?,?,?,?,SYSDATE,'A','NU')";
 			java.sql.PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setLong(1, us.getEmpn());
 			pstmt.setString(2, us.getUsername());
@@ -63,6 +63,10 @@ public class UserDAOImpl implements UserDAO{
 				us.setEmail(rs.getString("email"));
 				us.setPhone(rs.getString("phone"));
 				us.setPassword(rs.getString("password"));
+				us.setStatus(rs.getString("status"));
+				us.setUsercreationdate(rs.getString("usercreationdate"));
+				us.setRole(rs.getString("role")); // Assuming you have a role field in User entity
+				
 				// You can set other fields if needed
 				// For example, if you have a field for user creation date or status
 				
@@ -95,6 +99,10 @@ public class UserDAOImpl implements UserDAO{
 				us.setEmail(rs.getString("email"));
 				us.setPhone(rs.getString("phone"));
 				us.setPassword(rs.getString("password"));
+				us.setStatus(rs.getString("status"));
+				
+				us.setUsercreationdate(rs.getString("usercreationdate"));
+				us.setRole(rs.getString("role")); // Assuming you have a role field in User entity
 				// You can set other fields if needed
 				// For example, if you have a field for user creation date or status
 

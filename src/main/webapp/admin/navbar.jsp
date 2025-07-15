@@ -11,19 +11,22 @@
 %> --%>
 <%-- <%
 // Check if the user is logged in
-User user1 = (User) session.getAttribute("Userobj");
+User user = (User) session.getAttribute("Userobj");
 
-if (user1 == null) {
+if (user == null) {
     // Redirect to login page if not logged in
     response.sendRedirect("../index.jsp");
     return;
 }
 
-if (!user1.getUsername().equals("Admin")) {
+else if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
     // Redirect to home page if the user is not Admin
     response.sendRedirect("../home.jsp");
     return;
+
 }
+    
+
 %> --%>
 <div class="container-fluid"
 	style="height: 5px; background-color: #303f9f"></div>
@@ -42,12 +45,12 @@ if (!user1.getUsername().equals("Admin")) {
 		
 		
 		
-	<div class="col-md-2 ml-auto">
+	<div class="col-md-3 ml-auto">
   <%
     User user1 = (User) session.getAttribute("Userobj");
-    if (user1 != null && "Admin".equals(user1.getUsername())) {
+    if (user1 != null &&("AC".equals(user1.getRole()) || "AE".equals(user1.getRole()))) {
   %>
-      <span class="text-white btn btn-success ml-2">Welcome, <%= user1.getUsername() %>!</span>
+      <span class="text-white btn btn-success ml-2" >Welcome Admin, <%= user1.getUsername() %>!</span>
       <a data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-danger ml-2 text-white">
         <i class="fas fa-sign-out-alt"></i> Logout
       </a>

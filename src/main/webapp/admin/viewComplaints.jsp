@@ -14,11 +14,24 @@ if (user == null) {
     return;
 }
 
-if (!user.getUsername().equals("Admin")) {
+else if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
     // Redirect to home page if the user is not Admin
     response.sendRedirect("../home.jsp");
     return;
+
 }
+    
+
+%>
+
+
+<%
+    String backgroundImage = "";
+    if (user.getRole().equals("AC")) {
+        backgroundImage = "url('../img/ac_background2.jpg')";
+    } else if (user.getRole().equals("AE")) {
+        backgroundImage = "url('../img/ae_background.jpg')";
+    }
 %>
 
 
@@ -31,6 +44,15 @@ if (!user.getUsername().equals("Admin")) {
 <meta charset="ISO-8859-1">
 <title>Admin: All Complaints</title>
 <%@include file="allCss.jsp"%>
+ <style>
+        body {
+            background-image: <%= backgroundImage %>;
+            background-size: cover;
+            background-repeat: no-repeat;
+            
+            
+        }
+    </style>
 </head>
 <body>
 	<%@include file="navbar.jsp"%>
@@ -62,13 +84,20 @@ if (!user.getUsername().equals("Admin")) {
 			<tbody>
 			
 			<%
-			ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
-			List<Complaintdtls> list = dao.getAllComplaints();
-			if (list != null && !list.isEmpty()) {
-                for (Complaintdtls complaint : list) {
-                	
-			
-			%>
+						ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
+			                List<Complaintdtls> list = null;
+							if(user.getRole().equals("AC")) {
+								 list = dao.getCivilComplaints();
+							} else if(user.getRole().equals("AE")) {
+								 list = dao.getElectricalComplaints();
+							}
+							else {
+							
+							 list = dao.getAllComplaints();
+							}
+							if (list != null && !list.isEmpty()) {
+								for (Complaintdtls complaint : list) {
+						%>
 			
 			<tr>
 					<td><%= complaint.getid() %></td>
@@ -116,7 +145,7 @@ if (!user.getUsername().equals("Admin")) {
 			</tbody>
 		</table>
 	</div>
-	<div style="margin-top: 430px;">
+	<div style="margin-top: 40px;">
 		<%@include file="footer.jsp"%></div>
 </body>
 </html>

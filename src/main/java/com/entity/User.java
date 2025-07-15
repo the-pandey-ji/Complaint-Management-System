@@ -8,6 +8,9 @@ public class User {
 	private String email;
 	private String phone;
 	private String password;
+	private String usercreationdate;
+	private String status;
+	private String role;
 	
 	
 	
@@ -53,10 +56,35 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public String getUsercreationdate() {
+		return usercreationdate;
+	}
+
+	public void setUsercreationdate(String usercreationdate) {
+		this.usercreationdate = usercreationdate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 	@Override
 	public String toString() {
 		return "User [empn=" + empn + ", username=" + username + ", qtrno=" + qtrno + ", email=" + email + ", phone="
-				+ phone + ", password=" + password + "]";
+				+ phone + ", password=" + password + ", usercreationdate=" + usercreationdate + ", status=" + status
+				+ ", role=" + role + "]";
 	}
 	
 	

@@ -16,11 +16,14 @@ if (user == null) {
     return;
 }
 
-if (!user.getUsername().equals("Admin")) {
+else if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
     // Redirect to home page if the user is not Admin
     response.sendRedirect("../home.jsp");
     return;
+
 }
+    
+
 %>
 <!DOCTYPE html>
 <html>

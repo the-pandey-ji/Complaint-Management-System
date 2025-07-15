@@ -13,13 +13,25 @@ if (user == null) {
     return;
 }
 
-if (!user.getUsername().equals("Admin")) {
+else if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
     // Redirect to home page if the user is not Admin
     response.sendRedirect("../home.jsp");
     return;
+
 }
+    
+
 %>
 
+
+<%
+    String backgroundImage = "";
+    if (user.getRole().equals("AC")) {
+        backgroundImage = "url('../img/ac_background2.jpg')";
+    } else if (user.getRole().equals("AE")) {
+        backgroundImage = "url('../img/ae_background.jpg')";
+    }
+%>
 
 <!DOCTYPE html>
 <html>
@@ -33,12 +45,16 @@ a {
 	text-decoration: none;
 	color: black;
 }
+ body {
+            background-image: <%= backgroundImage %>;
+            background-size: cover;
+            background-repeat: no-repeat;
 </style>
 </head>
 <body>
 
 <%@include file="navbar.jsp" %>
-    <h1 >Welcome to Admin Dashboard</h1>
+    <h1 >WELCOME <%= user.getUsername() %>! to Admin Dashboard </h1>
     
 <div class="container">
     <div class="row align-items-center justify-content-center">
