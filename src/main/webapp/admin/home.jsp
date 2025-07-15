@@ -57,8 +57,10 @@ a {
 <body>
 
 <%@include file="navbar.jsp" %>
-    <h1 >WELCOME <%= user.getUsername() %>! to Admin Dashboard </h1>
+<div class="container-fluid" style= "text-align: center;color: blue; margin-top: 50px; margin-bottom: 50px;">
+    <h1>WELCOME <%= user.getUsername() %>! to Admin Dashboard </h1>
     
+    </div>
 <div class="container">
     <div class="row align-items-center justify-content-center">
         <div class="col-md-3 text-center">

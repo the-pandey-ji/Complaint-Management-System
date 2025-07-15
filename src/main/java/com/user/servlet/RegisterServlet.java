@@ -29,8 +29,8 @@ import com.entity.User;
 				if (qtrno == null || qtrno.isEmpty()) {
 				    request.setAttribute("failedMsg", "Quarter number is required.");
 				    response.sendRedirect("register.jsp");
-				    System.out.println("Quarter number is null or empty.");
-				    System.out.println("Redirectin"+qtrno);
+//				    System.out.println("Quarter number is null or empty.");
+//				    System.out.println("Redirectin"+qtrno);
 				    return;
 				}
 				String email = request.getParameter("email");

@@ -38,16 +38,16 @@ public class LoginServlet extends HttpServlet {
 
             if (empn > 0 && password != null && !password.isEmpty()) {
                 User us = userDAO.userLogin(empn, password);
-                System.out.println("User object: " + us);
+//                System.out.println("User object: " + us);
 
                 if (us != null) {
                     session.setAttribute("Userobj", us);
                     
-                    System.out.println("User object after login: ");
+//                    System.out.println("User object after login: ");
 
                     if (us.getRole().equals("AC") || us.getRole().equals("AE")) {
                         // Redirect to admin dashboard
-                    	System.out.println("Redirecting to admin dashboard");
+//                    	System.out.println("Redirecting to admin dashboard");
                         response.sendRedirect("admin/home.jsp");
                     } else {
                         // Redirect to user dashboard
@@ -60,7 +60,7 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("index.jsp");
             }
 
-            System.out.println("Employee Number: " + empn + ", Password: " + password);
+            //System.out.println("Employee Number: " + empn + ", Password: " + password);
         } catch (Exception e) {
             e.printStackTrace();
             session.setAttribute("errorMsg", "An error occurred while processing your request.");
