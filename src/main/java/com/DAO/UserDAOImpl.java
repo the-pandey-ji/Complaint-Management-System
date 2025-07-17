@@ -17,7 +17,7 @@ public class UserDAOImpl implements UserDAO{
 	public boolean userRegister(User us) {
 		
 		try {
-			String query = "insert into usermaster(empn,username,qtrno,email,phone,password,usercreationdate,status) values(?,?,?,?,?,?,SYSDATE,'A','NU')";
+			String query = "insert into usermaster(empn,username,qtrno,email,phone,password,usercreationdate,status,role) values(?,?,?,?,?,?,SYSDATE,'A','NU')";
 			java.sql.PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setLong(1, us.getEmpn());
 			pstmt.setString(2, us.getUsername());

@@ -135,7 +135,7 @@ else if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
 			<!-- <a href="setting.jsp" class="btn btn-light my-2 my-sm-0"
 				type="submit"> <i class="fas fa-cog"></i> Setting
 			</a> --> 
-			<a href="../changePassword.jsp" class="btn btn-light my-2 my-sm-0 ml-1 mr-2"
+			<a href="changePassword.jsp" class="btn btn-light my-2 my-sm-0 ml-1 mr-2"
 				type="submit"> <i class="fas "></i> Change Password
 			
 			</a>

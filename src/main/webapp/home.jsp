@@ -126,15 +126,5 @@ a {
 </html>
 
 
-
-
-
-
-
-
-
-
-		<div style="margin-top: 430px;">
-		<%@include file="/all_component/footer.jsp"%></div>
 </body>
 </html>
