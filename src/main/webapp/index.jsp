@@ -1,369 +1,241 @@
-<%@ page import="java.sql.Connection" %>
 <%@ page import="com.DB.DBConnect" %>
+<%@ page import="java.sql.Connection" %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Complaint Management System</title>
-<%@include file="all_component/allCss.jsp"%>
-<style type="text/css">
+<title>Complaint Management System | Secure Login</title>
 
+<%@ include file="all_component/allCss.jsp" %>
 
+<style>
+/* ===== RESET ===== */
+* {
+    box-sizing: border-box;
+}
+
+/* ===== PAGE BASE ===== */
 body {
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	 background: url('/Complaint-Management-System/img/download.jpeg') no-repeat center center fixed;
-            background-size: cover;
-	background-size: cover;
-	margin: 0;
-	justify-content: center;
-	align-items: center;
-	color: #333;
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: linear-gradient(
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.55)
+    ),
+    url('/Complaint-Management-System/img/download.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.login {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 80vh;
+/* ===== LOGIN CARD (WIDER & PREMIUM) ===== */
+.login-wrapper {
+    width: 570px;              /* ⬅ MADE WIDER */
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border-radius: 22px;
+    padding: 44px 42px;
+    text-align: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.35);
+
+    box-shadow:
+        0 30px 70px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.container1 {
-	background-color: rgba(255, 255, 255, 0.9);
-	padding: 10px;
-	border-radius: 10px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	text-align: center;
-	max-width: 650px;
-	width: 100%;
+.login-wrapper:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 40px 90px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-.flash {
-	animation: flash 0.9s linear infinite alternate;
+/* ===== BRAND ===== */
+.brand-logo img {
+    height: 120px;
+    margin-bottom: 14px;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
 }
 
-@keyframes flash {
-from { color:black;}
-
-to {color: green;}
-
-}
-h1, h2 {
-	margin: 10px 0;
+/* COMPANY NAME (SECONDARY) */
+.brand-title {
+    font-size: 18px;           /* ⬅ SMALLER */
+    font-weight: 600;
+    color: #2f3640;
+    letter-spacing: 0.3px;
 }
 
+/* SYSTEM NAME (PRIMARY) */
+.brand-subtitle {
+    font-size: 25px;           /* ⬅ BIGGER */
+    font-weight: 700;
+    color: #1e272e;
+    margin-bottom: 26px;
+    line-height: 1.4;
+}
+
+/* ===== FORM ===== */
 .form-group {
-	margin: 15px 0;
-	text-align: left;
+    text-align: left;
+    margin-bottom: 16px;
 }
 
 label {
-	display: inline-block;
-	width: 100px;
-	text-align: right;
-	margin-right: 10px;
-	font-weight: bold;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2f3640;
 }
 
-input[type="text"], input[type="password"] {
-	width: calc(100% - 120px);
-	padding: 10px;
-	margin: 5px 0;
-	border: 1px solid #ccc;
-	border-radius: 4px;
+.form-control {
+    height: 48px;
+    border-radius: 12px;
+    font-size: 14px;
+    padding-left: 14px;
+    border: 1px solid #dcdde1;
+    background-color: #fafafa;
 }
 
-input[type="submit"], input[type="reset"] {
-	padding: 10px 20px;
-	margin: 10px 5px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	background-color: #4CAF50;
-	color: white;
-	transition: background-color 0.3s ease;
+.form-control:focus {
+    border-color: #0984e3;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(9,132,227,0.15);
 }
 
-input[type="reset"] {
-	background-color: #f44336;
+/* ===== BUTTONS ===== */
+.btn-login {
+    height: 50px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #0984e3, #0652dd);
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    border: none;
+    box-shadow: 0 8px 20px rgba(9,132,227,0.45);
 }
 
-input[type="submit"]:hover {
-	background-color: #45a049;
+.btn-login:hover {
+    box-shadow: 0 12px 30px rgba(9,132,227,0.6);
 }
 
-input[type="reset"]:hover {
-	background-color: #e53935;
+/* ===== ALERTS ===== */
+.alert {
+    font-size: 13px;
+    padding: 10px;
+    border-radius: 8px;
 }
 
-.notice {
-	font-size: 0.7em;
-	color: #555;
-	margin-top: 15px;
+/* ===== FOOTER ===== */
+.login-footer {
+    font-size: 11px;
+    color: #636e72;
+    margin-top: 18px;
+    line-height: 1.5;
 }
 
-.error-message {
-	font-size: 0.8em;
-	color: red;
-	margin-top: 5px;
-}
-
-img {
-	margin-bottom: 10px;
-}
-
-.table-container {
-	display: flex;
-	justify-content: center;
-	width: 100%;
-}
-
-table {
-	border-collapse: collapse;
-	width: 100%;
-}
-
-td {
-	padding: 5px;
-}
-
-.form-group-buttons {
-	display: flex;
-	justify-content: right;
-	gap: 5px;
-	margin-top: 5px;
+/* ===== SECURITY BADGE ===== */
+.secure-badge {
+    margin-top: 14px;
+    font-size: 11px;
+    color: #27ae60;
+    font-weight: 600;
+    letter-spacing: 0.4px;
 }
 </style>
-
-
 </head>
-<body style="background-color: #f7f7f7;">
 
-<div class="container-fluid"
-	style="height: 5px; background-color: #303f9f"></div>
-	
-	
-	
+<body>
 
-<div class="container-fluid p-3 bg-light">
+<div class="login-wrapper">
 
-	<div class="row">
-		<div class="col-md-3 text-success">
-			<h3>
-				<i class="fas fa-book"></i> Complaint Management System</h3>
-			
-			
-		</div>
-		
-		
-		
-		
-		
-		<div class="col-md-2 ml-auto">
-		 
-				<a href="index.jsp" class="btn btn-success "><i
-					class="fas fa-sign-in-alt"></i> Login</a> 
-					<a href="register.jsp"
-					class="btn btn-primary text-white ml-2"><i class="fas fa-user-plus"></i>
-					Register</a>
-			</div>
-		
+    <!-- SUCCESS MESSAGE -->
+    <%
+        String succMsg = (String) session.getAttribute("succMsg");
+        if (succMsg != null) {
+    %>
+        <div class="alert alert-success text-center"><%= succMsg %></div>
+    <%
+        session.removeAttribute("succMsg");
+        }
+    %>
 
-	</div>
-</div>
+    <!-- ERROR MESSAGE -->
+    <%
+        String errorMsg = (String) session.getAttribute("errorMsg");
+        if (errorMsg != null) {
+    %>
+        <div class="alert alert-danger text-center"><%= errorMsg %></div>
+    <%
+        session.removeAttribute("errorMsg");
+        }
+    %>
 
-
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-custom">
-	<a class="navbar-brand" href="#"><i class="fas fa-home"></i></a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse"
-		data-target="#navbarSupportedContent"
-		aria-controls="navbarSupportedContent" aria-expanded="false"
-		aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-
-	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active"><a class="nav-link" href="index.jsp">Home
-					<span class="sr-only">(current)</span>
-			</a></li>
-	
-<!-- 
-			<li class="nav-item dropdown"><a
-				class="nav-link active dropdown-toggle" href="#" id="navbarDropdown"
-				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false"> Categories </a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item"
-						href="all_recent_book.jsp">All</a>
-					
-
-					<a class="dropdown-item"
-						href="catogory_book.jsp"></a>
-				
-
-				</div></li> -->
-
-		<!-- 	<li class="nav-item active"><a class="nav-link disabled"
-				href="all_old_book.jsp"><i class="fas fa-book-open"></i> Old
-					Complaint</a></li> -->
-		</ul>
-		
-		<form class="form-inline my-2 my-lg-0">
-			<!-- <a href="setting.jsp" class="btn btn-light my-2 my-sm-0"
-				type="submit"> <i class="fas fa-cog"></i> Setting
-			</a> --> 
-			<a href="helpline.jsp" class="btn btn-light my-2 my-sm-0 ml-1 mr-2"
-				type="submit"> <i class="fas fa-phone-square-alt"></i> Contact
-				Us
-			</a>
-		</form>
-	
-			<!-- <form class="form-inline my-2 my-lg-0" action="search_Complaint.jsp"
-				method="post">
-				<input class="form-control mr-sm-2 " type="search" name="ch"
-					placeholder="Search" aria-label="Search">
-				<button class="btn btn-primary my-2 my-sm-0 " type="submit">Search</button>
-			</form> -->
-		
-		
-	</div>
-</nav>
-
-	
-	<%-- <%@include file="all_component/navbar.jsp"%> --%>
-	
-	<div class="login">
-	
-	<div class="container1">
-	<%
-          String succMsg = (String) session.getAttribute("succMsg");
-          if (succMsg != null) {
-      %>
-          <h4 class="success text-center text-success" style="font-size:30px; font-weight: bold;"><%= succMsg %></h4>
-          <%
-              session.removeAttribute("succMsg"); // Clear the message after displaying
-          }
-      %>
-
-			 <%
-            String failedMsg = (String) session.getAttribute("errorMsg");
-            if (failedMsg != null) {
-        %>
-            <div style="color: red;font-size:25px; font-weight: bold;">
-                <%= failedMsg %>
-            </div>
-        <%
-            session.removeAttribute("errorMsg");
-            }
-        %>
-      
-      	
-        <form action="login" method="post">
-            <img src="/Complaint-Management-System/img/nflimage.png" alt="NFL Logo" height="200" width="230">
-            <h1 class="flash">National Fertilizers Limited, Panipat</h1>
-            <h2>Complaint Tracker</h2>
-            <div class="table-container">
-                <table>
-                    <tbody><tr>
-                        <td align="right">
-                           <label for="exampleInputEmail1">Enter Emp.ID / Mobile No.</label>
-                        </td>
-                        <td align="left">
-                            <input
-									type="text" class="form-control" required="required" name="empn">                
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right">
-                            <label for="password">Password</label>
-                        </td>
-                        <td align="left">
-                            <input
-									type="password" class="form-control" id="exampleInputPassword1"
-									required="required" name="password">              
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                                              
-                    </td></tr><tr align="justify">
-                        <td align="right">
-                            <input type="submit" value="Login">
-                        </td>
-                        <td align="center">
-                            <!-- <input type="submit" value="Login"> -->
-                            <input type="reset" value="Cancel">          
-                        </td>
-                    </tr>
-                </tbody></table>
-            </div>
-            <div class="notice">
-              <!--  For better view & JavaScript functionality, please open the application in Microsoft Internet Explorer (IE-9 or IE-11). -->
-              For better view/JavaScript functionality, please use latest version of Google Chrome/Microsoft Edge.
-            </div>
-        </form>
-
-
-
-</div>
- 
+    <!-- BRAND -->
+    <div class="brand-logo">
+        <img src="/Complaint-Management-System/img/nflimage.png" alt="NFL Logo">
     </div>
-	
-	
-	
-	
-<!-- 	<div class="container-fluid back-img">
 
-		<div class="container p-5" style="margin-top: 50px; margin-bottom: 300px;">
-		<div class="row">
-			<div class="col-md-6 offset-md-3 ">
-				<div class="card paint-card">
-					<div class="card-body">
-					
-						<h3 class="text-center mb-5">Login</h3>
-					
-					
-	
-					
-						<form action="login" method="post">
+    <!-- COMPANY -->
+    <div class="brand-title">
+        National Fertilizers Limited<br>
+          Panipat Unit
+    </div>
 
-							<div class="form-group">
-								<label for="exampleInputEmail1">Enter Emp.ID / Aadhar ID</label> 
-								<input
-									type="number" class="form-control" required="required" name="empn">
-							</div>
-							
-							
+    <!-- SYSTEM NAME (PRIMARY) -->
+    <div class="brand-subtitle">
+      
+        Complaint Management Portal
+    </div>
 
-							<div class="form-group">
-								<label for="exampleInputPassword1">Password</label> <input
-									type="password" class="form-control" id="exampleInputPassword1"
-									required="required" name="password">
-							</div>
-							
-							<div class="text-center p-2">
-								<button type="submit" class="btn btn-primary btn-block btn-sm">Login</button>
-								
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <!-- LOGIN FORM -->
+    <form action="login" method="post">
 
-	</div> -->
+        <div class="form-group">
+            <label>Employee ID / Mobile Number</label>
+            <input type="text"
+                   class="form-control"
+                   name="empn"
+                   placeholder="Enter your Employee ID"
+                   required>
+        </div>
 
-<%-- <%
-Connection conn = DBConnect.getConnection();
-out.println(conn);
-%>
-			--%>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password"
+                   class="form-control"
+                   name="password"
+                   placeholder="Enter your password"
+                   required>
+        </div>
 
+        <button type="submit" class="btn btn-login btn-block mt-3">
+            <i class="fas fa-lock"></i> Secure Login
+        </button>
 
-	<%@include file="all_component/footer.jsp"%>
+        <button type="reset" class="btn btn-secondary btn-block mt-2">
+            Cancel
+        </button>
+    </form>
+
+    <div class="secure-badge">
+        <i class="fas fa-shield-alt"></i> Secure Government System
+    </div>
+
+    <div class="login-footer">
+        For optimal performance, use the latest version of
+        Google Chrome or Microsoft Edge.
+    </div>
+
+</div>
 
 </body>
 </html>
