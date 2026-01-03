@@ -4,170 +4,326 @@
 <%@page import="com.entity.Complaintdtls"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	
-	<%@ page import="com.entity.User" %>
+<%@ page import="com.entity.User" %>
+
 <%
-// Check if the user is logged in
-User user = (User) session.getAttribute("Userobj");
+    // ===== SESSION & ROLE CHECK =====
+    User user = (User) session.getAttribute("Userobj");
 
-if (user == null) {
-    // Redirect to login page if not logged in
-    response.sendRedirect("../index.jsp");
-    return;
-}
+    if (user == null) {
+        response.sendRedirect("../index.jsp");
+        return;
+    }
+    if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
+        response.sendRedirect("../home.jsp");
+        return;
+    }
 
-else if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
-    // Redirect to home page if the user is not Admin
-    response.sendRedirect("../home.jsp");
-    return;
-
-}
-    
-
+    int id = Integer.parseInt(request.getParameter("id"));
+    ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
+    Complaintdtls complaint = dao.getComplaintById(id);
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Admin: Edit Complaint</title>
-<%@include file="allCss.jsp"%>
+<title>Admin | Edit Complaint</title>
+
+<%@ include file="allCss.jsp" %>
+
+<style>
+/* ===== BASE ===== */
+body {
+    font-family: "Segoe UI", Roboto, Arial;
+    background-color: #f4f6f9;
+}
+
+/* ===== SIDEBAR ===== */
+.admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 240px;
+    background: #111827;
+    color: #ffffff;
+    padding-top: 20px;
+}
+
+.admin-sidebar h4 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.admin-sidebar a {
+    display: block;
+    padding: 12px 25px;
+    color: #d1d5db;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.admin-sidebar a:hover,
+.admin-sidebar a.active {
+    background: #1f2937;
+    color: #ffffff;
+}
+
+/* ===== MAIN ===== */
+.admin-main {
+    margin-left: 240px;
+    padding: 25px;
+}
+
+/* ===== HEADER ===== */
+.admin-header {
+    background: #ffffff;
+    padding: 20px 26px;
+    border-radius: 14px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.admin-breadcrumb {
+    font-size: 13px;
+    color: #6c757d;
+    margin-top: 2px;
+}
+
+/* ===== FORM CARD ===== */
+.form-wrapper {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    padding: 30px;
+}
+
+.section-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 6px;
+}
+
+.form-control,
+.form-control-file {
+    border-radius: 8px;
+}
+
+/* ===== IMAGE PREVIEW ===== */
+.image-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+/* ===== DARK MODE ===== */
+html.dark-mode body {
+    background-color: #1e272e;
+    color: #f5f6fa;
+}
+
+html.dark-mode .admin-header,
+html.dark-mode .form-wrapper {
+    background-color: #2f3640;
+    color: #f5f6fa;
+}
+
+html.dark-mode label {
+    color: #f5f6fa;
+}
+
+html.dark-mode input,
+html.dark-mode textarea,
+html.dark-mode select {
+    background-color: #353b48;
+    color: #f5f6fa;
+    border: 1px solid #636e72;
+}
+
+html.dark-mode .admin-sidebar {
+    background-color: #020617;
+}
+</style>
 </head>
-<body style="background-color: #f0f2f2;">
-	<%@include file="navbar.jsp"%>
-	
 
-	<div class="caontainer" style="margin-top: 30px">
-		<div class="row">
-			<div class="col-md-4 offset-md-4">
-				<div class="card">
-					<div class="card-body">
-						<h4 class="text-center">Edit Complaint</h4>
+<body>
 
-						
-						<div>
-        <!-- Display success message -->
+<!-- ===== SIDEBAR ===== -->
+<div class="admin-sidebar">
+    <h4>Admin Panel</h4>
+
+    <a href="home.jsp">
+        <i class="fas fa-home"></i> Dashboard
+    </a>
+
+    <a href="addComplaint.jsp">
+        <i class="fas fa-plus-circle"></i> Add Complaint
+    </a>
+
+    <a href="viewComplaints.jsp" class="active">
+        <i class="fas fa-list"></i> View Complaints
+    </a>
+
+    <a href="changePassword.jsp">
+        <i class="fas fa-key"></i> Change Password
+    </a>
+
+    <a href="../logout">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="admin-main">
+
+    <!-- HEADER -->
+    <div class="admin-header">
+        <div>
+            <div class="admin-title">Edit Complaint</div>
+            <div class="admin-breadcrumb">
+                Admin Panel / Complaints / Edit Complaint
+            </div>
+        </div>
+
+        <button class="btn btn-sm btn-dark" onclick="toggleDarkMode()">
+            <i class="fas fa-moon"></i> Dark Mode
+        </button>
+    </div>
+
+    <!-- FORM -->
+    <div class="form-wrapper">
+
+        <!-- SUCCESS MESSAGE -->
         <%
             String succMsg = (String) session.getAttribute("succMsg");
             if (succMsg != null) {
         %>
-            <div style="color: 
-green;font-size:25px; font-weight: bold;">
-                <%= succMsg %>
-            </div>
+            <div class="alert alert-success text-center"><%= succMsg %></div>
         <%
             session.removeAttribute("succMsg");
             }
         %>
 
-        <!-- Display failed message -->
+        <!-- FAILED MESSAGE -->
         <%
             String failedMsg = (String) session.getAttribute("failedMsg");
             if (failedMsg != null) {
         %>
-            <div style="color: 
-red;font-size:25px; font-weight: bold;">
-                <%= failedMsg %>
-            </div>
+            <div class="alert alert-danger text-center"><%= failedMsg %></div>
         <%
             session.removeAttribute("failedMsg");
             }
         %>
+
+        <form action="../complaintEdit" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<%= complaint.getid() %>">
+
+            <div class="row">
+
+                <!-- LEFT -->
+                <div class="col-md-6">
+                    <div class="section-title">Complaint Details</div>
+
+                    <div class="form-group">
+                        <label>Complaint Category</label>
+                        <select name="category" class="form-control">
+                            <option value="<%= complaint.getCategory() %>" selected>
+                                <%= complaint.getCategory() %>
+                            </option>
+                            <option value="Civil">Civil</option>
+                            <option value="Electrical">Electrical</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Complaint Title</label>
+                        <input name="title" class="form-control"
+                               value="<%= complaint.getTitle() %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Complaint Description</label>
+                        <textarea name="description" rows="3"
+                                  class="form-control"><%= complaint.getDescription() %></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Quarter No</label>
+                        <input name="qtrno" class="form-control"
+                               value="<%= complaint.getQtrno() %>">
+                    </div>
+                </div>
+
+                <!-- RIGHT -->
+                <div class="col-md-6">
+                    <div class="section-title">User & Status</div>
+
+                    <div class="form-group">
+                        <label>Employee No</label>
+                        <input name="empn" class="form-control"
+                               value="<%= complaint.getEmpn() %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label>User Name</label>
+                        <input name="username" class="form-control"
+                               value="<%= complaint.getUsername() %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contact Number</label>
+                        <input name="phone" type="number"
+                               class="form-control"
+                               value="<%= complaint.getPhone() %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Complaint Date</label>
+                        <input class="form-control" readonly
+                               value="<%= complaint.getCreatedate() %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Current Image</label><br>
+                        <img src="../images/<%= complaint.getImage() %>"
+                             class="image-preview">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload New Image</label>
+                        <input name="imagefile" type="file"
+                               class="form-control-file">
+                    </div>
+                </div>
+
+            </div>
+
+            <hr>
+
+            <button type="submit"
+                    class="btn btn-primary btn-block">
+                <i class="fas fa-save"></i> Update Complaint
+            </button>
+
+        </form>
     </div>
 
-						<%
-						int id = Integer.parseInt(request.getParameter("id"));
-						ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
-						Complaintdtls complaint = dao.getComplaintById(id);
-						
-						%>
-					
-						<form action="../complaintEdit" method="post"
-						enctype="multipart/form-data">
-							<input type="hidden" name="id" value="<%=complaint.getid()%>">
+</div>
 
-							
-							<div class="form-group">
-							    <label for="inputState">Complaint Categories</label>
-							    <select id="inputState" name="category" class="form-control">
-							        <option selected value="<%= complaint.getCategory() != null ? complaint.getCategory() : "" %>">
-							            <%= complaint.getCategory() != null ? complaint.getCategory() : "Select Category" %>
-							        </option>
-							        <%
-							            if ("Civil".equalsIgnoreCase(complaint.getCategory())) {
-							        %>
-							            <option value="Electrical">Electrical</option>
-							        <%
-							            } else if ("Electrical".equalsIgnoreCase(complaint.getCategory())) {
-							        %>
-							            <option value="Civil">Civil</option>
-							        <%
-							            } else {
-							        %>
-							            <option value="Civil">Civil</option>
-							            <option value="Electrical">Electrical</option>
-							        <%
-							            }
-							        %>
-							    </select>
-							</div>
-						
-
-							<div class="form-group">
-							    <label for="exampleInputEmail1">Complaint Title</label> 
-							    <input name="title" type="text" class="form-control" value="<%= complaint.getTitle() %>">
-							</div>
-							
-							<div class="form-group">
-								<label for="text">Complaint Description</label>  
-								<textarea name="description" class="form-control" id="description" rows="3"><%=complaint.getDescription()%></textarea>
-							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Qtr No</label> <input
-									name="qtrno" type="text" class="form-control" value="<%= complaint.getQtrno() %>">
-							</div>
-							
-							<div class="form-group">
-								<label for="exampleInputEmail1">Employee no / Aadhar id</label> <input
-									name="empn" type="text" class="form-control" value="<%= complaint.getEmpn() %>">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">User name</label> <input
-									name="username" type="text" class="form-control" 	value="<%= complaint.getUsername() %>">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Contact number</label> <input
-									name="phone" type="number" class="form-control" value="<%= complaint.getPhone() %>">
-							</div>
-							
-
-							<div class="form-group">
-								<label for="inputState">Complaint Date</label> <input
-									name="createdate" type="text" class="form-control"
-									value="<%=complaint.getCreatedate()%>" readonly>
-							</div>
-
-							<div class="form-group">
-							<div class="form-group">
-							<img src="../images/<%= complaint.getImage() %>"
-						style="width: 100px; height: 100px;">
-							</div>
-								<label for="exampleFormControlFile1">Upload Photo</label> <input
-									name="imagefile" type="file" class="form-control-file"
-									id="exampleFormControlFile1">
-							</div>
-
-
-							<button type="submit" class="btn btn-primary">Update</button>
-						</form>
-
-					</div>
-				</div>
-			</div>
-		</div>
-
-	</div>
-
-	<div style="margin-top: 100px;">
-		<%@include file="footer.jsp"%></div>
 </body>
 </html>

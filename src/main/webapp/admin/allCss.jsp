@@ -1,3 +1,14 @@
+<script>
+/* Apply dark mode BEFORE page renders */
+(function () {
+    if (localStorage.getItem("darkMode") === "true") {
+        document.documentElement.classList.add("dark-mode");
+    }
+})();
+</script>
+
+
+
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -21,3 +32,14 @@
 	crossorigin="anonymous" />
 
 <link rel="stylesheet" href="style.css">
+
+<script>
+function toggleDarkMode() {
+    document.documentElement.classList.toggle("dark-mode");
+
+    localStorage.setItem(
+        "darkMode",
+        document.documentElement.classList.contains("dark-mode")
+    );
+}
+</script>

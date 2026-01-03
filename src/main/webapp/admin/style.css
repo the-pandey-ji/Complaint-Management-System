@@ -7,3 +7,32 @@
 	color: #303f9f;
 	border-radius: 15px;
 }
+
+html.dark-mode,
+html.dark-mode body {
+    background-color: #1e272e !important;
+    color: #f5f6fa !important;
+}
+
+/* Cards / containers */
+html.dark-mode .card,
+html.dark-mode .table-card,
+html.dark-mode .info-card,
+html.dark-mode .page-header {
+    background-color: #2f3640 !important;
+    color: #f5f6fa !important;
+}
+
+/* Tables */
+html.dark-mode table {
+    color: #f5f6fa !important;
+}
+
+html.dark-mode .table thead {
+    background-color: #353b48 !important;
+}
+
+/* Sidebar */
+html.dark-mode .sidebar {
+    background-color: #111827 !important;
+}
