@@ -40,36 +40,32 @@ body {
 }
 
 /* ===== SIDEBAR ===== */
-.admin-sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
+.sidebar {
     height: 100vh;
+    background: #1e272e;
+    color: white;
+    position: fixed;
     width: 240px;
-    background: #111827;
-    color: #ffffff;
-    padding-top: 20px;
+    padding-top: 30px;
 }
 
-.admin-sidebar h4 {
+.sidebar h4 {
     text-align: center;
-    margin-bottom: 25px;
-    font-weight: 600;
+    margin-bottom: 30px;
 }
 
-.admin-sidebar a {
+.sidebar a {
+    color: #dcdde1;
     display: block;
     padding: 12px 25px;
-    color: #d1d5db;
     text-decoration: none;
-    font-size: 15px;
 }
 
-.admin-sidebar a:hover,
-.admin-sidebar a.active {
-    background: #1f2937;
-    color: #ffffff;
+.sidebar a:hover {
+    background: #485460;
+    color: white;
 }
+
 
 /* ===== MAIN ===== */
 .admin-main {
@@ -164,30 +160,38 @@ html.dark-mode .admin-sidebar {
 <body>
 
 <!-- ===== SIDEBAR ===== -->
-<div class="admin-sidebar">
-    <h4>Admin Panel</h4>
+<div class="sidebar">
+
+    <h4 class="text-center mb-4">Admin Panel</h4>
 
     <a href="home.jsp">
-        <i class="fas fa-home"></i> Dashboard
+        <i class="fas fa-home mr-2"></i> Dashboard
     </a>
 
-    <a href="addComplaint.jsp">
-        <i class="fas fa-plus-circle"></i> Add Complaint
+    <a href="manageUsers.jsp">
+        <i class="fas fa-users mr-2"></i> User Management
     </a>
-	 <a href="pendingComplaints.jsp" >
-        <i class="fas fa-hourglass-half"></i> Pending Complaints
+
+    <a href="addComplaint.jsp" >
+        <i class="fas fa-plus-circle mr-2"></i> Add Complaint
     </a>
-    <a href="viewComplaints.jsp" class="active">
-        <i class="fas fa-list"></i> View All Complaints
+
+    <a href="pendingComplaints.jsp">
+        <i class="fas fa-hourglass-half mr-2"></i> Pending Complaints
+    </a>
+
+    <a href="viewComplaints.jsp">
+        <i class="fas fa-list mr-2"></i> View All Complaints
     </a>
 
     <a href="changePassword.jsp">
-        <i class="fas fa-key"></i> Change Password
+        <i class="fas fa-key mr-2"></i> Change Password
     </a>
 
     <a href="../logout">
-        <i class="fas fa-sign-out-alt"></i> Logout
+        <i class="fas fa-sign-out-alt mr-2"></i> Logout
     </a>
+
 </div>
 
 <!-- ===== MAIN CONTENT ===== -->
