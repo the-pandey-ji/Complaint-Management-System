@@ -251,15 +251,14 @@ html.dark-mode .admin-sidebar {
                             <option value="<%= complaint.getCategory() %>" selected>
                                 <%= complaint.getCategory() %>
                             </option>
-                            <option value="Civil">Civil</option>
-                            <option value="Electrical">Electrical</option>
+                            
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label>Complaint Title</label>
                         <input name="title" class="form-control"
-                               value="<%= complaint.getTitle() %>">
+                               value="<%= complaint.getTitle() %>" disabled>
                     </div>
 
                     <div class="form-group">

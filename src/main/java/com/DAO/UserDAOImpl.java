@@ -1,6 +1,7 @@
 package com.DAO;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 import com.entity.User;
 
@@ -15,31 +16,35 @@ public class UserDAOImpl implements UserDAO{
 
 	
 	public boolean userRegister(User us) {
-		
-		try {
-			String query = "insert into usermaster(empn,username,qtrno,email,phone,password,usercreationdate,status,role) values(?,?,?,?,?,?,SYSDATE,'A','NU')";
-			java.sql.PreparedStatement pstmt = conn.prepareStatement(query);
-			pstmt.setLong(1, us.getEmpn());
-			pstmt.setString(2, us.getUsername());
-			pstmt.setString(3, us.getQtrno());
-			pstmt.setString(4, us.getEmail());
-			pstmt.setString(5, us.getPhone());
-			pstmt.setString(6, us.getPassword());
 
-			int i = pstmt.executeUpdate();
+	    boolean result = false;
 
-			if (i == 1) {
-				return true;
-			}
+	    try {
+	        String sql =
+	            "INSERT INTO USERMASTER " +
+	            "(EMPN, USERNAME, QTRNO, EMAIL, PHONE, PASSWORD, USERCREATIONDATE, STATUS, ROLE) " +
+	            "VALUES (?, ?, ?, ?, ?, ?, SYSDATE, ?, ?)";
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		
-		return false;
+	        PreparedStatement ps = conn.prepareStatement(sql);
+
+	        ps.setLong(1, us.getEmpn());
+	        ps.setString(2, us.getUsername());
+	        ps.setString(3, us.getQtrno());
+	        ps.setString(4, us.getEmail());
+	        ps.setString(5, us.getPhone());
+	        ps.setString(6, us.getPassword());
+	        ps.setString(7, us.getStatus()); // A / I
+	        ps.setString(8, us.getRole());   // NU / AC / AE
+
+	        result = ps.executeUpdate() == 1;
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return result;
 	}
+
 
 
 	@Override
