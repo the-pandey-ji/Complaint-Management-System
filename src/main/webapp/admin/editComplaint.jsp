@@ -174,9 +174,11 @@ html.dark-mode .admin-sidebar {
     <a href="addComplaint.jsp">
         <i class="fas fa-plus-circle"></i> Add Complaint
     </a>
-
+	 <a href="pendingComplaints.jsp" >
+        <i class="fas fa-hourglass-half"></i> Pending Complaints
+    </a>
     <a href="viewComplaints.jsp" class="active">
-        <i class="fas fa-list"></i> View Complaints
+        <i class="fas fa-list"></i> View All Complaints
     </a>
 
     <a href="changePassword.jsp">

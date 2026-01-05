@@ -37,5 +37,36 @@ public interface ComplaintDAO {
 	
 	public List<Complaintdtls> getActiveComplaintsOfUser(long empn);
 	
+	
+	public int getTotalComplaintCountByCategory(String category);
+	
+	
+	public int getOpenComplaintCountByCategory(String category);
+	public int getClosedComplaintCountByCategory(String category);
+	
+	public List<Complaintdtls> getComplaintsPaginated(
+	        String category,
+	        int startRow,
+	        int endRow);
+	
+	public int getComplaintCountByCategory(String category) ;
+	
+	public List<Complaintdtls> getComplaintsPaginatedSearch(
+	        String category,
+	        String search,
+	        int startRow,
+	        int endRow);
+	public int getComplaintCountByCategorySearch(String category, String search);
+	
+	public List<Complaintdtls> getPendingComplaintsPaginatedSearch(
+	        String category,
+	        String search,
+	        int startRow,
+	        int endRow);
+	
+	public int getPendingComplaintCountByCategorySearch(
+	        String category,
+	        String search);
+	
 
 }

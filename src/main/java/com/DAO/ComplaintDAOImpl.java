@@ -164,22 +164,24 @@ public boolean editComplaint(Complaintdtls cme) {
 public boolean closeComplaint(int id, String actionTaken) {
     boolean result = false;
     try {
-        String query = "UPDATE COMPLAINTDTLS SET status = ?, actiontaken = ? WHERE id = ?";
-        PreparedStatement pstmt = conn.prepareStatement(query);
-        pstmt.setString(1, "Closed");
-        pstmt.setString(2, actionTaken);
-        pstmt.setInt(3, id);
+        String sql =
+            "UPDATE CTRACK.COMPLAINTDTLS " +
+            "SET STATUS = 'Closed', " +
+            "ACTIONTAKEN = ?, " +
+            "CLOSED_DATE = SYSTIMESTAMP " +
+            "WHERE ID = ?";
 
-        int rows = pstmt.executeUpdate();
-        if (rows > 0) {
-            result = true;
-        }
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, actionTaken);
+        ps.setInt(2, id);
+
+        result = ps.executeUpdate() == 1;
     } catch (Exception e) {
         e.printStackTrace();
     }
     return result;
-
 }
+
 
 
 @Override
@@ -446,6 +448,344 @@ public List<Complaintdtls> getActiveComplaintsOfUser(long empn) {
     return getActiveComplaintsOfUser;
 }
 	
+
+@Override
+public int getTotalComplaintCountByCategory(String category) {
+    int count = 0;
+    try {
+        String sql =
+            "SELECT COUNT(*) FROM CTRACK.COMPLAINTDTLS WHERE CATEGORY = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, category);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) count = rs.getInt(1);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return count;
+}
+
+@Override
+public int getOpenComplaintCountByCategory(String category) {
+    int count = 0;
+    try {
+        String sql =
+            "SELECT COUNT(*) FROM CTRACK.COMPLAINTDTLS " +
+            "WHERE CATEGORY = ? " +
+            "AND STATUS IN ('Submitted','Assigned', 'Active','In Progress','On Hold')";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, category);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) count = rs.getInt(1);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return count;
+}
+
+@Override
+public int getClosedComplaintCountByCategory(String category) {
+    int count = 0;
+    try {
+        String sql =
+            "SELECT COUNT(*) FROM CTRACK.COMPLAINTDTLS " +
+            "WHERE CATEGORY = ? AND STATUS = 'Closed'";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, category);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) count = rs.getInt(1);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return count;
+}
+@Override
+public List<Complaintdtls> getComplaintsPaginated(
+        String category,
+        int startRow,
+        int endRow) {
+
+    List<Complaintdtls> list = new ArrayList<>();
+
+    try {
+        String sql =
+            "SELECT * FROM ( " +
+            "  SELECT a.*, ROWNUM rnum FROM ( " +
+            "    SELECT * FROM CTRACK.COMPLAINTDTLS " +
+            "    WHERE CATEGORY = ? " +
+            "    ORDER BY COMPDATETIME DESC " +
+            "  ) a WHERE ROWNUM <= ? " +
+            ") WHERE rnum >= ?";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, category);
+        ps.setInt(2, endRow);
+        ps.setInt(3, startRow);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Complaintdtls c = new Complaintdtls();
+            c.setid(rs.getInt("ID"));
+            c.setCategory(rs.getString("CATEGORY"));
+            c.setTitle(rs.getString("TITLE"));
+            c.setDescription(rs.getString("DESCRIPTION"));
+            c.setCreatedate(rs.getString("COMPDATETIME"));
+            c.setClosedDate(rs.getTimestamp("CLOSED_DATE"));
+            c.setStatus(rs.getString("STATUS"));
+            c.setImage(rs.getString("IMAGEFILE"));
+            c.setUsername(rs.getString("USERNAME"));
+            c.setPhone(rs.getString("PHONE"));
+            c.setQtrno(rs.getString("QTRNO"));
+            c.setEmpn(rs.getLong("EMPN"));
+            c.setAction(rs.getString("ACTIONTAKEN"));
+            list.add(c);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return list;
+}
+
+@Override
+public int getComplaintCountByCategory(String category) {
+    int count = 0;
+    try {
+        String sql =
+            "SELECT COUNT(*) FROM CTRACK.COMPLAINTDTLS WHERE CATEGORY = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, category);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) count = rs.getInt(1);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return count;
+}
+
+@Override
+public List<Complaintdtls> getComplaintsPaginatedSearch(
+        String category,
+        String search,
+        int startRow,
+        int endRow) {
+
+    List<Complaintdtls> list = new ArrayList<>();
+
+    try {
+        String sql =
+            "SELECT * FROM ( " +
+            "  SELECT a.*, ROWNUM rnum FROM ( " +
+            "    SELECT * FROM CTRACK.COMPLAINTDTLS " +
+            "    WHERE CATEGORY = ? " +
+            "    AND ( " +
+            "      LOWER(USERNAME) LIKE ? OR " +
+            "      QTRNO LIKE ? OR " +
+            "      PHONE LIKE ? OR " +
+            "      TO_CHAR(COMPDATETIME,'YYYY-MM-DD') LIKE ? OR " +
+            "      TO_CHAR(EMPN) LIKE ? " +
+            "    ) " +
+            "    ORDER BY COMPDATETIME DESC " +
+            "  ) a WHERE ROWNUM <= ? " +
+            ") WHERE rnum >= ?";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        String like = "%" + search.toLowerCase() + "%";
+
+        ps.setString(1, category);
+        ps.setString(2, like); // username
+        ps.setString(3, like); // qtr
+        ps.setString(4, like); // phone
+        ps.setString(5, like); // date
+        ps.setString(6, like); // empn
+        ps.setInt(7, endRow);
+        ps.setInt(8, startRow);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Complaintdtls c = new Complaintdtls();
+            c.setid(rs.getInt("ID"));
+            c.setCategory(rs.getString("CATEGORY"));
+            c.setTitle(rs.getString("TITLE"));
+            c.setDescription(rs.getString("DESCRIPTION"));
+            c.setCreatedate(rs.getString("COMPDATETIME"));
+            c.setClosedDate(rs.getTimestamp("CLOSED_DATE"));
+            c.setStatus(rs.getString("STATUS"));
+            c.setImage(rs.getString("IMAGEFILE"));
+            c.setUsername(rs.getString("USERNAME"));
+            c.setPhone(rs.getString("PHONE"));
+            c.setQtrno(rs.getString("QTRNO"));
+            c.setEmpn(rs.getLong("EMPN"));
+            c.setAction(rs.getString("ACTIONTAKEN"));
+            list.add(c);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return list;
+}
+
+@Override
+
+public int getComplaintCountByCategorySearch(String category, String search) {
+
+    int count = 0;
+
+    try {
+        String sql =
+            "SELECT COUNT(*) FROM CTRACK.COMPLAINTDTLS " +
+            "WHERE CATEGORY = ? " +
+            "AND ( " +
+            "  LOWER(USERNAME) LIKE ? OR " +
+            "  QTRNO LIKE ? OR " +
+            "  PHONE LIKE ? OR " +
+            "  TO_CHAR(COMPDATETIME,'YYYY-MM-DD') LIKE ? OR " +
+            "  TO_CHAR(EMPN) LIKE ? " +
+            ")";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        String like = "%" + search.toLowerCase() + "%";
+
+        ps.setString(1, category);
+        ps.setString(2, like);
+        ps.setString(3, like);
+        ps.setString(4, like);
+        ps.setString(5, like);
+        ps.setString(6, like);
+
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            count = rs.getInt(1);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return count;
+}
+
+@Override
+public List<Complaintdtls> getPendingComplaintsPaginatedSearch(
+        String category,
+        String search,
+        int startRow,
+        int endRow) {
+
+    List<Complaintdtls> list = new ArrayList<>();
+
+    try {
+        String sql =
+            "SELECT * FROM ( " +
+            "  SELECT a.*, ROWNUM rnum FROM ( " +
+            "    SELECT * FROM CTRACK.COMPLAINTDTLS " +
+            "    WHERE CATEGORY = ? " +
+            "      AND STATUS <> 'Closed' " +
+            "      AND ( " +
+            "           LOWER(USERNAME) LIKE ? " +
+            "        OR TO_CHAR(EMPN) LIKE ? " +
+            "        OR LOWER(QTRNO) LIKE ? " +
+            "        OR PHONE LIKE ? " +
+            "        OR TO_CHAR(COMPDATETIME,'YYYY-MM-DD') LIKE ? " +
+            "      ) " +
+            "    ORDER BY COMPDATETIME DESC " +
+            "  ) a WHERE ROWNUM <= ? " +
+            ") WHERE rnum >= ?";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, category);
+
+        String like = "%" + search.toLowerCase() + "%";
+        ps.setString(2, like); // username
+        ps.setString(3, "%" + search + "%"); // empn
+        ps.setString(4, like); // qtr
+        ps.setString(5, "%" + search + "%"); // phone
+        ps.setString(6, "%" + search + "%"); // date
+
+        ps.setInt(7, endRow);
+        ps.setInt(8, startRow);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Complaintdtls c = new Complaintdtls();
+            c.setid(rs.getInt("ID"));
+            c.setImage(rs.getString("IMAGEFILE"));
+            c.setCategory(rs.getString("CATEGORY"));
+            c.setTitle(rs.getString("TITLE"));
+            c.setDescription(rs.getString("DESCRIPTION"));
+            c.setQtrno(rs.getString("QTRNO"));
+            c.setEmpn(rs.getLong("EMPN"));
+            c.setUsername(rs.getString("USERNAME"));
+            c.setPhone(rs.getString("PHONE"));
+            c.setCreatedate(rs.getString("COMPDATETIME"));
+            c.setClosedDate(rs.getTimestamp("CLOSED_DATE"));
+            c.setStatus(rs.getString("STATUS"));
+            c.setAction(rs.getString("ACTIONTAKEN"));
+
+            list.add(c);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return list;
+}
+
+
+@Override
+
+public int getPendingComplaintCountByCategorySearch(
+        String category,
+        String search) {
+
+    int count = 0;
+
+    try {
+        String sql =
+            "SELECT COUNT(*) FROM CTRACK.COMPLAINTDTLS " +
+            "WHERE CATEGORY = ? " +
+            "  AND STATUS <> 'Closed' " +
+            "  AND ( " +
+            "       LOWER(USERNAME) LIKE ? " +
+            "    OR TO_CHAR(EMPN) LIKE ? " +
+            "    OR LOWER(QTRNO) LIKE ? " +
+            "    OR PHONE LIKE ? " +
+            "    OR TO_CHAR(COMPDATETIME,'YYYY-MM-DD') LIKE ? " +
+            "  )";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, category);
+
+        String like = "%" + search.toLowerCase() + "%";
+        ps.setString(2, like);
+        ps.setString(3, "%" + search + "%");
+        ps.setString(4, like);
+        ps.setString(5, "%" + search + "%");
+        ps.setString(6, "%" + search + "%");
+
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            count = rs.getInt(1);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return count;
+}
+
+
 
 
 

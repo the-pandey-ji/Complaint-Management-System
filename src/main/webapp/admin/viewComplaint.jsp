@@ -36,8 +36,6 @@
 <%@ include file="allCss.jsp" %>
 
 <style>
-/* ===== LIGHT MODE (BASE) ===== */
-
 body {
     background-color: #f4f6f9;
     font-family: "Segoe UI", Roboto, Arial;
@@ -83,7 +81,7 @@ body {
     align-items: center;
 }
 
-/* Image section */
+/* Image */
 .image-card {
     background: #000;
     border-radius: 14px;
@@ -96,10 +94,9 @@ body {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    cursor: zoom-in;
 }
 
-/* Info panel */
+/* Info */
 .info-card {
     background: white;
     padding: 20px;
@@ -112,18 +109,19 @@ body {
     color: #6c757d;
     font-weight: 600;
     text-transform: uppercase;
+    margin-top: 12px;
 }
 
 .value {
     font-size: 15px;
     font-weight: 600;
-    margin-bottom: 12px;
+    word-wrap: break-word;
 }
 
-/* Status badge */
+/* Status */
 .status-open {
     background: #f1c40f;
-    padding: 5px 12px;
+    padding: 6px 14px;
     border-radius: 20px;
     font-weight: 600;
     color: #000;
@@ -131,14 +129,13 @@ body {
 
 .status-closed {
     background: #2ecc71;
-    padding: 5px 12px;
+    padding: 6px 14px;
     border-radius: 20px;
     color: white;
     font-weight: 600;
 }
 
-/* ===== DARK MODE (GLOBAL) ===== */
-
+/* Dark Mode */
 html.dark-mode body {
     background-color: #1e272e;
     color: #f5f6fa;
@@ -160,18 +157,20 @@ html.dark-mode .label {
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-    <h5 class="text-center mb-4">Admin Panel</h5>
+    <h4 class="text-center mb-4">Admin Panel</h4>
     <a href="home.jsp"><i class="fas fa-home"></i> Dashboard</a>
-    <a href="viewComplaints.jsp"><i class="fas fa-list"></i> Back to Complaints</a>
+    <a href="pendingComplaints.jsp"><i class="fas fa-hourglass-half"></i> Pending Complaints</a>
+    <a href="viewComplaints.jsp"><i class="fas fa-list"></i> All Complaints</a>
+    <a href="changePassword.jsp"><i class="fas fa-key"></i> Change Password</a>
     <a href="../logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </div>
 
 <!-- MAIN -->
 <div class="main">
 
-    <!-- Header -->
+    <!-- HEADER -->
     <div class="page-header">
-        <strong>Complaint #<%= c.getid() %></strong>
+        <strong>Complaint ID : #<%= c.getid() %></strong>
         <button class="btn btn-sm btn-dark" onclick="toggleDarkMode()">
             <i class="fas fa-moon"></i> Dark Mode
         </button>
@@ -202,8 +201,22 @@ html.dark-mode .label {
                 <div class="label">Quarter No</div>
                 <div class="value"><%= c.getQtrno() %></div>
 
+                <div class="label">Employee No</div>
+                <div class="value"><%= c.getEmpn() %></div>
+
                 <div class="label">User</div>
-                <div class="value"><%= c.getUsername() %> (<%= c.getPhone() %>)</div>
+                <div class="value"><%= c.getUsername() %></div>
+
+                <div class="label">Phone</div>
+                <div class="value"><%= c.getPhone() %></div>
+
+                <div class="label">Created Date</div>
+                <div class="value"><%= c.getCreatedate() %></div>
+
+                <div class="label">Closed Date</div>
+                <div class="value">
+                    <%= c.getClosedDate() != null ? c.getClosedDate() : "—" %>
+                </div>
 
                 <div class="label">Status</div>
                 <div class="value">
@@ -213,7 +226,11 @@ html.dark-mode .label {
                 </div>
 
                 <div class="label">Action Taken</div>
-                <div class="value"><%= c.getAction() %></div>
+                <div class="value">
+                    <%= c.getAction() != null && !c.getAction().isEmpty()
+                        ? c.getAction()
+                        : "—" %>
+                </div>
 
             </div>
         </div>

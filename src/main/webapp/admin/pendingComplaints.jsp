@@ -23,35 +23,32 @@
     int pageNo = 1;
     int recordsPerPage = 20;
 
-    if (request.getParameter("page") != null) {
+    if (request.getParameter("page") != null)
         pageNo = Integer.parseInt(request.getParameter("page"));
-    }
-    if (request.getParameter("size") != null) {
+
+    if (request.getParameter("size") != null)
         recordsPerPage = Integer.parseInt(request.getParameter("size"));
-    }
 
     int startRow = (pageNo - 1) * recordsPerPage + 1;
     int endRow   = pageNo * recordsPerPage;
 
     // ===== SEARCH PARAM =====
     String search = request.getParameter("search");
-    if (search == null) {
-        search = "";
-    }
+    if (search == null) search = "";
 
     // ===== ROLE → CATEGORY =====
-    String category =
-        user.getRole().equals("AC") ? "Civil" : "Electrical";
+    String category = user.getRole().equals("AC") ? "Civil" : "Electrical";
 
     ComplaintDAOImpl dao =
         new ComplaintDAOImpl(DBConnect.getConnection());
 
+    // ===== PENDING ONLY =====
     List<Complaintdtls> list =
-        dao.getComplaintsPaginatedSearch(
+        dao.getPendingComplaintsPaginatedSearch(
             category, search, startRow, endRow);
 
     int totalRecords =
-        dao.getComplaintCountByCategorySearch(category, search);
+        dao.getPendingComplaintCountByCategorySearch(category, search);
 
     int totalPages =
         (int) Math.ceil((double) totalRecords / recordsPerPage);
@@ -61,7 +58,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin | View Complaints</title>
+<title>Admin | Pending Complaints</title>
 
 <%@ include file="allCss.jsp" %>
 
@@ -134,14 +131,6 @@ body {
     font-size: 12px;
     font-weight: 600;
 }
-.status-closed {
-    background: #2ecc71;
-    color: #fff;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 600;
-}
 
 /* Table */
 .table th, .table td {
@@ -169,12 +158,10 @@ body {
     <h4 class="text-center mb-4">Admin Panel</h4>
     <a href="home.jsp"><i class="fas fa-home"></i> Dashboard</a>
     <a href="addComplaint.jsp"><i class="fas fa-plus-circle"></i> Add Complaint</a>
-    <a href="pendingComplaints.jsp" >
+    <a href="pendingComplaints.jsp" class="active">
         <i class="fas fa-hourglass-half"></i> Pending Complaints
     </a>
-    <a href="viewComplaints.jsp" class="active">
-        <i class="fas fa-list"></i> View All Complaints
-    </a>
+    <a href="viewComplaints.jsp"><i class="fas fa-list"></i> All Complaints</a>
     <a href="changePassword.jsp"><i class="fas fa-key"></i> Change Password</a>
     <a href="../logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </div>
@@ -184,84 +171,65 @@ body {
 
     <!-- HEADER -->
     <div class="page-header mb-3">
-        <h4><%= category %> Complaints</h4>
+        <h4>Pending <%= category %> Complaints</h4>
         <p class="text-muted mb-0">
             Logged in as <strong><%= user.getUsername() %></strong>
         </p>
     </div>
 
-   <!-- SEARCH + PAGE SIZE BAR -->
-<form method="get" class="mb-3">
+    <!-- SEARCH + PAGE SIZE -->
+    <form method="get" class="mb-3">
+        <div class="row align-items-center">
 
-    <div class="row align-items-center">
+            <div class="col-md-3"></div>
 
-        <!-- LEFT EMPTY (for balance) -->
-        <div class="col-md-3"></div>
+            <div class="col-md-6 text-center">
+                <div class="input-group justify-content-center">
+                    <input type="text" name="search"
+                           value="<%= search %>"
+                           class="form-control"
+                           style="max-width:360px"
+                           placeholder="Search name / emp / qtr / phone / date">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-        <!-- CENTER SEARCH -->
-        <div class="col-md-6 text-center">
-            <div class="input-group justify-content-center">
-                <input type="text"
-                       name="search"
-                       value="<%= search %>"
-                       class="form-control"
-                       style="max-width: 360px;"
-                       placeholder="Search name / emp / qtr / phone / date">
-
-                <div class="input-group-append">
-                    <button class="btn btn-primary">
-                        <i class="fas fa-search"></i>
-                    </button>
+            <div class="col-md-3 text-right">
+                <div class="form-inline justify-content-end">
+                    <label class="mr-2 font-weight-bold">Show</label>
+                    <select name="size" class="form-control mr-2"
+                            onchange="this.form.submit()">
+                        <option value="20" <%=recordsPerPage==20?"selected":""%>>20</option>
+                        <option value="50" <%=recordsPerPage==50?"selected":""%>>50</option>
+                        <option value="100" <%=recordsPerPage==100?"selected":""%>>100</option>
+                    </select>
+                    <span>entries</span>
                 </div>
             </div>
         </div>
-
-        <!-- RIGHT PAGE SIZE -->
-        <div class="col-md-3 text-right">
-            <div class="form-inline justify-content-end">
-                <label class="mr-2 font-weight-bold">Show</label>
-
-                <select name="size"
-                        class="form-control mr-2"
-                        onchange="this.form.submit()">
-                    <option value="20" <%=recordsPerPage==20?"selected":""%>>20</option>
-                    <option value="50" <%=recordsPerPage==50?"selected":""%>>50</option>
-                    <option value="100" <%=recordsPerPage==100?"selected":""%>>100</option>
-                </select>
-
-                <span>entries</span>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Reset page to 1 on search/size change -->
-    <input type="hidden" name="page" value="1">
-
-</form>
-
-
+        <input type="hidden" name="page" value="1">
+    </form>
 
     <!-- TABLE -->
     <div class="table-card">
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
-
-                <thead class="bg-primary text-white">
+                <thead class="bg-warning text-dark">
                 <tr>
                     <th>ID</th>
                     <th>Image</th>
-                   
                     <th>Title</th>
                     <th>Description</th>
                     <th>Created</th>
-                    <th>Closed</th>
                     <th>Qtr</th>
                     <th>Emp No</th>
                     <th>User</th>
                     <th>Phone</th>
                     <th>Status</th>
-                    <th>Action</th>
                     <th>Edit</th>
                     <th>Close</th>
                 </tr>
@@ -274,9 +242,8 @@ body {
                 %>
                 <tr>
                     <td>
-                        <a class="id-link"
-                           href="viewComplaint.jsp?id=<%= c.getid() %>"
-                           target="_blank">
+                        <a class="id-link" target="_blank"
+                           href="viewComplaint.jsp?id=<%= c.getid() %>">
                             <%= c.getid() %>
                         </a>
                     </td>
@@ -285,33 +252,24 @@ body {
                         <img src="../images/<%= c.getImage() %>"
                              class="complaint-img">
                     </td>
-					
-                   
-                    <td>
+
+                      <td>
                         <a class="id-link"
                            href="viewComplaint.jsp?id=<%= c.getid() %>"
                            target="_blank">
                             <%= c.getTitle() %>
                         </a>
                     </td>
-                   
                     <td><%= c.getDescription() %></td>
                     <td><%= c.getCreatedate() %></td>
-                    <td><%= c.getClosedDate() != null ? c.getClosedDate() : "-" %></td>
                     <td><%= c.getQtrno() %></td>
                     <td><%= c.getEmpn() %></td>
                     <td><%= c.getUsername() %></td>
                     <td><%= c.getPhone() %></td>
 
                     <td>
-                        <span class="<%= c.getStatus().equalsIgnoreCase("Closed")
-                                ? "status-closed"
-                                : "status-open" %>">
-                            <%= c.getStatus() %>
-                        </span>
+                        <span class="status-open"><%= c.getStatus() %></span>
                     </td>
-
-                    <td><%= c.getAction() %></td>
 
                     <td>
                         <a href="editComplaint.jsp?id=<%= c.getid() %>"
@@ -322,10 +280,7 @@ body {
 
                     <td>
                         <a href="closeComplaint.jsp?id=<%= c.getid() %>"
-                           class="btn btn-sm btn-danger
-                           <%= c.getStatus().equalsIgnoreCase("Closed")
-                                ? "disabled"
-                                : "" %>">
+                           class="btn btn-sm btn-danger">
                             <i class="fas fa-times-circle"></i>
                         </a>
                     </td>
@@ -335,8 +290,8 @@ body {
                     } else {
                 %>
                 <tr>
-                    <td colspan="15" class="text-center text-muted">
-                        No complaints found
+                    <td colspan="12" class="text-center text-muted">
+                        No pending complaints found
                     </td>
                 </tr>
                 <%

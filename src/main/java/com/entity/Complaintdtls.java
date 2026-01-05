@@ -1,5 +1,7 @@
 package com.entity;
 
+import java.sql.Timestamp;
+
 public class Complaintdtls {
 	private int id;
 	private String imagefile;
@@ -16,6 +18,16 @@ public class Complaintdtls {
 	
 	public Complaintdtls() {
 		super();
+	}
+	
+	private Timestamp closedDate;
+
+	public Timestamp getClosedDate() {
+	    return closedDate;
+	}
+
+	public void setClosedDate(Timestamp closedDate) {
+	    this.closedDate = closedDate;
 	}
 	
 	public Complaintdtls(String imagefile, String category, String title, String description, String qtrno,
