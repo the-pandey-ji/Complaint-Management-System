@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.entity.Complaintdtls;
+import com.entity.User;
 
 
 public class ComplaintDAOImpl implements ComplaintDAO {
@@ -786,6 +787,122 @@ public int getPendingComplaintCountByCategorySearch(
 }
 
 
+@Override
+
+public List<User> getAllUsers() {
+    List<User> list = new ArrayList<>();
+    try {
+        String sql = "SELECT * FROM CTRACK.USERMASTER ORDER BY EMPN";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            User u = new User();
+            u.setEmpn(rs.getLong("EMPN"));
+            u.setUsername(rs.getString("USERNAME"));
+            u.setQtrno(rs.getString("QTRNO"));
+            u.setEmail(rs.getString("EMAIL"));
+            u.setPhone(rs.getString("PHONE"));
+            u.setStatus(rs.getString("STATUS"));
+            u.setRole(rs.getString("ROLE"));
+            list.add(u);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+
+@Override
+public boolean addUser(User u) {
+    boolean flag = false;
+    try {
+        String sql =
+            "INSERT INTO CTRACK.USERMASTER " +
+            "(EMPN, USERNAME, QTRNO, EMAIL, PHONE, PASSWORD, USERCREATIONDATE, STATUS, ROLE) " +
+            "VALUES (?, ?, ?, ?, ?, ?, SYSDATE, ?, ?)";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setLong(1, u.getEmpn());
+        ps.setString(2, u.getUsername());
+        ps.setString(3, u.getQtrno());
+        ps.setString(4, u.getEmail());
+        ps.setString(5, u.getPhone());
+        ps.setString(6, u.getPassword());
+        ps.setString(7, "A");   // Active
+        ps.setString(8, u.getRole());
+
+        flag = ps.executeUpdate() == 1;
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return flag;
+}
+
+
+@Override
+public User getUserByEmpn(long empn) {
+    User u = null;
+    try {
+        String sql = "SELECT * FROM CTRACK.USERMASTER WHERE EMPN=?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setLong(1, empn);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            u = new User();
+            u.setEmpn(rs.getLong("EMPN"));
+            u.setUsername(rs.getString("USERNAME"));
+            u.setQtrno(rs.getString("QTRNO"));
+            u.setEmail(rs.getString("EMAIL"));
+            u.setPhone(rs.getString("PHONE"));
+            u.setStatus(rs.getString("STATUS"));
+            u.setRole(rs.getString("ROLE"));
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return u;
+}
+
+@Override
+public boolean updateUser(User u) {
+    boolean flag = false;
+    try {
+        String sql =
+            "UPDATE CTRACK.USERMASTER SET " +
+            "USERNAME=?, QTRNO=?, EMAIL=?, PHONE=?, STATUS=?, ROLE=? " +
+            "WHERE EMPN=?";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, u.getUsername());
+        ps.setString(2, u.getQtrno());
+        ps.setString(3, u.getEmail());
+        ps.setString(4, u.getPhone());
+        ps.setString(5, u.getStatus());
+        ps.setString(6, u.getRole());
+        ps.setLong(7, u.getEmpn());
+
+        flag = ps.executeUpdate() == 1;
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return flag;
+}
+
+@Override
+public boolean deleteUser(long empn) {
+    boolean flag = false;
+    try {
+        String sql = "DELETE FROM CTRACK.USERMASTER WHERE EMPN=?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setLong(1, empn);
+        flag = ps.executeUpdate() == 1;
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return flag;
+}
 
 
 

@@ -3,6 +3,7 @@ package com.DAO;
 import java.util.List;
 
 import com.entity.Complaintdtls;
+import com.entity.User;
 
 
 public interface ComplaintDAO {
@@ -67,6 +68,18 @@ public interface ComplaintDAO {
 	public int getPendingComplaintCountByCategorySearch(
 	        String category,
 	        String search);
+
+	List<User> getAllUsers();
+
+	boolean addUser(User u);
+
+	User getUserByEmpn(long empn);
+
+	boolean updateUser(User u);
+
+	boolean deleteUser(long empn);
+	
+	
 	
 
 }

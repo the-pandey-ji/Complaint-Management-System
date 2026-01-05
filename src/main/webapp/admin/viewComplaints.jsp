@@ -166,17 +166,37 @@ body {
 
 <!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
+
     <h4 class="text-center mb-4">Admin Panel</h4>
-    <a href="home.jsp"><i class="fas fa-home"></i> Dashboard</a>
-    <a href="addComplaint.jsp"><i class="fas fa-plus-circle"></i> Add Complaint</a>
-    <a href="pendingComplaints.jsp" >
-        <i class="fas fa-hourglass-half"></i> Pending Complaints
+
+    <a href="home.jsp">
+        <i class="fas fa-home mr-2"></i> Dashboard
     </a>
+
+    <a href="manageUsers.jsp">
+        <i class="fas fa-users mr-2"></i> User Management
+    </a>
+
+    <a href="addComplaint.jsp" >
+        <i class="fas fa-plus-circle mr-2"></i> Add Complaint
+    </a>
+
+    <a href="pendingComplaints.jsp">
+        <i class="fas fa-hourglass-half mr-2"></i> Pending Complaints
+    </a>
+
     <a href="viewComplaints.jsp" class="active">
-        <i class="fas fa-list"></i> View All Complaints
+        <i class="fas fa-list mr-2"></i> View All Complaints
     </a>
-    <a href="changePassword.jsp"><i class="fas fa-key"></i> Change Password</a>
-    <a href="../logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
+    <a href="changePassword.jsp">
+        <i class="fas fa-key mr-2"></i> Change Password
+    </a>
+
+    <a href="../logout">
+        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+    </a>
+
 </div>
 
 <!-- ===== MAIN ===== -->
