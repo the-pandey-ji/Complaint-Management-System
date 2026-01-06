@@ -1,257 +1,262 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ include file="all_component/allCss.jsp" %>
+<%@ include file="all_component/allCss.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-<title>Registration</title>
+<title>Register | Complaint Management System</title>
 
-<style type="text/css">
-.paint-card {
-	box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
+<style>
+/* CARD */
+.register-card {
+    max-width: 650px;
+    margin: auto;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    border: none;
 }
 
-.error {
-	color: red;
+/* HEADINGS */
+.register-title {
+    font-weight: 700;
+    color: #0b6b3a;
+}
+.register-subtitle {
+    font-size: 13px;
+    color: #6c757d;
 }
 
-.card {
-width: 200%;
-	
+/* FORM */
+.form-control {
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* SECTION DIVIDER */
+.section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e8f5a;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* BUTTON */
+.btn-register {
+    border-radius: 12px;
+    font-weight: 600;
+    padding: 8px;
 }
 </style>
 </head>
+
 <body>
 
+<!-- ===== HEADER (UNCHANGED – YOUR APPROVED VERSION) ===== -->
 
-<div class="container-fluid"
-	style="height: 5px; background-color: #303f9f"></div>
-	
-	
-	
 
-<div class="container-fluid p-3 bg-light">
+<!-- TOP ACCENT BAR -->
+<div class="container-fluid p-0">
+    <div style="height:4px;background:#0b6b3a;"></div>
+</div>
 
-	<div class="row">
-		<div class="col-md-3 text-success">
-			<h3>
-				<i class="fas fa-book"></i> Complaint Management System</h3>
-			
-			
-		</div>
-		
-		
-		
-		
-		
-		<div class="col-md-2 ml-auto">
-		 
-				<a href="index.jsp" class="btn btn-success "><i
-					class="fas fa-sign-in-alt"></i> Login</a> 
-					<a href="register.jsp"
-					class="btn btn-primary text-white ml-2"><i class="fas fa-user-plus"></i>
-					Register</a>
-			</div>
-		
+<!-- HEADER -->
+<div class="container-fluid bg-white shadow-sm py-2">
+    <div class="row align-items-center">
 
-	</div>
+        <!-- LEFT: LOGO + BRAND NAME INLINE -->
+        <div class="col-md-4 d-flex align-items-center">
+            <img src="/Complaint-Management-System/nflimage.png"
+                 alt="NFL Logo"
+                 style="height:70px;"
+                 class="mr-3">
+
+            <h4 class="mb-0 text-primary">
+                <i class="fas fa-tools mr-2"></i>
+                Complaint Management System
+            </h4>
+        </div>
+
+        <!-- CENTER: COMPANY NAME -->
+        <div class="col-md-4 text-center">
+            <div style="line-height:1.3;">
+                <h3 class="mb-0 font-weight-bold text-success text-uppercase">
+                    National Fertilizers Limited
+                </h3>
+                <h5 class="mb-0 font-weight-bold text-danger text-uppercase">
+                    Panipat Unit
+                </h5>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<!-- SECOND ACCENT BAR -->
+<div class="container-fluid p-0">
+    <div style="height:4px;background:linear-gradient(90deg,#0b6b3a,#1e8f5a);"></div>
 </div>
 
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-custom">
-	<a class="navbar-brand" href="#"><i class="fas fa-home"></i></a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse"
-		data-target="#navbarSupportedContent"
-		aria-controls="navbarSupportedContent" aria-expanded="false"
-		aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
+<!-- ===== REGISTER CARD ===== -->
+<div class="container py-5">
 
-	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active"><a class="nav-link" href="index.jsp">Home
-					<span class="sr-only">(current)</span>
-			</a></li>
-	
-<!-- 
-			<li class="nav-item dropdown"><a
-				class="nav-link active dropdown-toggle" href="#" id="navbarDropdown"
-				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false"> Categories </a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item"
-						href="all_recent_book.jsp">All</a>
-					
+    <div class="card register-card">
+        <div class="card-body p-4">
 
-					<a class="dropdown-item"
-						href="catogory_book.jsp"></a>
-				
+            <h4 class="text-center register-title">
+                User Registration
+            </h4>
+            <p class="text-center register-subtitle mb-4">
+                National Fertilizers Limited – Panipat Unit
+            </p>
 
-				</div></li> -->
+            <!-- ERROR MESSAGE -->
+            <%
+                String failedMsg = (String) session.getAttribute("failedMsg");
+                if (failedMsg != null) {
+            %>
+                <div class="alert alert-danger text-center">
+                    <%= failedMsg %>
+                </div>
+            <%
+                session.removeAttribute("failedMsg");
+                }
+            %>
 
-		<!-- 	<li class="nav-item active"><a class="nav-link disabled"
-				href="all_old_book.jsp"><i class="fas fa-book-open"></i> Old
-					Complaint</a></li> -->
-		</ul>
-		
-		<div class="form-inline my-2 my-lg-0">
-			<!-- <a href="setting.jsp" class="btn btn-light my-2 my-sm-0"
-				type="submit"> <i class="fas fa-cog"></i> Setting
-			</a> --> 
-			<a href="helpline.jsp" class="btn btn-light my-2 my-sm-0 ml-1 mr-2"> <i class="fas fa-phone-square-alt"></i> Contact
-				Us
-			</a>
-		</div>
-	
-			<!-- <form class="form-inline my-2 my-lg-0" action="search_Complaint.jsp"
-				method="post">
-				<input class="form-control mr-sm-2 " type="search" name="ch"
-					placeholder="Search" aria-label="Search">
-				<button class="btn btn-primary my-2 my-sm-0 " type="submit">Search</button>
-			</form> -->
-		
-		
-	</div>
-</nav>
+            <form id="registerForm" action="register" method="post">
 
-<%--  <%@include file="all_component/navbar.jsp" %> --%>
+                <!-- BASIC INFO -->
+                <div class="form-group">
+                    <label>Employee ID / Mobile No.</label>
+                    <input type="number" class="form-control"
+                           name="empn" required>
+                </div>
 
-<div class="container p-2">
-		<div class="row">
-			<div class="col-md-4 offset-md-2">
-				<div class="card paint-card">
-					<div class="card-body">
-						<h3 class="text-center mb-5">Register User</h3>
-						<%
-				            String failedMsg = (String) session.getAttribute("failedMsg");
-				            if (failedMsg != null) {
-				        %>
-				            <div style="color: 
-												red;">
-				                <%= failedMsg %>
-				            </div>
-				        <%
-				            session.removeAttribute("failedMsg");
-				            }
-				        %>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" class="form-control"
+                           name="username" required>
+                </div>
 
-					
-						<form id="registerForm" action="register" method="post">
+                <!-- QUARTER SECTION -->
+                <div class="section-title">
+                    Quarter Details
+                </div>
 
-							<div class="form-group">
-								<label for="exampleInputEmail1">Enter Emp.ID / Mobile No.</label> 
-								<input
-									type="number" class="form-control" required="required" name="empn">
-							</div>
-							
-							<div class="form-group">
-								<label for="exampleInputEmail1">Enter Full Name</label> 
-								<input
-									type="text" class="form-control" required="required" name="username">
-							</div>
-							
-							
-							
-							<!-- <div class="form-group">
-								<label for="exampleInputEmail1">Enter Qtr No</label> 
-								<input
-									type="text" class="form-control" required="required" name="qtrno">
-							</div> -->
-							<div class="form-row align-items-end">
-							  <div class="col-md-3">
-							    <label for="qtrnoSelect">Select Qtr Type</label>
-							    <select id="qtrnoSelect" class="form-control" required>
-							      <option value="">Select</option>
-							      <option value="A">A</option>
-							      <option value="B">B</option>
-							      <option value="C">C</option>
-							      <option value="C">D</option>
-							      <option value="C">Misc</option>
-							    </select>
-							  </div>
-							
-							  <div class="col-md-3">
-							    <label for="qtrnoBlock1">Enter Qtr No.</label>
-							    <input type="text" id="qtrnoBlock1" class="form-control" required>
-							  </div>
-							
-							  <div class="col-md-3">
-							    <label for="qtrnoBlock2">Enter Qtr Ext</label>
-							    <input type="text" id="qtrnoBlock2" class="form-control" placeholder="IF No ext enter 0" required>
-							  </div>
-							</div>
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <label>Qtr Type</label>
+                        <select id="qtrnoSelect" class="form-control" required>
+                            <option value="">Select</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="Misc">Misc</option>
+                        </select>
+                    </div>
 
-								
-								<!-- Hidden input to store the combined qtrno value -->
-								<input type="hidden" id="qtrno" name="qtrno">
-								
-								
-							
-							<div class="form-group">
-								<label for="exampleInputEmail1">Email address</label> <input
-									type="email" class="form-control" required="required" name="email">
+                    <div class="col-md-4">
+                        <label>Qtr No</label>
+                        <input type="text" id="qtrnoBlock1"
+                               class="form-control" required>
+                    </div>
 
-							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Phone No</label> <input
-									type="text" class="form-control" required="required" name="phone">
-							</div>
+                    <div class="col-md-4">
+                        <label>Extension</label>
+                        <input type="text" id="qtrnoBlock2"
+                               class="form-control"
+                               placeholder="0 if none"
+                               required>
+                    </div>
+                </div>
 
-							<div class="form-group">
-								<label for="exampleInputPassword1">Password</label> <input
-									type="password" class="form-control" id="exampleInputPassword1"
-									required="required" name="password">
-							</div>
-							<!-- <div class="form-check">
-								<input type="checkbox" class="form-check-input" name="check"
-									id="exampleCheck1" required="required"> <label class="form-check-label" 
-									for="exampleCheck1">Agree terms and Condition</label>
-							</div> -->
-							<div class="text-center p-2">
-								<button type="submit" class="btn btn-primary btn-block btn-sm">Register</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                <!-- HIDDEN COMBINED VALUE -->
+                <input type="hidden" id="qtrno" name="qtrno">
 
-<%@include file="all_component/footer.jsp"%>
+                <!-- CONTACT -->
+                <div class="section-title">
+                    Contact Details
+                </div>
 
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control"
+                           name="email" required>
+                </div>
 
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text" class="form-control"
+                           name="phone" required>
+                </div>
+
+                <!-- SECURITY -->
+                <div class="section-title">
+                    Security
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control"
+                           name="password" required>
+                </div>
+
+                <!-- ACTION -->
+                <div class="text-center mt-4">
+                    <button type="submit"
+                            class="btn btn-success btn-register btn-block">
+                        <i class="fas fa-user-plus mr-1"></i>
+                        Register
+                    </button>
+                     </div>
+                    
+                    <div class="text-center mt-2">
+    <a href="index.jsp" class="btn btn-outline-secondary btn-block">
+        <i class="fas fa-arrow-left mr-1"></i>
+        Back to Login
+    </a>
+</div>
+               
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<%@ include file="all_component/footer.jsp" %>
+
+<!-- ===== QUARTER CONCAT JS (UNCHANGED LOGIC) ===== -->
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    console.log("Script loaded."); // ← Add this to confirm it's running
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('registerForm');
+  form.addEventListener('submit', function (event) {
 
-    const form = document.getElementById('registerForm');
-    if (form) {
-      console.log("Form found");
-      form.addEventListener('submit', function (event) {
-    	  console.log("Submit event triggered");
-        const prefix = document.getElementById('qtrnoSelect').value;
-        const block1 = document.getElementById('qtrnoBlock1').value;
-        const block2 = document.getElementById('qtrnoBlock2').value;
+    const prefix = document.getElementById('qtrnoSelect').value;
+    const block1 = document.getElementById('qtrnoBlock1').value;
+    const block2 = document.getElementById('qtrnoBlock2').value;
 
-        
-        console.log("prefix:", prefix);
-        console.log("block1:", block1);
-        console.log("block2:", block2);
-
-        if (!prefix || !block1 || !block2) {
-          alert("Please fill all Quarter Number fields.");
-          event.preventDefault();
-          return;
-        }
-
-        const qtrnoField = document.getElementById('qtrno');
-        qtrnoField.value = `${prefix}-${block1}/${block2}`;
-        console.log('qtrno:', qtrnoField.value);
-      });
-    } else {
-      console.warn('Form not found in DOM.');
+    if (!prefix || !block1 || !block2) {
+      alert("Please fill all Quarter Number fields.");
+      event.preventDefault();
+      return;
     }
+
+    document.getElementById('qtrno').value =
+        prefix + "-" + block1 + "/" + block2;
   });
+});
 </script>
+
 </body>
 </html>

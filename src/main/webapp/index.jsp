@@ -199,32 +199,41 @@ label {
     <!-- LOGIN FORM -->
     <form action="login" method="post">
 
-        <div class="form-group">
-            <label>Employee ID / Mobile Number</label>
-            <input type="text"
-                   class="form-control"
-                   name="empn"
-                   placeholder="Enter your Employee ID"
-                   required>
-        </div>
+    <div class="form-group">
+        <label>Employee ID / Mobile Number</label>
+        <input type="text"
+               class="form-control"
+               name="empn"
+               placeholder="Enter your Employee ID"
+               required>
+    </div>
 
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password"
-                   class="form-control"
-                   name="password"
-                   placeholder="Enter your password"
-                   required>
-        </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password"
+               class="form-control"
+               name="password"
+               placeholder="Enter your password"
+               required>
+    </div>
 
-        <button type="submit" class="btn btn-login btn-block mt-3">
-            <i class="fas fa-lock"></i> Secure Login
-        </button>
+    <button type="submit" class="btn btn-login btn-block mt-3">
+        <i class="fas fa-lock"></i> Secure Login
+    </button>
 
-        <button type="reset" class="btn btn-secondary btn-block mt-2">
-            Cancel
-        </button>
-    </form>
+    <button type="reset" class="btn btn-secondary btn-block mt-2">
+        Cancel
+    </button>
+
+    <!-- REGISTER BUTTON -->
+    <button type="button"
+            class="btn btn-outline-primary btn-block mt-2"
+            onclick="location.href='register.jsp'">
+        <i class="fas fa-user-plus"></i> Register
+    </button>
+
+</form>
+
 
     <div class="secure-badge">
         <i class="fas fa-shield-alt"></i> Secure Government System
