@@ -42,16 +42,16 @@
             %>
                 <div class="dropdown d-inline-block">
 
-                    <button class="btn btn-success btn-sm dropdown-toggle px-4"
-                            type="button"
-                            id="userDropdown"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false">
-                        <i class="fas fa-user-circle mr-1"></i>
-                        <%= user1.getUsername() %>
-                    </button>
-
+                     <button class="btn btn-success dropdown-toggle px-5 py-2"
+                    type="button"
+                    id="userDropdown"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    style="font-size:1.05rem;">
+                <i class="fas fa-user-circle mr-2" style="font-size:1.3rem;"></i>
+                <%= user1.getUsername() %>
+            		</button>
                     <div class="dropdown-menu dropdown-menu-right shadow-sm"
                          aria-labelledby="userDropdown">
 
