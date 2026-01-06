@@ -223,11 +223,54 @@ body {
         </div>
 
     </div>
+    
+    <!-- ===== EXTRA KPI CARDS ===== -->
+    
+    <%
+int pendingCount = openCount;   // already calculated via status
+int resolvedToday = dao.getClosedComplaintCountByCategorytoday(category); // placeholder
 
-    <!-- ===== ACTIONS ===== -->
+double avgResolution = dao.getAvgResolutionDaysByCategory(category);
+%>
+    
+<div class="row mb-4">
+
+    <div class="col-md-3">
+        <div class="stat-card" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe)">
+            <h6>Pending Complaints</h6>
+            <h2><%= pendingCount %></h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card" style="background:linear-gradient(135deg,#00cec9,#81ecec)">
+            <h6>Resolved Today</h6>
+            <h2><%= resolvedToday %></h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card" style="background:linear-gradient(135deg,#e17055,#fab1a0)">
+            <h6>Avg Resolution (Days)</h6>
+            <h2><%= avgResolution %></h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card" style="background:linear-gradient(135deg,#d63031,#ff7675)">
+            <h6>Needs Attention</h6>
+            <h2><%= pendingCount > 10 ? pendingCount : 0 %></h2>
+        </div>
+    </div>
+
+</div>
+    
+    
+    
+      <!-- ===== ACTIONS ===== -->
     <div class="row mb-4">
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             <a href="addComplaint.jsp">
                 <div class="action-card">
                     <i class="fas fa-plus-circle"></i>
@@ -237,7 +280,7 @@ body {
             </a>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             <a href="viewComplaints.jsp">
                 <div class="action-card">
                     <i class="fas fa-folder-open"></i>
@@ -247,7 +290,7 @@ body {
             </a>
         </div>
 
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <a href="../logout">
                 <div class="action-card">
                     <i class="fas fa-sign-out-alt"></i>
@@ -255,11 +298,128 @@ body {
                     <p>Exit admin portal</p>
                 </div>
             </a>
-        </div>
+        </div> -->
 
+    </div>
+    <!-- ===== QUICK ACTIONS ===== -->
+<div class="row mb-4">
+
+    
+
+    <div class="col-md-4">
+        <a href="pendingComplaints.jsp">
+            <div class="action-card">
+                <i class="fas fa-hourglass-half"></i>
+                <h5>Pending Complaints</h5>
+                <p>View unresolved issues</p>
+            </div>
+        </a>
+    </div>
+
+   
+
+    <div class="col-md-4">
+        <a href="manageUsers.jsp">
+            <div class="action-card">
+                <i class="fas fa-users-cog"></i>
+                <h5>User Management</h5>
+                <p>Admin user controls</p>
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-md-4">
+        <a href="../logout">
+                <div class="action-card">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <h5>Logout</h5>
+                    <p>Exit admin portal</p>
+                </div>
+            </a>
     </div>
 
 </div>
+    
+    
+    
+    <!-- ===== GRAPHS ===== -->
+<div class="row mb-4">
+
+    <!-- LARGE BAR CHART -->
+    <div class="col-md-7">
+        <div class="table-card">
+            <h5 class="mb-3 text-center">
+                <%= category %> Complaints Overview
+            </h5>
+            <canvas id="summaryBar" style="height:340px;"></canvas>
+        </div>
+    </div>
+
+    <!-- SMALL PIE CHART -->
+    <div class="col-md-4 ml-auto">
+        <div class="table-card">
+            <h6 class="mb-3 text-center">
+                Status Distribution
+            </h6>
+            <canvas id="statusPie" style="height:220px;"></canvas>
+        </div>
+    </div>
+
+</div>
+
+  
+
+</div>
+
+
+<script>
+/* ===== PIE CHART ===== */
+const pieCtx = document.getElementById('statusPie').getContext('2d');
+new Chart(pieCtx, {
+    type: 'pie',
+    data: {
+        labels: ['Open', 'Closed'],
+        datasets: [{
+            data: [<%= openCount %>, <%= closedCount %>],
+            backgroundColor: ['#f39c12', '#2ecc71'],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+
+/* ===== BAR CHART ===== */
+const barCtx = document.getElementById('summaryBar').getContext('2d');
+new Chart(barCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Total', 'Open', 'Closed'],
+        datasets: [{
+            label: 'Complaints',
+            data: [<%= totalCount %>, <%= openCount %>, <%= closedCount %>],
+            backgroundColor: ['#0984e3', '#fdcb6e', '#00b894']
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0
+                }
+            }
+        }
+    }
+});
+</script>
 
 </body>
 </html>

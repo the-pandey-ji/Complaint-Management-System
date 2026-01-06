@@ -78,6 +78,10 @@ public interface ComplaintDAO {
 	boolean updateUser(User u);
 
 	boolean deleteUser(long empn);
+
+	int getClosedComplaintCountByCategorytoday(String category);
+
+	double getAvgResolutionDaysByCategory(String category);
 	
 	
 	

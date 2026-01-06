@@ -500,6 +500,25 @@ public int getClosedComplaintCountByCategory(String category) {
     }
     return count;
 }
+
+
+@Override
+public int getClosedComplaintCountByCategorytoday(String category) {
+    int count = 0;
+    try {
+        String sql =
+            "SELECT COUNT(*) FROM CTRACK.COMPLAINTDTLS " +
+            "WHERE CATEGORY = ? AND STATUS = 'Closed' AND TRUNC(CLOSED_DATE) = TRUNC(SYSDATE)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, category);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) count = rs.getInt(1);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return count;
+}
+
 @Override
 public List<Complaintdtls> getComplaintsPaginated(
         String category,
@@ -904,6 +923,28 @@ public boolean deleteUser(long empn) {
     return flag;
 }
 
+@Override
+public double getAvgResolutionDaysByCategory(String category) {
+    double avgDays = 0;
+
+    try {
+        String sql =
+            "SELECT NVL(ROUND(AVG(CLOSEDATE - CREATEDATE), 2), 0) " +
+            "FROM COMPLAINTDTLS " +
+            "WHERE STATUS = 'C' AND CATEGORY = ?";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, category);
+
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            avgDays = rs.getDouble(1);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return avgDays;
+}
 
 
 }
