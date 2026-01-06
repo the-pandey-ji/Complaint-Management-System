@@ -929,9 +929,11 @@ public double getAvgResolutionDaysByCategory(String category) {
 
     try {
         String sql =
-            "SELECT NVL(ROUND(AVG(CLOSEDATE - CREATEDATE), 2), 0) " +
-            "FROM COMPLAINTDTLS " +
-            "WHERE STATUS = 'C' AND CATEGORY = ?";
+            "SELECT NVL(ROUND(AVG(" +
+            "CAST(CLOSED_DATE AS DATE) - CAST(COMPDATETIME AS DATE)" +
+            "), 2), 0) " +
+            "FROM CTRACK.COMPLAINTDTLS " +
+            "WHERE STATUS = 'Closed' AND CATEGORY = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, category);
@@ -945,6 +947,113 @@ public double getAvgResolutionDaysByCategory(String category) {
     }
     return avgDays;
 }
+
+
+
+@Override
+public int getTotalComplaintCountByUser(long empn) {
+    int count = 0;
+    try {
+        String sql =
+            "SELECT COUNT(*) FROM CTRACK.COMPLAINTDTLS WHERE EMPN = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setLong(1, empn);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) count = rs.getInt(1);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return count;
+}
+@Override
+public int getOpenComplaintCountByUser(long empn) {
+    int count = 0;
+    try {
+        String sql =
+            "SELECT COUNT(*) FROM CTRACK.COMPLAINTDTLS " +
+            "WHERE EMPN = ? AND STATUS <> 'Closed'";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setLong(1, empn);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) count = rs.getInt(1);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return count;
+}
+@Override
+public int getClosedComplaintCountByUser(long empn) {
+    int count = 0;
+    try {
+        String sql =
+            "SELECT COUNT(*) FROM CTRACK.COMPLAINTDTLS " +
+            "WHERE EMPN = ? AND STATUS = 'Closed'";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setLong(1, empn);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) count = rs.getInt(1);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return count;
+}
+
+@Override
+public double getAvgResolutionDaysByUser(long empn) {
+    double avgDays = 0;
+
+    try {
+        String sql =
+            "SELECT NVL(ROUND(AVG(" +
+            "CAST(CLOSED_DATE AS DATE) - CAST(COMPDATETIME AS DATE)" +
+            "), 2), 0) " +
+            "FROM CTRACK.COMPLAINTDTLS " +
+            "WHERE STATUS = 'Closed' AND EMPN = ?";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setLong(1, empn);
+
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            avgDays = rs.getDouble(1);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return avgDays;
+}
+
+
+
+
+@Override
+
+
+public int[] getMonthlyComplaintCountByUser(long empn) {
+    int[] counts = new int[12]; // Jan–Dec
+
+    try {
+        String sql =
+            "SELECT TO_CHAR(COMPDATETIME,'MM') MM, COUNT(*) CNT " +
+            "FROM CTRACK.COMPLAINTDTLS " +
+            "WHERE EMPN = ? " +
+            "AND TO_CHAR(COMPDATETIME,'YYYY') = TO_CHAR(SYSDATE,'YYYY') " +
+            "GROUP BY TO_CHAR(COMPDATETIME,'MM')";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setLong(1, empn);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            int month = Integer.parseInt(rs.getString("MM"));
+            counts[month - 1] = rs.getInt("CNT");
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return counts;
+}
+
 
 
 }

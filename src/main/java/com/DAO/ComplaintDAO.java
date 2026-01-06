@@ -82,7 +82,13 @@ public interface ComplaintDAO {
 	int getClosedComplaintCountByCategorytoday(String category);
 
 	double getAvgResolutionDaysByCategory(String category);
-	
+	int getTotalComplaintCountByUser(long empn);
+	int getOpenComplaintCountByUser(long empn);
+	int getClosedComplaintCountByUser(long empn);
+	double getAvgResolutionDaysByUser(long empn);
+
+	int[] getMonthlyComplaintCountByUser(long empn);
+
 	
 	
 

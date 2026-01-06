@@ -1,130 +1,281 @@
-
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
 <%@page import="com.DB.DBConnect"%>
 <%@page import="com.DAO.ComplaintDAOImpl"%>
-<%@page import="com.DAO.ComplaintDAO"%>
 <%@page import="com.entity.Complaintdtls"%>
 <%@ page import="com.entity.User" %>
+
 <%
-    // Check if the user is logged in
+    // SESSION CHECK
     User user = (User) session.getAttribute("Userobj");
     if (user == null) {
-        // Redirect to login page if not logged in
         response.sendRedirect("index.jsp");
         return;
     }
-%>
 
+    ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
+
+    // USER KPIs
+    int totalCount = dao.getTotalComplaintCountByUser(user.getEmpn());
+    int openCount  = dao.getOpenComplaintCountByUser(user.getEmpn());
+    int closedCount = dao.getClosedComplaintCountByUser(user.getEmpn());
+    double avgDays = dao.getAvgResolutionDaysByUser(user.getEmpn());
+
+    List<Complaintdtls> list = dao.getActiveComplaintsOfUser(user.getEmpn());
+    int[] monthlyCounts = dao.getMonthlyComplaintCountByUser(user.getEmpn());
+
+%>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Dashboard</title>
+<title>User Dashboard</title>
 
 <%@include file="/all_component/allCss.jsp" %>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<style type="text/css">
-a {
-	text-decoration: none;
-	color: black;
+<style>
+a { text-decoration:none; color:black; }
+
+/* KPI CARDS */
+.kpi-card{
+  padding:28px;
+  border-radius:16px;
+  color:#fff;
+  box-shadow:0 8px 20px rgba(0,0,0,.15);
+  position:relative;
+  overflow:hidden;
+  min-height:140px;
+}
+.kpi-card::after{
+  content:"";
+  position:absolute;
+  right:-30px;
+  top:-30px;
+  width:90px;
+  height:90px;
+  background:rgba(255,255,255,0.15);
+  border-radius:50%;
+}
+.kpi-title{ font-size:15px; opacity:.9; }
+.kpi-value{ font-size:38px; font-weight:700; margin-top:5px; }
+
+.bg-blue{ background:linear-gradient(135deg,#1e90ff,#0066cc); }
+.bg-orange{ background:linear-gradient(135deg,#ff9f43,#ff6f00); }
+.bg-green{ background:linear-gradient(135deg,#2ecc71,#27ae60); }
+.bg-purple{ background:linear-gradient(135deg,#9b59b6,#6c3483); }
+
+/* STATUS BADGES */
+.badge-open{ background:#ff9f43; }
+.badge-closed{ background:#2ecc71; }
+
+/* CHART CARD */
+.chart-card{
+  background:#fff;
+  border-radius:16px;
+  padding:22px;
+  box-shadow:0 6px 16px rgba(0,0,0,.1);
 }
 </style>
 </head>
+
 <body>
 
 <%@include file="/all_component/navbar.jsp" %>
- <h1 class="text-center mt-5">Welcome, <%= user1.getUsername() %>!</h1>
- 
-    
+
+<!-- HEADER -->
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <h4 class="mb-1">User Dashboard</h4>
+      <small class="text-muted">
+        Welcome back, <b><%= user.getUsername() %></b>
+      </small>
+    </div>
+    <span class="badge bg-secondary p-2">User</span>
+  </div>
+</div>
+
+<!-- KPI ROW -->
+<div class="container mt-4">
+  <div class="row g-4">
+
+    <div class="col-md-3">
+      <div class="kpi-card bg-blue">
+        <div class="kpi-title">Total Complaints Raised</div>
+        <div class="kpi-value"><%= totalCount %></div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="kpi-card bg-orange">
+        <div class="kpi-title">Currently Open</div>
+        <div class="kpi-value"><%= openCount %></div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="kpi-card bg-green">
+        <div class="kpi-title">Resolved</div>
+        <div class="kpi-value"><%= closedCount %></div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="kpi-card bg-purple">
+        <div class="kpi-title">Avg Resolution Time (Days)</div>
+        <div class="kpi-value"><%= String.format("%.1f", avgDays) %></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTIVE COMPLAINTS -->
+<div class="container mt-5 mb-2">
+  <h5 class="mb-0">Active Complaints</h5>
+  <small class="text-muted">
+    Showing all currently open complaints raised by you
+  </small>
+</div>
+
+<div class="container-fluid mt-3">
+<table class="table table-striped table-hover align-middle">
+<thead class="bg-primary text-white">
+<tr>
+<th>ID</th>
+<th>Image</th>
+<th>Category</th>
+<th>Title</th>
+<th>Description</th>
+<th>Date</th>
+<th>Qtr No.</th>
+<th>Status</th>
+<th>Action Taken</th>
+</tr>
+</thead>
+
+<tbody>
+<%
+if (list != null && !list.isEmpty()) {
+  for (Complaintdtls c : list) {
+%>
+<tr>
+<td><%= c.getid() %></td>
+<td><img src="images/<%= c.getImage() %>" style="width:50px;height:50px;"></td>
+<td><%= c.getCategory() %></td>
+<td><%= c.getTitle() %></td>
+<td><%= c.getDescription() %></td>
+<td><%= c.getCreatedate() %></td>
+<td><%= c.getQtrno() %></td>
+<td>
+<span class="badge <%= c.getStatus().equals("Active") ? "badge-open" : "badge-closed" %> px-3 py-2">
+<%= c.getStatus().equals("Active") ? "Open" : "Closed" %>
+</span>
+</td>
+<td><%= c.getAction() == null ? "-" : c.getAction() %></td>
+</tr>
+<%
+  }
+} else {
+%>
+<tr>
+<td colspan="9" class="text-center text-muted">
+You currently have no active complaints 🎉
+</td>
+</tr>
+<%
+}
+%>
+</tbody>
+</table>
+</div>
+
+
+<!-- GRAPHS ROW -->
+<div class="container mt-5">
+  <div class="row g-4">
+
+    <!-- RAISED COMPLAINT OVERVIEW -->
+    <div class="col-md-6">
+      <div class="chart-card h-100">
+        <h6 class="mb-3 text-center">Complaints Raised Overview</h6>
+        <canvas id="raisedChart" height="140"></canvas>
+      </div>
+    </div>
+
+    <!-- MONTHLY LINE GRAPH -->
+    <div class="col-md-6">
+      <div class="chart-card h-100">
+        <h6 class="mb-3 text-center">
+          Complaints Raised Per Month (Current Year)
+        </h6>
+        <canvas id="monthlyLineChart" height="140"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 
 
+<div class="mt-5">
+<%@include file="all_component/footer.jsp"%>
+</div>
 
-
-
-
-
-	<h3 class="text-center">All Active Complaints</h3>
-
-	
-	
-	<div class="container-fluid">
-		<table class="table table-striped">
-			<thead class="bg-primary text-white">
-				<tr>
-					<th scope="col">ID</th>
-					<th scope="col">Image</th>
-					<th scope="col">Category</th>
-					<th scope="col">Complaint Title</th>
-					<th scope="col">Complaint Description</th>
-					<th scope="col">Complaint Date</th>
-					<th scope="col">Qtr No.</th>
-					<th scope="col">UserID</th>
-					<th scope="col">User</th>
-					<th scope="col">Phone</th>
-					<th scope="col">Status</th>
-					<th scope="col">Action Taken</th>
-					<!-- <th scope="col">Edit</th>
-					<th scope="col">Close Complaint</th> -->
-				</tr>
-			</thead>
-			<tbody>
-			
-			<%
-			ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
-			List<Complaintdtls> list = dao.getActiveComplaintsOfUser(user.getEmpn());
-			if (list != null && !list.isEmpty()) {
-                for (Complaintdtls complaint : list) {
-                	
-			
-			%>
-			
-			<tr>
-					<td><%= complaint.getid() %></td>
-					<td><img src="images/<%= complaint.getImage() %>"
-						style="width: 50px; height: 50px;"></td>
-					<td><%= complaint.getCategory() %></td>
-					<td><%= complaint.getTitle() %></td>
-					<td><%= complaint.getDescription() %></td>
-					<td><%= complaint.getCreatedate() %></td>
-					<td><%= complaint.getQtrno() %></td>
-					<td><%= complaint.getEmpn() %></td>
-					<td><%= complaint.getUsername() %></td>
-					<td><%= complaint.getPhone() %></td>
-					<td><%= complaint.getStatus() %></td>
-					<td><%= complaint.getAction() %></td>
-
-					<%-- <td><a href="editComplaint.jsp?id=<%= complaint.getid() %>"
-						class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>
-							Edit</a></td>
-					<td><a href="closeComplaint.jsp?id=<%= complaint.getid() %>"
-						class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>
-							Close</a></td>
- --%>
-					<%
-					}
-			}
-					else {
-					%>
-                 <tr>
-              		<td colspan="14" class="text-center">No complaints found</td>
-               	 </tr>
-            <%
-                	                                
-                }
-			%>
-				 
-
-			</tbody>
-		</table>
-	</div>
-	<div style="margin-top: 430px;">
-		<%@include file="all_component/footer.jsp"%></div>
-</body>
-</html>
-
+<!-- CHART SCRIPT -->
+<script>
+new Chart(document.getElementById("raisedChart"), {
+  type: 'bar',
+  data: {
+    labels: ['Total Raised', 'Open', 'Closed'],
+    datasets: [{
+      data: [<%= totalCount %>, <%= openCount %>, <%= closedCount %>],
+      backgroundColor: ['#1e90ff','#ff9f43','#2ecc71'],
+      borderRadius: 8
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { display:false }
+    },
+    scales: {
+      y: { beginAtZero:true }
+    }
+  }
+});
+</script>
+<script>
+new Chart(document.getElementById("monthlyLineChart"), {
+  type: 'line',
+  data: {
+    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    datasets: [{
+      label: 'Complaints Raised',
+      data: [
+        <%= monthlyCounts[0] %>, <%= monthlyCounts[1] %>, <%= monthlyCounts[2] %>,
+        <%= monthlyCounts[3] %>, <%= monthlyCounts[4] %>, <%= monthlyCounts[5] %>,
+        <%= monthlyCounts[6] %>, <%= monthlyCounts[7] %>, <%= monthlyCounts[8] %>,
+        <%= monthlyCounts[9] %>, <%= monthlyCounts[10] %>, <%= monthlyCounts[11] %>
+      ],
+      borderColor: '#1e90ff',
+      backgroundColor: 'rgba(30,144,255,0.15)',
+      fill: true,
+      tension: 0.4,
+      pointRadius: 4,
+      pointBackgroundColor: '#1e90ff'
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      y: { beginAtZero: true }
+    }
+  }
+});
+</script>
 
 </body>
 </html>
