@@ -929,9 +929,7 @@ public double getAvgResolutionDaysByCategory(String category) {
 
     try {
         String sql =
-            "SELECT NVL(ROUND(AVG(" +
-            "CAST(CLOSED_DATE AS DATE) - CAST(COMPDATETIME AS DATE)" +
-            "), 2), 0) " +
+            "SELECT NVL(ROUND(AVG(CAST(CLOSED_DATE AS DATE) - COMPDATETIME), 2), 0) " +
             "FROM CTRACK.COMPLAINTDTLS " +
             "WHERE STATUS = 'Closed' AND CATEGORY = ?";
 
@@ -947,7 +945,6 @@ public double getAvgResolutionDaysByCategory(String category) {
     }
     return avgDays;
 }
-
 
 
 @Override
@@ -997,32 +994,6 @@ public int getClosedComplaintCountByUser(long empn) {
     }
     return count;
 }
-
-@Override
-public double getAvgResolutionDaysByUser(long empn) {
-    double avgDays = 0;
-
-    try {
-        String sql =
-            "SELECT NVL(ROUND(AVG(" +
-            "CAST(CLOSED_DATE AS DATE) - CAST(COMPDATETIME AS DATE)" +
-            "), 2), 0) " +
-            "FROM CTRACK.COMPLAINTDTLS " +
-            "WHERE STATUS = 'Closed' AND EMPN = ?";
-
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setLong(1, empn);
-
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            avgDays = rs.getDouble(1);
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    return avgDays;
-}
-
 
 
 

@@ -19,7 +19,7 @@
     int totalCount = dao.getTotalComplaintCountByUser(user.getEmpn());
     int openCount  = dao.getOpenComplaintCountByUser(user.getEmpn());
     int closedCount = dao.getClosedComplaintCountByUser(user.getEmpn());
-    double avgDays = dao.getAvgResolutionDaysByUser(user.getEmpn());
+  
 
     List<Complaintdtls> list = dao.getActiveComplaintsOfUser(user.getEmpn());
     int[] monthlyCounts = dao.getMonthlyComplaintCountByUser(user.getEmpn());
@@ -121,13 +121,7 @@ a { text-decoration:none; color:black; }
       </div>
     </div>
 
-    <div class="col-md-3">
-      <div class="kpi-card bg-purple">
-        <div class="kpi-title">Avg Resolution Time (Days)</div>
-        <div class="kpi-value"><%= String.format("%.1f", avgDays) %></div>
-      </div>
-    </div>
-
+    
   </div>
 </div>
 
@@ -192,30 +186,6 @@ You currently have no active complaints 🎉
 </div>
 
 
-<!-- GRAPHS ROW -->
-<div class="container mt-5">
-  <div class="row g-4">
-
-    <!-- RAISED COMPLAINT OVERVIEW -->
-    <div class="col-md-6">
-      <div class="chart-card h-100">
-        <h6 class="mb-3 text-center">Complaints Raised Overview</h6>
-        <canvas id="raisedChart" height="140"></canvas>
-      </div>
-    </div>
-
-    <!-- MONTHLY LINE GRAPH -->
-    <div class="col-md-6">
-      <div class="chart-card h-100">
-        <h6 class="mb-3 text-center">
-          Complaints Raised Per Month (Current Year)
-        </h6>
-        <canvas id="monthlyLineChart" height="140"></canvas>
-      </div>
-    </div>
-
-  </div>
-</div>
 
 
 
@@ -223,59 +193,7 @@ You currently have no active complaints 🎉
 <%@include file="all_component/footer.jsp"%>
 </div>
 
-<!-- CHART SCRIPT -->
-<script>
-new Chart(document.getElementById("raisedChart"), {
-  type: 'bar',
-  data: {
-    labels: ['Total Raised', 'Open', 'Closed'],
-    datasets: [{
-      data: [<%= totalCount %>, <%= openCount %>, <%= closedCount %>],
-      backgroundColor: ['#1e90ff','#ff9f43','#2ecc71'],
-      borderRadius: 8
-    }]
-  },
-  options: {
-    plugins: {
-      legend: { display:false }
-    },
-    scales: {
-      y: { beginAtZero:true }
-    }
-  }
-});
-</script>
-<script>
-new Chart(document.getElementById("monthlyLineChart"), {
-  type: 'line',
-  data: {
-    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-    datasets: [{
-      label: 'Complaints Raised',
-      data: [
-        <%= monthlyCounts[0] %>, <%= monthlyCounts[1] %>, <%= monthlyCounts[2] %>,
-        <%= monthlyCounts[3] %>, <%= monthlyCounts[4] %>, <%= monthlyCounts[5] %>,
-        <%= monthlyCounts[6] %>, <%= monthlyCounts[7] %>, <%= monthlyCounts[8] %>,
-        <%= monthlyCounts[9] %>, <%= monthlyCounts[10] %>, <%= monthlyCounts[11] %>
-      ],
-      borderColor: '#1e90ff',
-      backgroundColor: 'rgba(30,144,255,0.15)',
-      fill: true,
-      tension: 0.4,
-      pointRadius: 4,
-      pointBackgroundColor: '#1e90ff'
-    }]
-  },
-  options: {
-    plugins: {
-      legend: { display: false }
-    },
-    scales: {
-      y: { beginAtZero: true }
-    }
-  }
-});
-</script>
+
 
 </body>
 </html>
