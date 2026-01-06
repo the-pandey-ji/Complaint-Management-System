@@ -230,7 +230,8 @@ body {
 int pendingCount = openCount;   // already calculated via status
 int resolvedToday = dao.getClosedComplaintCountByCategorytoday(category); // placeholder
 
-double avgResolution = dao.getAvgResolutionDaysByCategory(category);
+/* double avgResolution = dao.getAvgResolutionDaysByCategory(category); */
+int avgResolution = 1;
 %>
     
 <div class="row mb-4">

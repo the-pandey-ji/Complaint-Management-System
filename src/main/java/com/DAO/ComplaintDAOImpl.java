@@ -922,29 +922,27 @@ public boolean deleteUser(long empn) {
     }
     return flag;
 }
-
-@Override
-public double getAvgResolutionDaysByCategory(String category) {
-    double avgDays = 0;
-
-    try {
-        String sql =
-            "SELECT NVL(ROUND(AVG(CAST(CLOSED_DATE AS DATE) - COMPDATETIME), 2), 0) " +
-            "FROM CTRACK.COMPLAINTDTLS " +
-            "WHERE STATUS = 'Closed' AND CATEGORY = ?";
-
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, category);
-
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            avgDays = rs.getDouble(1);
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    return avgDays;
-}
+/*
+ * @Override public double getAvgResolutionDaysByCategory(String category) {
+ * 
+ * double avgDays = 0;
+ * 
+ * try { String sql =
+ * "SELECT NVL(ROUND(AVG(CAST(CLOSED_DATE AS DATE) - COMPDATETIME), 2), 0) " +
+ * "FROM CTRACK.COMPLAINTDTLS " + "WHERE STATUS = 'Closed' " +
+ * "AND CATEGORY = ? " + "AND CLOSED_DATE IS NOT NULL " +
+ * "AND COMPDATETIME IS NOT NULL " +
+ * "AND CAST(CLOSED_DATE AS DATE) >= COMPDATETIME";
+ * 
+ * PreparedStatement ps = conn.prepareStatement(sql); ps.setString(1, category);
+ * 
+ * ResultSet rs = ps.executeQuery(); if (rs.next()) { avgDays = rs.getDouble(1);
+ * }
+ * 
+ * } catch (Exception e) { e.printStackTrace(); }
+ * 
+ * return avgDays; }
+ */
 
 
 @Override
