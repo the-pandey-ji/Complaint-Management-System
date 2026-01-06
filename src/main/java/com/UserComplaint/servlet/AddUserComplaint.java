@@ -1,8 +1,9 @@
-
 package com.UserComplaint.servlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -16,76 +17,121 @@ import com.DAO.ComplaintDAOImpl;
 import com.DB.DBConnect;
 import com.entity.Complaintdtls;
 
-@WebServlet("/addcomplaintuser") // Correct servlet mapping
-@MultipartConfig(maxFileSize = 10 * 1024 * 1024) // Set max file size to 10MB
+@WebServlet("/addcomplaintuser")
+@MultipartConfig(
+    maxFileSize = 10 * 1024 * 1024,      // 10 MB
+    maxRequestSize = 20 * 1024 * 1024    // 20 MB
+)
 public class AddUserComplaint extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession(false);
+
         try {
-            HttpSession session = request.getSession(false);
+            /* ================= SESSION CHECK ================= */
             if (session == null || session.getAttribute("Userobj") == null) {
-                response.sendRedirect("home.jsp");
+                response.sendRedirect("index.jsp");
                 return;
             }
 
-            String category = request.getParameter("category");
-            String title = request.getParameter("title");
+            /* ================= FORM DATA ================= */
+            String category    = request.getParameter("category");
+            String title       = request.getParameter("title");
             String description = request.getParameter("description");
-            String qtrno = request.getParameter("qtrno");
-            String username = request.getParameter("username");
-            String phone = request.getParameter("phone");
+            String qtrno       = request.getParameter("qtrno");
+            String username    = request.getParameter("username");
+            String phone       = request.getParameter("phone");
+            long empn          = Long.parseLong(request.getParameter("empn"));
+
             String status = "Active";
-            long empn = Long.parseLong(request.getParameter("empn"));
 
+            /* ================= IMAGE HANDLING ================= */
             Part imagePart = request.getPart("imagefile");
-            String fileName = imagePart.getSubmittedFileName();
-            String defaultImage = "default.png"; // Default image file name
-            //String imagePath = request.getServletContext().getRealPath("") + File.separator + "Complaint-Management-System" + File.separator + "images";
-            //String imagePath = request.getServletContext().getRealPath("") + "Complaint-Management-System/images";
-            String imagePath = request.getServletContext().getRealPath("") + "images" ;
-            
-            
-            // Validate file type and size
-            if (fileName != null && !fileName.isEmpty()) {
-                String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
-                if (!fileExtension.equals("jpg") && !fileExtension.equals("png") && !fileExtension.equals("jpeg")) {
-                    session.setAttribute("failedMsg", "Invalid file type. Only JPG, PNG, and JPEG are allowed.");
+
+            String imageFileName = "default.png"; // default image
+            String uploadPath = request.getServletContext().getRealPath("") + "images";
+
+            if (imagePart != null && imagePart.getSize() > 0) {
+
+                String originalName = imagePart.getSubmittedFileName();
+                String extension = originalName.substring(
+                        originalName.lastIndexOf(".") + 1).toLowerCase();
+
+                /* ===== VALIDATE FILE TYPE ===== */
+                if (!extension.equals("jpg") &&
+                    !extension.equals("jpeg") &&
+                    !extension.equals("png")) {
+
+                    session.setAttribute("failedMsg",
+                        "Invalid file type. Only JPG, JPEG & PNG allowed.");
                     response.sendRedirect("addUserComplaint.jsp");
                     return;
                 }
 
-                if (imagePart.getSize() > 10 * 1024 * 1024) { // 10MB size limit
-                    session.setAttribute("failedMsg", "File size exceeds the 10MB limit.");
+                /* ===== VALIDATE FILE SIZE ===== */
+                if (imagePart.getSize() > 10 * 1024 * 1024) {
+                    session.setAttribute("failedMsg",
+                        "File size exceeds 10 MB limit.");
                     response.sendRedirect("addUserComplaint.jsp");
                     return;
                 }
 
-                // Save the uploaded file
-                File imageDir = new File(imagePath);
-                if (!imageDir.exists()) {
-                    imageDir.mkdirs();
+                /* ===== UNIQUE FILE NAME ===== */
+                imageFileName =
+                        "CMP_" + empn + "_" +
+                        System.currentTimeMillis() + "_" +
+                        UUID.randomUUID().toString().substring(0, 6) +
+                        "." + extension;
+
+                /* ===== CREATE DIR IF NOT EXISTS ===== */
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
                 }
-                imagePart.write(imagePath + File.separator + fileName);
-            } else {
-                // Use default image if no file is uploaded
-                fileName = defaultImage;
+
+                /* ===== SAVE FILE ===== */
+                imagePart.write(uploadPath + File.separator + imageFileName);
             }
 
-            Complaintdtls cm = new Complaintdtls(fileName, category, title, description, qtrno, empn, username, phone, status, "Not yet addressed");
-            ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
+            /* ================= SAVE TO DB ================= */
+            Complaintdtls complaint = new Complaintdtls(
+                    imageFileName,
+                    category,
+                    title,
+                    description,
+                    qtrno,
+                    empn,
+                    username,
+                    phone,
+                    status,
+                    "Not yet addressed"
+            );
 
-            boolean f = dao.addComplaint(cm);
-            if (f) {
-                session.setAttribute("succMsg", "Complaint added successfully.");
-                response.sendRedirect("addUserComplaint.jsp");
+            ComplaintDAOImpl dao =
+                    new ComplaintDAOImpl(DBConnect.getConnection());
+
+            boolean result = dao.addComplaint(complaint);
+
+            if (result) {
+                session.setAttribute("succMsg",
+                    "Complaint submitted successfully.");
             } else {
-                session.setAttribute("failedMsg", "Something went wrong. Please try again.");
-                response.sendRedirect("addUserComplaint.jsp");
+                session.setAttribute("failedMsg",
+                    "Something went wrong. Please try again.");
             }
+
+            response.sendRedirect("addUserComplaint.jsp");
+
         } catch (Exception e) {
             e.printStackTrace();
-            response.getWriter().println("Error: " + e.getMessage());
+            session.setAttribute("failedMsg",
+                "Server error occurred. Please contact admin.");
+            response.sendRedirect("addUserComplaint.jsp");
         }
     }
 }

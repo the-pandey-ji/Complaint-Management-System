@@ -149,6 +149,7 @@ body {
               <label>Contact Number</label>
                 <input type="text" class="form-control"
                        value="<%= user.getPhone() %>" >
+                       <input type="hidden" class="form-control" name="phone" value="<%= user.getPhone() %>" >
             </div>
             </div>
 
