@@ -1,26 +1,82 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
-<%@ page import="java.util.List" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
 <%@ page import="com.entity.User" %>
-<%@ page import="com.DAO.ComplaintDAOImpl" %>
 <%@ page import="com.DB.DBConnect" %>
 
 <%
-    // ===== SESSION & ROLE CHECK =====
-    User user = (User) session.getAttribute("Userobj");
+/* ================= SESSION & ROLE CHECK ================= */
+User user = (User) session.getAttribute("Userobj");
 
-    if (user == null) {
-        response.sendRedirect("../index.jsp");
-        return;
-    }
-    if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
-        response.sendRedirect("../home.jsp");
-        return;
-    }
+if (user == null) {
+    response.sendRedirect("../index.jsp");
+    return;
+}
+if (!user.getRole().equals("AC") && !user.getRole().equals("AE")) {
+    response.sendRedirect("../home.jsp");
+    return;
+}
 
-    ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
-    List<User> userList = dao.getAllUsers();
+/* ================= DB ================= */
+Connection con = DBConnect.getConnection();
+String action = request.getParameter("action");
+
+/* ================= REGISTER ================= */
+if ("register".equals(action)) {
+    PreparedStatement ps = con.prepareStatement(
+        "INSERT INTO USERMASTER " +
+        "(EMPN, USERNAME, QTRNO, EMAIL, PHONE, PASSWORD, USERCREATIONDATE, STATUS, ROLE) " +
+        "VALUES (?, ?, ?, ?, ?, ?, SYSDATE, ?, ?)"
+    );
+    ps.setLong(1, Long.parseLong(request.getParameter("empn")));
+    ps.setString(2, request.getParameter("username"));
+    ps.setString(3, request.getParameter("qtrno"));
+    ps.setString(4, request.getParameter("email"));
+    ps.setString(5, request.getParameter("phone"));
+    ps.setString(6, request.getParameter("password"));
+    ps.setString(7, request.getParameter("status"));
+    ps.setString(8, request.getParameter("role"));
+    ps.executeUpdate();
+
+    response.sendRedirect("manageUsers.jsp");
+    return;
+}
+
+/* ================= UPDATE ================= */
+if ("update".equals(action)) {
+    PreparedStatement ps = con.prepareStatement(
+        "UPDATE USERMASTER SET USERNAME=?, QTRNO=?, EMAIL=?, PHONE=?, STATUS=?, ROLE=? WHERE EMPN=?"
+    );
+    ps.setString(1, request.getParameter("username"));
+    ps.setString(2, request.getParameter("qtrno"));
+    ps.setString(3, request.getParameter("email"));
+    ps.setString(4, request.getParameter("phone"));
+    ps.setString(5, request.getParameter("status"));
+    ps.setString(6, request.getParameter("role"));
+    ps.setLong(7, Long.parseLong(request.getParameter("empn")));
+    ps.executeUpdate();
+
+    response.sendRedirect("manageUsers.jsp");
+    return;
+}
+
+/* ================= SOFT DELETE ================= */
+if ("delete".equals(action)) {
+    PreparedStatement ps = con.prepareStatement(
+        "UPDATE USERMASTER SET STATUS='D' WHERE EMPN=?"
+    );
+    ps.setLong(1, Long.parseLong(request.getParameter("empn")));
+    ps.executeUpdate();
+
+    response.sendRedirect("manageUsers.jsp");
+    return;
+}
+
+/* ================= FETCH USERS ================= */
+PreparedStatement psUsers =
+    con.prepareStatement("SELECT * FROM USERMASTER WHERE STATUS <> 'D' ORDER BY EMPN");
+ResultSet rs = psUsers.executeQuery();
+
+String editEmpn = request.getParameter("editEmpn");
 %>
 
 <!DOCTYPE html>
@@ -28,59 +84,25 @@
 <head>
 <meta charset="UTF-8">
 <title>Admin | User Management</title>
-
 <%@ include file="allCss.jsp" %>
 
 <style>
-body {
-    background-color: #f4f6f9;
-    font-family: "Segoe UI", Roboto, Arial;
-}
-
-/* Sidebar */
+body { background:#f4f6f9; font-family:"Segoe UI",Roboto,Arial; }
 .sidebar {
-    height: 100vh;
-    background: #1e272e;
-    color: #fff;
-    position: fixed;
-    width: 240px;
-    padding-top: 30px;
+    height:100vh; background:#1e272e; color:#fff;
+    position:fixed; width:240px; padding-top:30px;
 }
-
 .sidebar a {
-    color: #dcdde1;
-    display: block;
-    padding: 12px 25px;
-    text-decoration: none;
+    color:#dcdde1; display:block; padding:12px 25px; text-decoration:none;
 }
-
-.sidebar a.active,
-.sidebar a:hover {
-    background: #485460;
-    color: #fff;
+.sidebar a.active,.sidebar a:hover { background:#485460; color:#fff; }
+.main { margin-left:240px; padding:30px; }
+.page-header,.table-card {
+    background:#fff; border-radius:12px; padding:20px;
+    box-shadow:0 6px 15px rgba(0,0,0,.08); margin-bottom:20px;
 }
-
-/* Main */
-.main {
-    margin-left: 240px;
-    padding: 30px;
-}
-
-/* Cards */
-.page-header,
-.table-card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-    margin-bottom: 20px;
-}
-
-/* Table */
-.table th, .table td {
-    text-align: center;
-    vertical-align: middle;
-    font-size: 13px;
+.table th,.table td {
+    text-align:center; vertical-align:middle; font-size:13px;
 }
 </style>
 </head>
@@ -96,7 +118,7 @@ body {
         <i class="fas fa-home mr-2"></i> Dashboard
     </a>
 
-    <a href="manageUsers.jsp" class="active">
+    <a href="manageUsers.jsp">
         <i class="fas fa-users mr-2"></i> User Management
     </a>
 
@@ -122,196 +144,163 @@ body {
 
 </div>
 
-<!-- ===== MAIN ===== -->
 <div class="main">
 
-    <!-- HEADER -->
-    <div class="page-header">
-        <h4>User Management</h4>
-        <p class="text-muted mb-0">
-            Logged in as <strong><%= user.getUsername() %> (ADMIN)</strong>
-        </p>
-    </div>
+<!-- ===== HEADER ===== -->
+<div class="page-header">
+    <h4>User Management</h4>
+    <p class="text-muted mb-0">
+        Logged in as <strong><%= user.getUsername() %></strong>
+    </p>
+</div>
 
-
-<!-- ===== REGISTER NEW USER ===== -->
+<!-- ===== REGISTER USER ===== -->
 <div class="table-card">
-    <h5 class="mb-3">
-        <i class="fas fa-user-plus"></i> Register New User
-    </h5>
+<h5>Register New User</h5>
 
-    <form action="../addUser" method="post">
+<form method="post">
+<input type="hidden" name="action" value="register">
 
-        <div class="row">
-
-            <div class="col-md-3">
-                <label>Emp No</label>
-                <input type="number" name="empn" class="form-control" required>
-            </div>
-
-            <div class="col-md-3">
-                <label>Full Name</label>
-                <input type="text" name="username" class="form-control" required>
-            </div>
-
-            <div class="col-md-3">
-                <label>Quarter No</label>
-                <input type="text" name="qtrno" class="form-control">
-            </div>
-
-            <div class="col-md-3">
-                <label>Role</label>
-                <select name="role" class="form-control" required>
-                    <option value="">Select</option>
-                    <option value="NU">Normal User</option>
-                    <option value="AC">AC (Civil)</option>
-                    <option value="AE">AE (Electrical)</option>
-                </select>
-            </div>
-
-        </div>
-
-        <div class="row mt-3">
-
-            <div class="col-md-4">
-                <label>Email</label>
-                <input type="email" name="email" class="form-control">
-            </div>
-
-            <div class="col-md-4">
-                <label>Phone</label>
-                <input type="text" name="phone" class="form-control" required>
-            </div>
-
-            <div class="col-md-2">
-                <label>Status</label>
-                <select name="status" class="form-control" required>
-                    <option value="A">Active</option>
-                    <option value="I">Inactive</option>
-                </select>
-            </div>
-
-            <div class="col-md-2">
-                <label>Password</label>
-                <input type="password" name="password" class="form-control" required>
-            </div>
-
-        </div>
-
-        <div class="text-right mt-3">
-            <button class="btn btn-success">
-                <i class="fas fa-save"></i> Create User
-            </button>
-        </div>
-
-    </form>
+<div class="row">
+    <div class="col-md-3"><input name="empn" class="form-control" placeholder="Emp No" required></div>
+    <div class="col-md-3"><input name="username" class="form-control" placeholder="Name" required></div>
+    <div class="col-md-3"><input name="qtrno" class="form-control" placeholder="Quarter"></div>
+    <div class="col-md-3">
+        <select name="role" class="form-control" required>
+            <option value="">Role</option>
+            <option value="NU">User</option>
+            <option value="AC">AC</option>
+            <option value="AE">AE</option>
+        </select>
+    </div>
 </div>
 
-
-
-    <!-- ===== SEARCH BAR (JS ONLY) ===== -->
-    <div class="mb-3 text-center">
-        <input type="text"
-               id="userSearch"
-               class="form-control"
-               style="max-width: 360px; margin:auto;"
-               placeholder="Search by Emp No / Name / Mobile"
-               onkeyup="filterUsers()">
+<div class="row mt-2">
+    <div class="col-md-4"><input name="email" class="form-control" placeholder="Email"></div>
+    <div class="col-md-4"><input name="phone" class="form-control" placeholder="Phone" required></div>
+    <div class="col-md-2">
+        <select name="status" class="form-control">
+            <option value="A">Active</option>
+            <option value="I">Inactive</option>
+        </select>
     </div>
+    <div class="col-md-2"><input name="password" class="form-control" placeholder="Password" required></div>
+</div>
 
-    <!-- ===== USER TABLE ===== -->
-    <div class="table-card">
-        <h5 class="mb-3">All Users</h5>
+<div class="text-right mt-3">
+    <button class="btn btn-success">Create User</button>
+</div>
+</form>
+</div>
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="userTable">
+<!-- ===== SEARCH ===== -->
+<div class="mb-3 text-center">
+<input id="userSearch" class="form-control"
+       style="max-width:360px;margin:auto"
+       placeholder="Search user"
+       onkeyup="filterUsers()">
+</div>
 
-                <thead class="bg-primary text-white">
-                <tr>
-                    <th>Emp No</th>
-                    <th>Name</th>
-                    <th>Quarter</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>Role</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-                </thead>
+<!-- ===== USER TABLE ===== -->
+<div class="table-card">
+<table class="table table-bordered" id="userTable">
+<thead class="bg-primary text-white">
+<tr>
+<th>Emp</th><th>Name</th><th>Qtr</th><th>Email</th>
+<th>Phone</th><th>Status</th><th>Role</th><th>Edit</th><th>Delete</th>
+</tr>
+</thead>
+<tbody>
 
-                <tbody>
-                <%
-                    if (userList != null && !userList.isEmpty()) {
-                        for (User u : userList) {
-                %>
-                <tr>
-                    <td><%= u.getEmpn() %></td>
-                    <td><%= u.getUsername() %></td>
-                    <td><%= u.getQtrno() %></td>
-                    <td><%= u.getEmail() %></td>
-                    <td><%= u.getPhone() %></td>
-                    <td><%= "A".equals(u.getStatus()) ? "Active" : "Inactive" %></td>
-                    <td><%= u.getRole() %></td>
+<%
+while (rs.next()) {
+boolean edit = editEmpn != null && editEmpn.equals(rs.getString("EMPN"));
+%>
 
-                    <td>
-                        <a href="editUser.jsp?empn=<%= u.getEmpn() %>"
-                           class="btn btn-sm btn-primary">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                    </td>
+<tr>
+<% if (edit) { %>
+<form method="post">
+<input type="hidden" name="action" value="update">
+<input type="hidden" name="empn" value="<%=rs.getString("EMPN")%>">
+<% } %>
 
-                    <td>
-                        <a href="../deleteUser?empn=<%= u.getEmpn() %>"
-                           class="btn btn-sm btn-danger"
-                           onclick="return confirm('Delete this user?')">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </td>
-                </tr>
-                <%
-                        }
-                    } else {
-                %>
-                <tr>
-                    <td colspan="9" class="text-center text-muted">
-                        No users found
-                    </td>
-                </tr>
-                <%
-                    }
-                %>
-                </tbody>
+<td><%=rs.getString("EMPN")%></td>
 
-            </table>
-        </div>
-    </div>
+<td>
+<% if (edit) { %>
+<input name="username" value="<%=rs.getString("USERNAME")%>" class="form-control">
+<% } else { %><%=rs.getString("USERNAME")%><% } %>
+</td>
+
+<td>
+<% if (edit) { %>
+<input name="qtrno" value="<%=rs.getString("QTRNO")%>" class="form-control">
+<% } else { %><%=rs.getString("QTRNO")%><% } %>
+</td>
+
+<td>
+<% if (edit) { %>
+<input name="email" value="<%=rs.getString("EMAIL")%>" class="form-control">
+<% } else { %><%=rs.getString("EMAIL")%><% } %>
+</td>
+
+<td>
+<% if (edit) { %>
+<input name="phone" value="<%=rs.getString("PHONE")%>" class="form-control">
+<% } else { %><%=rs.getString("PHONE")%><% } %>
+</td>
+
+<td>
+<% if (edit) { %>
+<select name="status" class="form-control">
+<option value="A">Active</option>
+<option value="I">Inactive</option>
+</select>
+<% } else { %><%=rs.getString("STATUS")%><% } %>
+</td>
+
+<td>
+<% if (edit) { %>
+<select name="role" class="form-control">
+<option value="NU">NU</option>
+<option value="AC">AC</option>
+<option value="AE">AE</option>
+</select>
+<% } else { %><%=rs.getString("ROLE")%><% } %>
+</td>
+
+<td>
+<% if (edit) { %>
+<button class="btn btn-sm btn-success">Save</button>
+</form>
+<% } else { %>
+<a href="manageUsers.jsp?editEmpn=<%=rs.getString("EMPN")%>"
+   class="btn btn-sm btn-primary">Edit</a>
+<% } %>
+</td>
+
+<td>
+<a href="manageUsers.jsp?action=delete&empn=<%=rs.getString("EMPN")%>"
+   onclick="return confirm('Deactivate user?')"
+   class="btn btn-sm btn-danger">Delete</a>
+</td>
+
+</tr>
+
+<% } %>
+
+</tbody>
+</table>
+</div>
 
 </div>
 
-<!-- ===== JAVASCRIPT SEARCH ===== -->
 <script>
 function filterUsers() {
-    const input = document.getElementById("userSearch");
-    const filter = input.value.toLowerCase();
-    const table = document.getElementById("userTable");
-    const rows = table.getElementsByTagName("tr");
-
-    for (let i = 1; i < rows.length; i++) {
-        let showRow = false;
-        const cells = rows[i].getElementsByTagName("td");
-
-        for (let j = 0; j < cells.length - 2; j++) {
-            if (cells[j]) {
-                const text = cells[j].innerText.toLowerCase();
-                if (text.includes(filter)) {
-                    showRow = true;
-                    break;
-                }
-            }
-        }
-        rows[i].style.display = showRow ? "" : "none";
-    }
+  let f=document.getElementById("userSearch").value.toLowerCase();
+  document.querySelectorAll("#userTable tbody tr").forEach(r=>{
+    r.style.display=r.innerText.toLowerCase().includes(f)?"":"none";
+  });
 }
 </script>
 

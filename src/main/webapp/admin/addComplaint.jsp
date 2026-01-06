@@ -234,14 +234,30 @@ html.dark-mode .sidebar {
                 <div class="col-md-6">
                     <div class="section-title">Complaint Details</div>
 
-                    <div class="form-group">
-                        <label>Complaint Category</label>
-                        <select name="category" class="form-control" required>
-                            <option value="">Select</option>
-                            <option value="Civil">Civil</option>
-                            <option value="Electrical">Electrical</option>
-                        </select>
-                    </div>
+                    <%
+    String complaintCategory = "";
+    if ("AC".equals(user.getRole())) {
+        complaintCategory = "Civil";
+    } else if ("AE".equals(user.getRole())) {
+        complaintCategory = "Electrical";
+    }
+%>
+
+<div class="form-group">
+    <label>Complaint Category</label>
+
+    <!-- Read-only visible field -->
+    <input type="text"
+           class="form-control"
+           value="<%= complaintCategory %>"
+           readonly>
+
+    <!-- Hidden field actually submitted -->
+    <input type="hidden"
+           name="category"
+           value="<%= complaintCategory %>">
+</div>
+
 
                     <div class="form-group">
                         <label>Complaint Title</label>
