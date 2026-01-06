@@ -2,160 +2,198 @@
 <%@page import="com.DB.DBConnect"%>
 <%@page import="com.DAO.UserDAOImpl"%>
 <%@page import="com.entity.User"%>
-<%@page import="com.UserComplaint.servlet.AddUserComplaint" %>
+<%@page import="com.UserComplaint.servlet.AddUserComplaint"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-
+    pageEncoding="ISO-8859-1"%>
 
 <%
-// Check if the user is logged in
 User user = (User) session.getAttribute("Userobj");
 if (user == null) {
-    // Redirect to login page if not logged in
     response.sendRedirect("index.jsp");
     return;
 }
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <title>Add Complaint</title>
 <%@include file="all_component/allCss.jsp"%>
+
+<style>
+body {
+    background-color: #f4f6f9;
+}
+
+.form-card {
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.12);
+    border: none;
+}
+
+.form-title {
+    font-weight: 700;
+    color: #0b6b3a;
+}
+
+.form-subtitle {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.form-control {
+    border-radius: 10px;
+}
+
+.btn-submit {
+    border-radius: 12px;
+    font-weight: 600;
+    padding: 10px 30px;
+}
+
+.section-divider {
+    height: 4px;
+    width: 80px;
+    background: linear-gradient(90deg,#0b6b3a,#1e8f5a);
+    border-radius: 4px;
+    margin: 10px auto 25px;
+}
+</style>
 </head>
-<body style="background-color: #f0f2f2;">
-	<%@include file="all_component/navbar.jsp"%>
-	
 
+<body>
 
+<%@include file="all_component/navbar.jsp"%>
 
+<!-- PAGE HEADER -->
+<div class="container mt-5 text-center">
+    <h2 class="form-title">Raise a New Complaint</h2>
+    <p class="form-subtitle">
+        Please provide accurate details for faster resolution
+    </p>
+    <div class="section-divider"></div>
+</div>
 
+<!-- FORM CARD -->
+<div class="container mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-7">
 
-<div class="container" style="margin-top: 30px;">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-body">
-          <h4 class="text-center">Add Complaint</h4>
-          
-          						<div>
-       <!-- Display success message -->
-                        <%
-                            String succMsg = (String) session.getAttribute("succMsg");
-                            if (succMsg != null) {
-                        %>
-                            <div style="color: green; font-size:25px; font-weight: bold;">
-                                <%= succMsg %>
-                            </div>
-                        <%
-                            session.removeAttribute("succMsg");
-                            }
-                        %>
+      <div class="card form-card">
+        <div class="card-body p-4">
 
-                        <!-- Display failed message -->
-                        <%
-                            String failedMsg = (String) session.getAttribute("failedMsg");
-                            if (failedMsg != null) {
-                        %>
-                            <div style="color: red;font-size:25px; font-weight: bold;">
-                                <%= failedMsg %>
-                            </div>
-                        <%
-                            session.removeAttribute("failedMsg");
-                            }
-                        %>
-    </div>
+          <!-- SUCCESS MESSAGE -->
+          <%
+              String succMsg = (String) session.getAttribute("succMsg");
+              if (succMsg != null) {
+          %>
+              <div class="alert alert-success text-center font-weight-bold">
+                  <%= succMsg %>
+              </div>
+          <%
+              session.removeAttribute("succMsg");
+              }
+          %>
+
+          <!-- ERROR MESSAGE -->
+          <%
+              String failedMsg = (String) session.getAttribute("failedMsg");
+              if (failedMsg != null) {
+          %>
+              <div class="alert alert-danger text-center font-weight-bold">
+                  <%= failedMsg %>
+              </div>
+          <%
+              session.removeAttribute("failedMsg");
+              }
+          %>
 
           <form action="addcomplaintuser" method="post" enctype="multipart/form-data">
+
+            <!-- CATEGORY -->
             <div class="form-group">
-              <label for="inputState">Complaint Categories</label>
-              <select id="inputState" name="category" class="form-control">
-                <option selected>--select--</option>
+              <label>Complaint Category</label>
+              <select name="category" class="form-control" required>
+                <option value="">-- Select Category --</option>
                 <option value="Civil">Civil</option>
                 <option value="Electrical">Electrical</option>
               </select>
             </div>
 
+            <!-- TITLE -->
             <div class="form-group">
-              <label for="exampleInputEmail1">Complaint Title</label>
-              <input name="title" type="text" class="form-control">
+              <label>Complaint Title</label>
+              <input name="title" type="text" class="form-control"
+                     placeholder="Brief title of the issue" required>
             </div>
 
+            <!-- DESCRIPTION -->
             <div class="form-group">
-              <label for="text">Complaint Description</label>
-              <textarea name="description" class="form-control" id="description" rows="3"></textarea>
+              <label>Complaint Description</label>
+              <textarea name="description" class="form-control"
+                        rows="4"
+                        placeholder="Describe the issue in detail"
+                        required></textarea>
             </div>
 
-         <!--    <div class="form-group">
-              <label for="exampleInputEmail1">Quarter Number</label>
-              <input name="qtrno" type="text" class="form-control">
-            </div> -->
-          <%--   <div class="form-group">
-               <label for="qtrno">Quarter Number</label>
-              <input name="qtrno" type="text" class="form-control" value="<%= user.getQtrno() %>">
-            </div> --%>
+             <div class="row">
             
-              <div class="form-group">
-                                <label for="qtrno">Quarter Number</label>
-                                <input name="qtrno" type="text" class="form-control" value="<%= user.getQtrno() != null ? user.getQtrno() : "" %>">
-                            </div>
-
-            <!-- Pre-fill user details -->
-            <div class="form-group">
-              <label for="empn">Employee Number</label>
-              <input name="empn" type="text" class="form-control" value="<%= user.getEmpn() %>" readonly>
+            <!-- QTR -->
+            <div class="col-md-6 form-group">
+              <label>Quarter Number</label>
+              <input name="qtrno" type="text" class="form-control"
+                     value="<%= user.getQtrno() != null ? user.getQtrno() : "" %>">
             </div>
 
-            <div class="form-group">
-              <label for="username">User Name</label>
-              <input name="username" type="text" class="form-control" value="<%= user.getUsername() %>" readonly>
+            <div class=" col-md-6 form-group">
+              <label>Contact Number</label>
+                <input type="text" class="form-control"
+                       value="<%= user.getPhone() %>" >
+            </div>
             </div>
 
+           
+               
+                <input type="hidden" name="empn" value="<%= user.getEmpn() %>">
+              
+
+              
+                <input type="hidden" name="username" value="<%= user.getUsername() %>">
+             
+
+          
+              
+                
+                <input type="hidden" name="email" value="<%= user.getEmail() %>">
+              
+
+             
+           
+
+            <!-- IMAGE -->
             <div class="form-group">
-              <label for="email">Email</label>
-              <input name="email" type="email" class="form-control" value="<%= user.getEmail() %>" readonly>
+              <label>Upload Photo (Optional)</label>
+              <input name="imagefile" type="file" class="form-control-file">
             </div>
 
-            <div class="form-group">
-              <label for="phone">Contact Number</label>
-              <input name="phone" type="text" class="form-control" value="<%= user.getPhone() %>" readonly>
+            <!-- SUBMIT -->
+            <div class="text-center mt-4">
+              <button type="submit" class="btn btn-success btn-submit">
+                <i class="fas fa-paper-plane mr-1"></i> Submit Complaint
+              </button>
             </div>
 
-            <div class="form-group">
-              <label for="exampleFormControlFile1">Upload Photo</label>
-              <input name="imagefile" type="file" class="form-control-file" id="exampleFormControlFile1">
-            </div>
-
-            <button type="submit" class="btn btn-primary">Add</button>
           </form>
+
         </div>
       </div>
+
     </div>
   </div>
 </div>
 
+<%@include file="all_component/footer.jsp"%>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	<div style="margin-top: 100px;">
-		<%@include file="all_component/footer.jsp"%></div>
 </body>
 </html>
+ 
