@@ -162,7 +162,7 @@ a{text-decoration:none}
     </div>
 
     <div class="col-md-4">
-      <div class="action-card text-center" onclick="location.href='changePassword.jsp'">
+      <div class="action-card text-center" onclick="location.href='userProfile.jsp'">
         <div class="action-icon text-warning">
           <i class="fas fa-user-cog"></i>
         </div>

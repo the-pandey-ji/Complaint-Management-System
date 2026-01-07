@@ -241,7 +241,7 @@ label {
 
     <div class="login-footer">
         For optimal performance, use the latest version of
-        Google Chrome or Microsoft Edge.
+        Ulaa Browser.
     </div>
 
 </div>
