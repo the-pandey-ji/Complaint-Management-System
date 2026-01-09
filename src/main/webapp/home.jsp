@@ -137,19 +137,19 @@ a{text-decoration:none}
   <div class="row g-4">
     <div class="col-md-4">
       <div class="kpi-card bg-blue">
-        <div class="kpi-title">Total Complaints</div>
+        <div class="kpi-title"><h4>Total Complaints</h4></div>
         <div class="kpi-value"><%=totalCount%></div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="kpi-card bg-orange">
-        <div class="kpi-title">Open Complaints</div>
+        <div class="kpi-title"><h4>Open Complaints</h4></div>
         <div class="kpi-value"><%=openCount%></div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="kpi-card bg-green">
-        <div class="kpi-title">Resolved</div>
+        <div class="kpi-title"><h4>Resolved</h4></div>
         <div class="kpi-value"><%=closedCount%></div>
       </div>
     </div>
@@ -164,8 +164,8 @@ a{text-decoration:none}
       <div class="action-card" onclick="location.href='addUserComplaint.jsp'">
         <div class="action-icon text-primary"><i class="fas fa-plus-circle"></i></div>
         <div>
-          <div class="action-title">Raise Complaint</div>
-          <small class="text-muted">Submit new issue</small>
+          <div class="action-title"><h4>Raise Complaint</h4></div>
+          <h6 class="text-muted">Submit new issue</h6>
         </div>
       </div>
     </div>
@@ -173,8 +173,8 @@ a{text-decoration:none}
       <div class="action-card" onclick="location.href='allComplaints.jsp'">
         <div class="action-icon text-success"><i class="fas fa-list-alt"></i></div>
         <div>
-          <div class="action-title">View Complaints</div>
-          <small class="text-muted">Track status</small>
+          <div class="action-title"><h4>View Complaints</h4></div>
+          <h6 class="text-muted">Track status</h6>
         </div>
       </div>
     </div>
@@ -182,8 +182,8 @@ a{text-decoration:none}
       <div class="action-card" onclick="location.href='userProfile.jsp'">
         <div class="action-icon text-warning"><i class="fas fa-user-cog"></i></div>
         <div>
-          <div class="action-title">My Profile</div>
-          <small class="text-muted">Account settings</small>
+          <div class="action-title"><h4>My Profile</h4></div>
+          <h6 class="text-muted">Account settings</h6>
         </div>
       </div>
     </div>
