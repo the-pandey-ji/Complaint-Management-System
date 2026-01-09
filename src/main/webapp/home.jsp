@@ -129,7 +129,7 @@ a{text-decoration:none}
 <!-- HEADER -->
 <div class="container-fluid mt-5 text-center">
   <h2 class="text-primary font-weight-bold">User Dashboard</h2>
-  <h6 class="text-muted">Welcome, <%=user.getUsername()%></h6>
+  <h4 class="text-success">Welcome, <%=user.getUsername()%></h4>
 </div>
 
 <!-- KPI -->
