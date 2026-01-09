@@ -5,9 +5,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Register | Complaint Management System</title>
 
 <style>
+/* ================= DESKTOP STYLES (UNCHANGED) ================= */
+
 /* CARD */
 .register-card {
     max-width: 650px;
@@ -54,13 +57,198 @@ label {
     font-weight: 600;
     padding: 8px;
 }
+
+/* ================= MOBILE ONLY CHANGES ================= */
+@media (max-width: 768px) {
+
+    /* Reduce header logo */
+    img[alt="NFL Logo"] {
+        height: 52px !important;
+    }
+
+    /* Header title smaller */
+    h4.text-primary {
+        font-size: 1.05rem;
+    }
+
+    /* Company name smaller */
+    h3.text-success {
+        font-size: 1.1rem;
+    }
+
+    h5.text-danger {
+        font-size: 0.95rem;
+    }
+
+    /* Card spacing */
+    .register-card {
+        margin: 0 10px;
+        border-radius: 14px;
+    }
+
+    /* Padding adjustment */
+    .card-body {
+        padding: 22px !important;
+    }
+
+    /* Form fields height */
+    .form-control {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    /* Stack quarter fields nicely */
+    .form-row > .col-md-4 {
+        margin-bottom: 12px;
+    }
+
+    /* Buttons full width (already block, but safer) */
+    .btn-register,
+    .btn-outline-secondary {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+
+    /* Header text tighter */
+    h4.text-primary {
+        font-size: 0.95rem;
+    }
+
+    h3.text-success {
+        font-size: 1rem;
+    }
+
+    h5.text-danger {
+        font-size: 0.85rem;
+    }
+
+    /* Section titles */
+    .section-title {
+        font-size: 13px;
+    }
+
+    label {
+        font-size: 12px;
+    }
+}
+
+
+/* ===========================
+   REAL MOBILE RESPONSIVENESS
+   DESKTOP UNTOUCHED
+   =========================== */
+@media (max-width: 768px) {
+
+  /* ----- HEADER FIX ----- */
+  .container-fluid > .row {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .container-fluid .col-md-4 {
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    margin-bottom: 8px;
+  }
+
+  /* Logo resize */
+  img[alt="NFL Logo"] {
+    height: 48px !important;
+    margin-right: 0 !important;
+  }
+
+  /* Header title wrap */
+  h4.text-primary {
+    font-size: 1rem;
+    line-height: 1.2;
+    margin-top: 6px;
+  }
+
+  h3.text-success {
+    font-size: 1.05rem;
+  }
+
+  h5.text-danger {
+    font-size: 0.9rem;
+  }
+
+  /* ----- REGISTER CARD ----- */
+  .container.py-5 {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+
+  .register-card {
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 12px;
+  }
+
+  .card-body {
+    padding: 20px !important;
+  }
+
+  /* ----- FORCE FORM STACKING ----- */
+  .form-row {
+    display: block !important;
+  }
+
+  .form-row > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 12px;
+  }
+
+  /* Inputs touch friendly */
+  .form-control {
+    height: 46px;
+    font-size: 14px;
+  }
+
+  /* Buttons */
+  .btn-register,
+  .btn-outline-secondary {
+    height: 46px;
+    font-size: 14px;
+  }
+}
+
+/* EXTRA SMALL DEVICES */
+@media (max-width: 480px) {
+
+  h4.text-primary {
+    font-size: 0.95rem;
+  }
+
+  h3.text-success {
+    font-size: 0.95rem;
+  }
+
+  h5.text-danger {
+    font-size: 0.85rem;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  .section-title {
+    font-size: 13px;
+  }
+}
+
 </style>
 </head>
 
 <body>
 
 <!-- ===== HEADER (UNCHANGED – YOUR APPROVED VERSION) ===== -->
-
 
 <!-- TOP ACCENT BAR -->
 <div class="container-fluid p-0">
@@ -96,8 +284,6 @@ label {
             </div>
         </div>
 
-
-
     </div>
 </div>
 
@@ -105,7 +291,6 @@ label {
 <div class="container-fluid p-0">
     <div style="height:4px;background:linear-gradient(90deg,#0b6b3a,#1e8f5a);"></div>
 </div>
-
 
 <!-- ===== REGISTER CARD ===== -->
 <div class="container py-5">
@@ -181,7 +366,6 @@ label {
                     </div>
                 </div>
 
-                <!-- HIDDEN COMBINED VALUE -->
                 <input type="hidden" id="qtrno" name="qtrno">
 
                 <!-- CONTACT -->
@@ -219,15 +403,14 @@ label {
                         <i class="fas fa-user-plus mr-1"></i>
                         Register
                     </button>
-                     </div>
-                    
-                    <div class="text-center mt-2">
-    <a href="index.jsp" class="btn btn-outline-secondary btn-block">
-        <i class="fas fa-arrow-left mr-1"></i>
-        Back to Login
-    </a>
-</div>
-               
+                </div>
+
+                <div class="text-center mt-2">
+                    <a href="index.jsp" class="btn btn-outline-secondary btn-block">
+                        <i class="fas fa-arrow-left mr-1"></i>
+                        Back to Login
+                    </a>
+                </div>
 
             </form>
         </div>
@@ -236,7 +419,7 @@ label {
 
 <%@ include file="all_component/footer.jsp" %>
 
-<!-- ===== QUARTER CONCAT JS (UNCHANGED LOGIC) ===== -->
+<!-- ===== QUARTER CONCAT JS (UNCHANGED) ===== -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('registerForm');
