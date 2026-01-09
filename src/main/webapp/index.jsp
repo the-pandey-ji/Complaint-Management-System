@@ -4,7 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Complaint Management System | Secure Login</title>
 
 <%@ include file="all_component/allCss.jsp" %>
@@ -150,6 +152,125 @@ label {
     font-weight: 600;
     letter-spacing: 0.4px;
 }
+
+/* ===============================
+   RESPONSIVE DESIGN
+   =============================== */
+
+/* Tablets & Small Laptops */
+@media (max-width: 992px) {
+    .login-wrapper {
+        width: 90%;
+        padding: 38px 34px;
+    }
+
+    .brand-logo img {
+        height: 105px;
+    }
+
+    .brand-subtitle {
+        font-size: 23px;
+    }
+}
+
+/* Large Mobiles & Small Tablets */
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+        height: auto;
+    }
+
+    .login-wrapper {
+        width: 100%;
+        padding: 34px 30px;
+        border-radius: 18px;
+    }
+
+    .brand-logo img {
+        height: 95px;
+    }
+
+    .brand-title {
+        font-size: 16px;
+    }
+
+    .brand-subtitle {
+        font-size: 22px;
+        margin-bottom: 22px;
+    }
+
+    .form-control {
+        height: 46px;
+        font-size: 14px;
+    }
+
+    .btn-login {
+        height: 48px;
+        font-size: 14px;
+    }
+}
+
+/* Mobile Phones */
+@media (max-width: 576px) {
+    body {
+        padding: 14px;
+    }
+
+    .login-wrapper {
+        padding: 28px 22px;
+        border-radius: 16px;
+    }
+
+    .brand-logo img {
+        height: 80px;
+        margin-bottom: 10px;
+    }
+
+    .brand-title {
+        font-size: 15px;
+    }
+
+    .brand-subtitle {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-size: 12px;
+    }
+
+    .form-control {
+        height: 44px;
+        font-size: 13px;
+    }
+
+    .btn-login,
+    .btn-secondary,
+    .btn-outline-primary {
+        height: 46px;
+        font-size: 13px;
+    }
+
+    .login-footer {
+        font-size: 10px;
+    }
+
+    .secure-badge {
+        font-size: 10px;
+    }
+}
+
+/* Extra Small Devices (Very Small Phones) */
+@media (max-width: 400px) {
+    .brand-subtitle {
+        font-size: 18px;
+    }
+
+    .login-wrapper {
+        padding: 24px 18px;
+    }
+}
+
 </style>
 </head>
 
