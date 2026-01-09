@@ -14,16 +14,16 @@
             <img src="/Complaint-Management-System/nflimage.png"
                  alt="NFL Logo"
                  style="height:70px;"
-                 class="mr-3">
+                 class="mr-3 header-logo">
 
-            <h4 class="mb-0 text-primary">
+            <h4 class="mb-0 text-primary header-title">
                 <i class="fas fa-tools mr-2"></i>
                 Complaint Management System
             </h4>
         </div>
 
         <!-- CENTER: COMPANY NAME -->
-        <div class="col-md-4 text-center">
+        <div class="col-md-4 text-center header-company">
             <div style="line-height:1.3;">
                 <h3 class="mb-0 font-weight-bold text-success text-uppercase">
                     National Fertilizers Limited
@@ -35,26 +35,25 @@
         </div>
 
         <!-- RIGHT: USER PROFILE DROPDOWN -->
-        <div class="col-md-4 text-right">
+        <div class="col-md-4 text-right header-user">
             <%
                 User user1 = (User) session.getAttribute("Userobj");
                 if (user1 != null) {
             %>
                 <div class="dropdown d-inline-block">
+                    <button class="btn btn-success dropdown-toggle px-5 py-2 user-btn"
+                            type="button"
+                            id="userDropdown"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            style="font-size:1.05rem;">
+                        <i class="fas fa-user-circle mr-2" style="font-size:1.3rem;"></i>
+                        <span class="user-name"><%= user1.getUsername() %></span>
+                    </button>
 
-                     <button class="btn btn-success dropdown-toggle px-5 py-2"
-                    type="button"
-                    id="userDropdown"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    style="font-size:1.05rem;">
-                <i class="fas fa-user-circle mr-2" style="font-size:1.3rem;"></i>
-                <%= user1.getUsername() %>
-            		</button>
                     <div class="dropdown-menu dropdown-menu-right shadow-sm"
                          aria-labelledby="userDropdown">
-
                         <a class="dropdown-item" href="userProfile.jsp">
                             <i class="fas fa-id-badge mr-2 text-primary"></i>
                             My Profile
@@ -73,7 +72,6 @@
                             <i class="fas fa-sign-out-alt mr-2"></i>
                             Logout
                         </a>
-
                     </div>
                 </div>
             <%
@@ -104,7 +102,6 @@
 
         <!-- LEFT MENU -->
         <ul class="navbar-nav mr-auto">
-
             <li class="nav-item active">
                 <a class="nav-link" href="home.jsp">
                     <i class="fas fa-chart-line mr-1"></i> Dashboard
@@ -134,7 +131,7 @@
         </ul>
 
         <!-- RIGHT MENU -->
-        <div class="form-inline">
+        <div class="form-inline navbar-actions">
             <a href="changePassword.jsp"
                class="btn btn-outline-light btn-sm mr-2">
                 <i class="fas fa-key"></i> Change Password
@@ -152,7 +149,6 @@
 <div class="modal fade" id="exampleModalCenter" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-
       <div class="modal-header border-0">
         <button type="button" class="close" data-dismiss="modal">
           <span>&times;</span>
@@ -161,16 +157,55 @@
 
       <div class="modal-body text-center">
         <h5 class="mb-4">Are you sure you want to logout?</h5>
-
-        <button class="btn btn-secondary" data-dismiss="modal">
-            Cancel
-        </button>
-
-        <a href="logout" class="btn btn-danger ml-3">
-            Logout
-        </a>
+        <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <a href="logout" class="btn btn-danger ml-3">Logout</a>
       </div>
-
     </div>
   </div>
 </div>
+
+<!-- ================= MOBILE ONLY CHANGES ================= -->
+<style>
+/* ================= MOBILE VIEW ONLY ================= */
+@media (max-width: 768px) {
+
+    /* Stack header sections */
+    .header-company {
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+    /* Reduce logo size */
+    .header-logo {
+        height: 52px !important;
+    }
+
+    /* Reduce title size */
+    .header-title {
+        font-size: 1.05rem;
+    }
+
+    /* Hide long username, keep icon */
+    .user-name {
+        display: none;
+    }
+
+    .user-btn {
+        padding-left: 18px !important;
+        padding-right: 18px !important;
+    }
+
+    /* Navbar buttons full width */
+    .navbar-actions a {
+        width: 100%;
+        margin-bottom: 6px;
+        text-align: center;
+    }
+
+    /* Better touch targets */
+    .navbar-nav .nav-link {
+        padding: 12px 16px;
+        font-size: 1rem;
+    }
+}
+</style>
