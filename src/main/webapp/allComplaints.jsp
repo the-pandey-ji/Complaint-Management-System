@@ -1,108 +1,197 @@
 <%@page import="java.util.List"%>
 <%@page import="com.DB.DBConnect"%>
 <%@page import="com.DAO.ComplaintDAOImpl"%>
-<%@page import="com.DAO.ComplaintDAO"%>
 <%@page import="com.entity.Complaintdtls"%>
-	<%@ page import="com.entity.User" %>
+<%@ page import="com.entity.User" %>
+
 <%
-    // Check if the user is logged in
     User user = (User) session.getAttribute("Userobj");
     if (user == null) {
-        // Redirect to login page if not logged in
         response.sendRedirect("login.jsp");
         return;
     }
 %>
 
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title> All Complaints</title>
+<title>All Complaints</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <%@include file="all_component/allCss.jsp"%>
+
+<style>
+/* ============ FOOTER ALWAYS BOTTOM ============ */
+html, body {
+    height: 100%;
+}
+.page-wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.page-content {
+    flex: 1;
+}
+
+/* ============ IMAGE SIZE (DOUBLE) ============ */
+.complaint-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* ============ MOBILE CARD VIEW ============ */
+.mobile-card {
+    display: none;
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.15);
+    margin-bottom: 14px;
+    font-size: 14px;
+}
+
+.mobile-card h6 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.mobile-card small {
+    display: block;
+    margin-bottom: 6px;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+    table {
+        display: none;
+    }
+    .mobile-card {
+        display: block;
+    }
+}
+</style>
 </head>
+
 <body>
-	<%@include file="all_component/navbar.jsp"%>
-	
-	<h3 class="text-center">View All Complaint</h3>
 
-	
-	
-	<div class="container-fluid">
-		<table class="table table-striped">
-			<thead class="bg-primary text-white">
-				<tr>
-					<th scope="col">ID</th>
-					<th scope="col">Image</th>
-					<th scope="col">Category</th>
-					<th scope="col">Complaint Title</th>
-					<th scope="col">Complaint Description</th>
-					<th scope="col">Complaint Date</th>
-					<th scope="col">Qtr No.</th>
-					<th scope="col">UserID</th>
-					<th scope="col">User</th>
-					<th scope="col">Phone</th>
-					<th scope="col">Status</th>
-					<th scope="col">Action Taken</th>
-					<!-- <th scope="col">Edit</th>
-					<th scope="col">Close Complaint</th> -->
-				</tr>
-			</thead>
-			<tbody>
-			
-			<%
-			ComplaintDAOImpl dao = new ComplaintDAOImpl(DBConnect.getConnection());
-			List<Complaintdtls> list = dao.getUserComplaints(user.getEmpn());
-			if (list != null && !list.isEmpty()) {
-                for (Complaintdtls complaint : list) {
-                	
-			
-			%>
-			
-			<tr>
-					<td><%= complaint.getid() %></td>
-					<td><img src="images/<%= complaint.getImage() %>"
-						style="width: 50px; height: 50px;"></td>
-					<td><%= complaint.getCategory() %></td>
-					<td><%= complaint.getTitle() %></td>
-					<td><%= complaint.getDescription() %></td>
-					<td><%= complaint.getCreatedate() %></td>
-					<td><%= complaint.getQtrno() %></td>
-					<td><%= complaint.getEmpn() %></td>
-					<td><%= complaint.getUsername() %></td>
-					<td><%= complaint.getPhone() %></td>
-					<td><%= complaint.getStatus() %></td>
-					<td><%= complaint.getAction() %></td>
+<div class="page-wrapper">
 
-					<%-- <td><a href="editComplaint.jsp?id=<%= complaint.getid() %>"
-						class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>
-							Edit</a></td>
-					<td><a href="closeComplaint.jsp?id=<%= complaint.getid() %>"
-						class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>
-							Close</a></td>
- --%>
-					<%
-					}
-			}
-					else {
-					%>
-                 <tr>
-              		<td colspan="14" class="text-center">No complaints found</td>
-               	 </tr>
-            <%
-                	                                
-                }
-			%>
-				 
+    <%@include file="all_component/navbar.jsp"%>
 
-			</tbody>
-		</table>
-	</div>
-	<div style="margin-top: 430px;">
-		<%@include file="all_component/footer.jsp"%></div>
+    <div class="page-content">
+
+        <h3 class="text-center mt-3">View All Complaints</h3>
+
+        <div class="container-fluid mt-3">
+
+            <!-- ============ DESKTOP TABLE ============ -->
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th>ID</th>
+                            <th>Image</th>
+                            <th>Category</th>
+                            <th>Complaint Title</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Qtr No.</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Action Taken</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    <%
+                        ComplaintDAOImpl dao =
+                            new ComplaintDAOImpl(DBConnect.getConnection());
+
+                        List<Complaintdtls> list =
+                            dao.getUserComplaints(user.getEmpn());
+
+                        if (list != null && !list.isEmpty()) {
+                            for (Complaintdtls c : list) {
+                    %>
+                        <tr>
+                            <td><%= c.getid() %></td>
+                            <td>
+                                <img src="images/<%= c.getImage() %>"
+                                     class="complaint-img">
+                            </td>
+                            <td><%= c.getCategory() %></td>
+                            <td><%= c.getTitle() %></td>
+                            <td><%= c.getDescription() %></td>
+                            <td><%= c.getCreatedate() %></td>
+                            <td><%= c.getQtrno() %></td>
+                            <td><%= c.getPhone() %></td>
+                            <td><%= c.getStatus() %></td>
+                            <td><%= c.getAction() %></td>
+                        </tr>
+                    <%
+                            }
+                        } else {
+                    %>
+                        <tr>
+                            <td colspan="10" class="text-center">
+                                No complaints found
+                            </td>
+                        </tr>
+                    <%
+                        }
+                    %>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ============ MOBILE CARD VIEW ============ -->
+            <div class="d-md-none mt-3">
+                <%
+                    if (list != null && !list.isEmpty()) {
+                        for (Complaintdtls c : list) {
+                %>
+                    <div class="mobile-card">
+
+                        <div class="text-center mb-3">
+                            <img src="images/<%= c.getImage() %>"
+                                 class="complaint-img">
+                        </div>
+
+                        <h6><%= c.getTitle() %></h6>
+
+                        <small><b>ID:</b> <%= c.getid() %></small>
+                        <small><b>Category:</b> <%= c.getCategory() %></small>
+                        <small><b>Description:</b> <%= c.getDescription() %></small>
+                        <small><b>Date:</b> <%= c.getCreatedate() %></small>
+                        <small><b>Quarter No:</b> <%= c.getQtrno() %></small>
+                        <small><b>Phone:</b> <%= c.getPhone() %></small>
+                        <small><b>Status:</b> <%= c.getStatus() %></small>
+                        <small><b>Action Taken:</b> <%= c.getAction() %></small>
+
+                    </div>
+                <%
+                        }
+                    }
+                %>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ============ FOOTER (ALWAYS BOTTOM) ============ -->
+    <%@include file="all_component/footer.jsp"%>
+
+</div>
+
 </body>
 </html>
