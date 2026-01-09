@@ -6,7 +6,6 @@
 <%@ page import="com.entity.User" %>
 
 <%
-    // SESSION CHECK
     User user = (User) session.getAttribute("Userobj");
     if (user == null) {
         response.sendRedirect("index.jsp");
@@ -16,7 +15,6 @@
     String successMsg = null;
     String errorMsg = null;
 
-    // HANDLE UPDATE (POST)
     if ("POST".equalsIgnoreCase(request.getMethod())) {
 
         String qtrno = request.getParameter("qtrno");
@@ -29,7 +27,6 @@
         try {
             con = DBConnect.getConnection();
 
-            // 🔒 USERNAME NOT UPDATED
             String sql =
                 "UPDATE CTRACK.USERMASTER " +
                 "SET QTRNO = ?, EMAIL = ?, PHONE = ? " +
@@ -46,7 +43,6 @@
             if (i == 1) {
                 successMsg = "Profile updated successfully";
 
-                // UPDATE SESSION OBJECT
                 user.setQtrno(qtrno);
                 user.setEmail(email);
                 user.setPhone(phone);
@@ -70,9 +66,12 @@
 <head>
 <title>My Profile</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <%@include file="all_component/allCss.jsp" %>
 
 <style>
+/* ================= DESKTOP (UNCHANGED) ================= */
 .profile-card {
     border-radius: 16px;
     box-shadow: 0 12px 28px rgba(0,0,0,.15);
@@ -84,6 +83,66 @@
 }
 .form-control {
     border-radius: 10px;
+}
+
+/* ================= MOBILE ONLY FIX ================= */
+@media (max-width: 768px) {
+
+    /* Container padding fix */
+    .container {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    /* Card full width */
+    .profile-card {
+        border-radius: 14px;
+        margin: 0;
+    }
+
+    /* Header text scale */
+    .profile-header h4 {
+        font-size: 1.1rem;
+    }
+
+    .profile-header small {
+        font-size: 0.85rem;
+    }
+
+    /* Reduce card padding */
+    .card-body {
+        padding: 20px !important;
+    }
+
+    /* Inputs touch-friendly */
+    .form-control {
+        height: 46px;
+        font-size: 14px;
+    }
+
+    /* Buttons stack vertically */
+    .text-center.mt-4 {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .text-center.mt-4 .btn {
+        width: 100%;
+        margin: 0 !important;
+    }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+
+    .profile-header h4 {
+        font-size: 1rem;
+    }
+
+    label {
+        font-size: 12px;
+    }
 }
 </style>
 </head>
@@ -99,7 +158,6 @@
 
             <div class="card profile-card">
 
-                <!-- HEADER -->
                 <div class="card-header profile-header text-center py-4">
                     <h4 class="mb-1">
                         <i class="fas fa-user-circle mr-2"></i>
@@ -110,7 +168,6 @@
 
                 <div class="card-body p-4">
 
-                    <!-- MESSAGES -->
                     <% if (successMsg != null) { %>
                         <div class="alert alert-success text-center">
                             <%= successMsg %>
@@ -123,10 +180,8 @@
                         </div>
                     <% } %>
 
-                    <!-- PROFILE FORM -->
                     <form method="post">
 
-                        <!-- EMPN -->
                         <div class="form-group">
                             <label>Employee ID</label>
                             <input type="text"
@@ -135,7 +190,6 @@
                                    readonly>
                         </div>
 
-                        <!-- USERNAME (READ ONLY) -->
                         <div class="form-group">
                             <label>Full Name</label>
                             <input type="text"
@@ -144,7 +198,6 @@
                                    readonly>
                         </div>
 
-                        <!-- QTR -->
                         <div class="form-group">
                             <label>Quarter Number</label>
                             <input type="text"
@@ -153,7 +206,6 @@
                                    value="<%= user.getQtrno() != null ? user.getQtrno() : "" %>">
                         </div>
 
-                        <!-- EMAIL -->
                         <div class="form-group">
                             <label>Email</label>
                             <input type="email"
@@ -162,7 +214,6 @@
                                    value="<%= user.getEmail() != null ? user.getEmail() : "" %>">
                         </div>
 
-                        <!-- PHONE -->
                         <div class="form-group">
                             <label>Mobile Number</label>
                             <input type="text"
@@ -172,7 +223,6 @@
                                    required>
                         </div>
 
-                        <!-- ROLE -->
                         <div class="form-group">
                             <label>Role</label>
                             <input type="text"
@@ -181,7 +231,6 @@
                                    readonly>
                         </div>
 
-                        <!-- BUTTONS -->
                         <div class="text-center mt-4">
                             <button type="submit"
                                     class="btn btn-success px-5">
