@@ -14,8 +14,89 @@
 <html>
 <head>
     <meta charset="ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <title>Change Password</title>
     <%@ include file="all_component/allCss.jsp" %>
+    <style>
+/* =========================
+   MOBILE RESPONSIVE FIX
+   ========================= */
+@media (max-width: 768px) {
+
+    /* Container spacing */
+    .container {
+        margin-top: 20px !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    /* Card full width */
+    .col-md-4.offset-md-4 {
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+        margin-left: 0 !important;
+    }
+
+    /* Card padding */
+    .card-body {
+        padding: 20px !important;
+    }
+
+    /* Title */
+    h4.text-center {
+        font-size: 1.2rem;
+        margin-bottom: 16px;
+    }
+
+    /* Input fields */
+    .form-control {
+        height: 46px;
+        font-size: 14px;
+    }
+
+    label {
+        font-size: 13px;
+    }
+
+    /* Button full width */
+    .btn-primary {
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    /* Success / error messages */
+    div[style*="color: green"],
+    div[style*="color: red"] {
+        font-size: 15px !important;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    /* Footer spacing */
+    body > div:last-child {
+        margin-top: 40px !important;
+    }
+}
+
+/* EXTRA SMALL DEVICES */
+@media (max-width: 480px) {
+
+    h4.text-center {
+        font-size: 1.1rem;
+    }
+
+    label {
+        font-size: 12px;
+    }
+
+    .form-control {
+        height: 44px;
+    }
+}
+</style>
+    
 </head>
 <body style="background-color: #f0f2f2;">
     <%@ include file="all_component/navbar.jsp" %>
@@ -79,5 +160,7 @@
     <div style="margin-top: 100px;">
         <%@ include file="all_component/footer.jsp" %>
     </div>
+    
+    
 </body>
 </html>

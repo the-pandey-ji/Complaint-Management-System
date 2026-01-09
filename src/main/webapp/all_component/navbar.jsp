@@ -113,8 +113,26 @@
                     <i class="fas fa-plus-circle mr-1"></i> Add Complaint
                 </a>
             </li>
+            
+            <li class="nav-item active">
+			    <a class="nav-link" href="allComplaints.jsp">
+			        <i class="fas fa-list mr-1"></i> All Complaints
+			    </a>
+			</li>
+			
+			<li class="nav-item active">
+			    <a class="nav-link" href="civilComplaints.jsp">
+			        <i class="fas fa-building mr-1"></i> Civil Complaints
+			    </a>
+			</li>
+			
+			<li class="nav-item active">
+			    <a class="nav-link" href="eComplaints.jsp">
+			        <i class="fas fa-bolt mr-1"></i> Electrical Complaints
+			    </a>
+			</li>
 
-            <li class="nav-item dropdown active">
+            <!-- <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle"
                    href="#"
                    id="navbarDropdown"
@@ -127,7 +145,7 @@
                     <a class="dropdown-item" href="civilComplaints.jsp">Civil Complaints</a>
                     <a class="dropdown-item" href="eComplaints.jsp">Electrical Complaints</a>
                 </div>
-            </li>
+            </li> -->
         </ul>
 
         <!-- RIGHT MENU -->

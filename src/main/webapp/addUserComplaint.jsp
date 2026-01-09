@@ -18,6 +18,8 @@ if (user == null) {
 <html>
 <head>
 <title>Add Complaint</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <%@include file="all_component/allCss.jsp"%>
 
 <style>
@@ -58,6 +60,91 @@ body {
     border-radius: 4px;
     margin: 10px auto 25px;
 }
+
+
+/* =========================
+   MOBILE RESPONSIVE ONLY
+   DESKTOP UNCHANGED
+   ========================= */
+@media (max-width: 768px) {
+
+    /* Page padding */
+    .container {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    /* Header spacing */
+    .container.mt-5 {
+        margin-top: 20px !important;
+    }
+
+    /* Form card full width */
+    .col-md-7 {
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+    }
+
+    .form-card {
+        border-radius: 14px;
+    }
+
+    /* Card padding */
+    .card-body {
+        padding: 20px !important;
+    }
+
+    /* Title size */
+    .form-title {
+        font-size: 1.4rem;
+    }
+
+    .form-subtitle {
+        font-size: 13px;
+    }
+
+    /* Inputs touch friendly */
+    .form-control,
+    textarea {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    /* Force quarter & phone to stack */
+    .row > .col-md-6 {
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+    }
+
+    /* File input spacing */
+    .form-control-file {
+        font-size: 14px;
+    }
+
+    /* Submit button full width */
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        font-size: 15px;
+    }
+}
+
+/* EXTRA SMALL PHONES */
+@media (max-width: 480px) {
+
+    .form-title {
+        font-size: 1.25rem;
+    }
+
+    label {
+        font-size: 13px;
+    }
+
+    textarea {
+        rows: 5;
+    }
+}
+
 </style>
 </head>
 
