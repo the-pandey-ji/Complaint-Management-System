@@ -254,6 +254,17 @@ html.dark-mode .admin-sidebar {
                             
                         </select>
                     </div>
+                    <!-- COMPLAINT TYPE -->
+					<div class="form-group">
+					    <label>Complaint Type</label>
+					    <select name="complaintType" id="complaintType" class="form-control" required>
+					        <option value="<%= complaint.getComplaintType() %>" selected>
+					            <%= complaint.getComplaintType() %>
+					        </option>
+					    </select>
+					</div>
+
+				
 
                     <div class="form-group">
                         <label>Complaint Title</label>
@@ -329,6 +340,30 @@ html.dark-mode .admin-sidebar {
     </div>
 
 </div>
+<script>
+document.getElementById("category").addEventListener("change", function () {
+    const typeSelect = document.getElementById("complaintType");
+    const category = this.value;
 
+    // Reset
+    typeSelect.innerHTML = '<option value="">-- Select Complaint Type --</option>';
+
+    if (category === "Civil") {
+        ["Mason", "Carpenter", "Plumber", "Other"].forEach(type => {
+            const opt = document.createElement("option");
+            opt.value = type;
+            opt.textContent = type;
+            typeSelect.appendChild(opt);
+        });
+    }
+
+    if (category === "Electrical") {
+        const opt = document.createElement("option");
+        opt.value = "Electrical";
+        opt.textContent = "Electrical";
+        typeSelect.appendChild(opt);
+    }
+});
+</script>
 </body>
 </html>

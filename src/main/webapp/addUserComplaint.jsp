@@ -200,12 +200,21 @@ body {
             <!-- CATEGORY -->
             <div class="form-group">
               <label>Complaint Category</label>
-              <select name="category" class="form-control" required>
+             <select name="category" id="category" class="form-control" required>
+
                 <option value="">-- Select Category --</option>
                 <option value="Civil">Civil</option>
                 <option value="Electrical">Electrical</option>
               </select>
             </div>
+
+				<!-- COMPLAINT TYPE -->
+				<div class="form-group">
+				  <label>Complaint Type</label>
+				  <select name="complaintType" id="complaintType" class="form-control" required>
+				    <option value="">-- Select Complaint Type --</option>
+				  </select>
+				</div>
 
             <!-- TITLE -->
             <div class="form-group">
@@ -281,6 +290,33 @@ body {
 </div>
 
 <%@include file="all_component/footer.jsp"%>
+
+
+<script>
+document.getElementById("category").addEventListener("change", function () {
+    const typeSelect = document.getElementById("complaintType");
+    const category = this.value;
+
+    // Reset
+    typeSelect.innerHTML = '<option value="">-- Select Complaint Type --</option>';
+
+    if (category === "Civil") {
+        ["Mason", "Carpenter", "Plumber", "Other"].forEach(type => {
+            const opt = document.createElement("option");
+            opt.value = type;
+            opt.textContent = type;
+            typeSelect.appendChild(opt);
+        });
+    }
+
+    if (category === "Electrical") {
+        const opt = document.createElement("option");
+        opt.value = "Electrical";
+        opt.textContent = "Electrical";
+        typeSelect.appendChild(opt);
+    }
+});
+</script>
 
 </body>
 </html>

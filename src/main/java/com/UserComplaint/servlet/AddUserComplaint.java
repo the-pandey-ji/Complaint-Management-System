@@ -47,6 +47,7 @@ public class AddUserComplaint extends HttpServlet {
             String username    = request.getParameter("username");
             String phone       = request.getParameter("phone");
             long empn          = Long.parseLong(request.getParameter("empn"));
+            String complaintType = request.getParameter("complaintType");
 
             String status = "Active";
 
@@ -102,6 +103,7 @@ public class AddUserComplaint extends HttpServlet {
             Complaintdtls complaint = new Complaintdtls(
                     imageFileName,
                     category,
+                    complaintType,
                     title,
                     description,
                     qtrno,

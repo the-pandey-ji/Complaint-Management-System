@@ -257,6 +257,14 @@ html.dark-mode .sidebar {
            name="category"
            value="<%= complaintCategory %>">
 </div>
+<div class="form-group">
+    <label>Complaint Type</label>
+    <select name="complaintType" id="complaintType"
+            class="form-control" required>
+        <option value="">-- Select Complaint Type --</option>
+    </select>
+</div>
+
 
 
                     <div class="form-group">
@@ -317,9 +325,9 @@ html.dark-mode .sidebar {
                     </div>
 
                     <div class="form-group">
-                        <label>Upload Photo</label>
+                        <label>Upload Photo (Optional)</label>
                         <input name="imagefile" type="file"
-                               class="form-control-file" required>
+                               class="form-control-file" >
                     </div>
                 </div>
 
@@ -351,6 +359,35 @@ document.getElementById('addcomp').addEventListener('submit', function (e) {
     }
 
     qtrno.value = p + "-" + b1 + "/" + b2;
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const complaintType = document.getElementById("complaintType");
+
+    // Category is role-based & fixed
+    const category = "<%= complaintCategory %>";
+
+    // Reset
+    complaintType.innerHTML =
+        '<option value="">-- Select Complaint Type --</option>';
+
+    if (category === "Civil") {
+        ["Mason", "Carpenter", "Plumber", "Other"].forEach(type => {
+            const opt = document.createElement("option");
+            opt.value = type;
+            opt.textContent = type;
+            complaintType.appendChild(opt);
+        });
+    }
+
+    if (category === "Electrical") {
+        const opt = document.createElement("option");
+        opt.value = "Electrical";
+        opt.textContent = "Electrical";
+        complaintType.appendChild(opt);
+    }
 });
 </script>
 

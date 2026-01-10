@@ -105,6 +105,7 @@ html, body {
                             <th>ID</th>
                             <th>Image</th>
                             <th>Category</th>
+                            <th>Complaint Type</th>
                             <th>Complaint Title</th>
                             <th>Description</th>
                             <th>Date</th>
@@ -133,6 +134,7 @@ html, body {
                                      class="complaint-img">
                             </td>
                             <td><%= c.getCategory() %></td>
+                            <td><%= c.getComplaintType() %></td>
                             <td><%= c.getTitle() %></td>
                             <td><%= c.getDescription() %></td>
                             <td><%= c.getCreatedate() %></td>
@@ -176,6 +178,7 @@ html, body {
 
                         <small><b>ID:</b> <%= c.getid() %></small>
                         <small><b>Category:</b> <%= c.getCategory() %></small>
+                        <small><b>Complaint Type:</b> <%= c.getComplaintType() %></small>
                         <small><b>Description:</b> <%= c.getDescription() %></small>
                         <small><b>Date:</b> <%= c.getCreatedate() %></small>
                         <small><b>Quarter No:</b> <%= c.getQtrno() %></small>

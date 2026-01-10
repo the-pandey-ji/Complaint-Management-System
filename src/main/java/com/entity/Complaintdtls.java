@@ -21,7 +21,15 @@ public class Complaintdtls {
 	}
 	
 	private Timestamp closedDate;
+	private String complaintType;
 
+	public String getComplaintType() {
+		return complaintType;
+	}
+
+	public void setComplaintType(String complaintType) {
+		this.complaintType = complaintType;
+	}
 	public Timestamp getClosedDate() {
 	    return closedDate;
 	}
@@ -30,12 +38,13 @@ public class Complaintdtls {
 	    this.closedDate = closedDate;
 	}
 	
-	public Complaintdtls(String imagefile, String category, String title, String description, String qtrno,
+	public Complaintdtls(String imagefile, String category,String complaintType, String title, String description, String qtrno,
 			 long empn, String username, String phone, String status, String action) {
 		super();
 
 		this.imagefile = imagefile;
 		this.category = category;
+		this.complaintType = complaintType;
 		this.title = title;
 		this.description = description;
 		this.qtrno = qtrno;
@@ -49,12 +58,13 @@ public class Complaintdtls {
 	
 	
 	// Constructor with id for editing existing complaints
-	public Complaintdtls(int id,String imagefile, String category, String title, String description, String qtrno,
+	public Complaintdtls(int id,String imagefile, String category,String complaintType, String title, String description, String qtrno,
 			 long empn, String username, String phone, String status, String action) {
 		super();
 		this.id = id;
 		this.imagefile = imagefile;
 		this.category = category;
+		this.complaintType = complaintType;
 		this.title = title;
 		this.description = description;
 		this.qtrno = qtrno;
@@ -143,7 +153,7 @@ public class Complaintdtls {
 	}
 	@Override
 	public String toString() {
-		return "Complaintdtls [id=" + id + ", image=" + imagefile + ", category=" + category + ", title=" + title
+		return "Complaintdtls [id=" + id + ", image=" + imagefile + ", category=" + category + ", complaintType=" + complaintType +", title=" + title
 				+ ", description=" + description + ", qtrno=" + qtrno + ", createdate=" + createdate + ", empn=" + empn
 				+ ", username=" + username + ", phone=" + phone + ", status=" + status + ", action=" + action + "]";
 	}

@@ -281,6 +281,7 @@ body {
                     <th>User</th>
                     <th>Phone</th>
                     <th>Status</th>
+                    <th>Type</th>
                     <th>Action</th>
                     <th>Edit</th>
                     <th>Close</th>
@@ -329,6 +330,10 @@ body {
                                 : "status-open" %>">
                             <%= c.getStatus() %>
                         </span>
+                    </td>
+                    
+                    <td>
+                        <span class="status-closed"><%= c.getComplaintType() %></span>
                     </td>
 
                     <td><%= c.getAction() %></td>

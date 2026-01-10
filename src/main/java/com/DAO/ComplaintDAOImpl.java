@@ -34,19 +34,30 @@ public class ComplaintDAOImpl implements ComplaintDAO {
 	        }
 
 	        // Insert query with the new id
-	        String query = "INSERT INTO complaintdtls(id, imagefile, category, title, description, qtrno, compdatetime, username, phone, status, actiontaken, empn) VALUES(?, ?, ?, ?, ?, ?, SYSDATE, ?, ?, ?, ?, ?)";
-	        PreparedStatement pstmt = conn.prepareStatement(query);
-	        pstmt.setInt(1, newId); // Set the new id
-	        pstmt.setString(2, cm.getImage());
-	        pstmt.setString(3, cm.getCategory());
-	        pstmt.setString(4, cm.getTitle());
-	        pstmt.setString(5, cm.getDescription());
-	        pstmt.setString(6, cm.getQtrno());
-	        pstmt.setString(7, cm.getUsername());
-	        pstmt.setString(8, cm.getPhone());
-	        pstmt.setString(9, cm.getStatus());
-	        pstmt.setString(10, cm.getAction());
-	        pstmt.setLong(11, cm.getEmpn());
+	        String query =
+	        	    "INSERT INTO complaintdtls " +
+	        	    "(id, imagefile, category, complaint_type, title, description, qtrno, " +
+	        	    " compdatetime, username, phone, status, actiontaken, empn) " +
+	        	    "VALUES (?, ?, ?, ?, ?, ?, ?, SYSDATE, ?, ?, ?, ?, ?)";
+
+	        	PreparedStatement pstmt = conn.prepareStatement(query);
+
+	        	pstmt.setInt(1, newId);
+	        	pstmt.setString(2, cm.getImage());
+	        	pstmt.setString(3, cm.getCategory());
+	        	pstmt.setString(4, cm.getComplaintType());
+	        	pstmt.setString(5, cm.getTitle());
+	        	pstmt.setString(6, cm.getDescription());
+	        	pstmt.setString(7, cm.getQtrno());
+
+	        	/* 8 = SYSDATE (skip) */
+
+	        	pstmt.setString(8, cm.getUsername());
+	        	pstmt.setString(9, cm.getPhone());
+	        	pstmt.setString(10, cm.getStatus());
+	        	pstmt.setString(11, cm.getAction());
+	        	pstmt.setLong(12, cm.getEmpn());
+
 
 	        int i = pstmt.executeUpdate();
 
@@ -80,6 +91,7 @@ public class ComplaintDAOImpl implements ComplaintDAO {
 				complaint.setid(rs.getInt("id"));
 				complaint.setImage(rs.getString("imagefile"));
 					complaint.setCategory(rs.getString("category"));
+					complaint.setComplaintType(rs.getString("complaint_type"));
 					complaint.setTitle(rs.getString("title"));
 					complaint.setDescription(rs.getString("description"));
 					complaint.setQtrno(rs.getString("qtrno"));
@@ -113,6 +125,7 @@ public class ComplaintDAOImpl implements ComplaintDAO {
 				complaint.setid(rs.getInt("id"));
 				complaint.setImage(rs.getString("imagefile"));
 				complaint.setCategory(rs.getString("category"));
+				complaint.setComplaintType(rs.getString("complaint_type"));
 				complaint.setTitle(rs.getString("title"));
 				complaint.setDescription(rs.getString("description"));
 				complaint.setQtrno(rs.getString("qtrno"));
@@ -137,19 +150,20 @@ public boolean editComplaint(Complaintdtls cme) {
     boolean flag = false;
     try {
         // Update query
-        String query = "UPDATE complaintdtls SET imagefile=?, category=?, title=?, description=?, qtrno=?, username=?, phone=?, status=?, actiontaken=?, empn=? WHERE id=?";
+        String query = "UPDATE complaintdtls SET imagefile=?, category=?, complaint_type=? , title=?, description=?, qtrno=?, username=?, phone=?, status=?, actiontaken=?, empn=? WHERE id=?";
         PreparedStatement pstmt = conn.prepareStatement(query);
         pstmt.setString(1, cme.getImage());
         pstmt.setString(2, cme.getCategory());
-        pstmt.setString(3, cme.getTitle());
-        pstmt.setString(4, cme.getDescription());
-        pstmt.setString(5, cme.getQtrno());
-        pstmt.setString(6, cme.getUsername());
-        pstmt.setString(7, cme.getPhone());
-        pstmt.setString(8, cme.getStatus());
-        pstmt.setString(9, cme.getAction());
-        pstmt.setLong(10, cme.getEmpn());
-        pstmt.setInt(11, cme.getid());
+        pstmt.setString(3, cme.getComplaintType());
+        pstmt.setString(4, cme.getTitle());
+        pstmt.setString(5, cme.getDescription());
+        pstmt.setString(6, cme.getQtrno());
+        pstmt.setString(7, cme.getUsername());
+        pstmt.setString(8, cme.getPhone());
+        pstmt.setString(9, cme.getStatus());
+        pstmt.setString(10, cme.getAction());
+        pstmt.setLong(11, cme.getEmpn());
+        pstmt.setInt(12, cme.getid());
 
         int i = pstmt.executeUpdate();
         if (i == 1) {
@@ -198,6 +212,7 @@ public List<Complaintdtls> getActiveComplaints() {
             complaint.setid(rs.getInt("id"));
             complaint.setImage(rs.getString("imagefile"));
             complaint.setCategory(rs.getString("category"));
+            complaint.setComplaintType(rs.getString("complaint_type"));
             complaint.setTitle(rs.getString("title"));
             complaint.setDescription(rs.getString("description"));
             complaint.setQtrno(rs.getString("qtrno"));
@@ -229,6 +244,7 @@ public List<Complaintdtls> getClosedComplaints() {
             complaint.setid(rs.getInt("id"));
             complaint.setImage(rs.getString("imagefile"));
             complaint.setCategory(rs.getString("category"));
+            complaint.setComplaintType(rs.getString("complaint_type"));
             complaint.setTitle(rs.getString("title"));
             complaint.setDescription(rs.getString("description"));
             complaint.setQtrno(rs.getString("qtrno"));
@@ -263,6 +279,7 @@ public List<Complaintdtls> getCivilComplaints() {
             complaint.setid(rs.getInt("id"));
             complaint.setImage(rs.getString("imagefile"));
             complaint.setCategory(rs.getString("category"));
+            complaint.setComplaintType(rs.getString("complaint_type"));
             complaint.setTitle(rs.getString("title"));
             complaint.setDescription(rs.getString("description"));
             complaint.setQtrno(rs.getString("qtrno"));
@@ -295,6 +312,7 @@ public List<Complaintdtls> getElectricalComplaints() {
             complaint.setid(rs.getInt("id"));
             complaint.setImage(rs.getString("imagefile"));
             complaint.setCategory(rs.getString("category"));
+            complaint.setComplaintType(rs.getString("complaint_type"));
             complaint.setTitle(rs.getString("title"));
             complaint.setDescription(rs.getString("description"));
             complaint.setQtrno(rs.getString("qtrno"));
@@ -328,6 +346,7 @@ public List<Complaintdtls> getUserComplaints(long empn) {
             complaint.setid(rs.getInt("id"));
             complaint.setImage(rs.getString("imagefile"));
             complaint.setCategory(rs.getString("category"));
+            complaint.setComplaintType(rs.getString("complaint_type"));
             complaint.setTitle(rs.getString("title"));
             complaint.setDescription(rs.getString("description"));
             complaint.setQtrno(rs.getString("qtrno"));
@@ -361,6 +380,7 @@ public List<Complaintdtls> getUserComplaintsByType(long empn, String type) {
             complaint.setid(rs.getInt("id"));
             complaint.setImage(rs.getString("imagefile"));
             complaint.setCategory(rs.getString("category"));
+            complaint.setComplaintType(rs.getString("complaint_type"));
             complaint.setTitle(rs.getString("title"));
             complaint.setDescription(rs.getString("description"));
             complaint.setQtrno(rs.getString("qtrno"));
@@ -396,6 +416,7 @@ public List<Complaintdtls> getUserPreviousOneComplaint(long empn) {
             complaint.setid(rs.getInt("id"));
             complaint.setImage(rs.getString("imagefile"));
             complaint.setCategory(rs.getString("category"));
+            complaint.setComplaintType(rs.getString("complaint_type"));
             complaint.setTitle(rs.getString("title"));
             complaint.setDescription(rs.getString("description"));
             complaint.setQtrno(rs.getString("qtrno"));
@@ -431,6 +452,7 @@ public List<Complaintdtls> getActiveComplaintsOfUser(long empn) {
             complaint.setid(rs.getInt("id"));
             complaint.setImage(rs.getString("imagefile"));
             complaint.setCategory(rs.getString("category"));
+            complaint.setComplaintType(rs.getString("complaint_type"));
             complaint.setTitle(rs.getString("title"));
             complaint.setDescription(rs.getString("description"));
             complaint.setQtrno(rs.getString("qtrno"));
@@ -548,6 +570,7 @@ public List<Complaintdtls> getComplaintsPaginated(
             Complaintdtls c = new Complaintdtls();
             c.setid(rs.getInt("ID"));
             c.setCategory(rs.getString("CATEGORY"));
+            c.setComplaintType(rs.getString("COMPLAINT_TYPE"));
             c.setTitle(rs.getString("TITLE"));
             c.setDescription(rs.getString("DESCRIPTION"));
             c.setCreatedate(rs.getString("COMPDATETIME"));
@@ -594,17 +617,24 @@ public List<Complaintdtls> getComplaintsPaginatedSearch(
     List<Complaintdtls> list = new ArrayList<>();
 
     try {
+
+        // 🔒 NULL SAFETY
+        if (search == null) {
+            search = "";
+        }
+
         String sql =
             "SELECT * FROM ( " +
             "  SELECT a.*, ROWNUM rnum FROM ( " +
             "    SELECT * FROM CTRACK.COMPLAINTDTLS " +
             "    WHERE CATEGORY = ? " +
             "    AND ( " +
-            "      LOWER(USERNAME) LIKE ? OR " +
-            "      QTRNO LIKE ? OR " +
-            "      PHONE LIKE ? OR " +
-            "      TO_CHAR(COMPDATETIME,'YYYY-MM-DD') LIKE ? OR " +
-            "      TO_CHAR(EMPN) LIKE ? " +
+            "      LOWER(USERNAME) LIKE ? " +
+            "      OR LOWER(COMPLAINT_TYPE) LIKE ? " +   // ✅ ADDED
+            "      OR LOWER(QTRNO) LIKE ? " +
+            "      OR PHONE LIKE ? " +
+            "      OR TO_CHAR(COMPDATETIME,'YYYY-MM-DD') LIKE ? " +
+            "      OR TO_CHAR(EMPN) LIKE ? " +
             "    ) " +
             "    ORDER BY COMPDATETIME DESC " +
             "  ) a WHERE ROWNUM <= ? " +
@@ -615,13 +645,14 @@ public List<Complaintdtls> getComplaintsPaginatedSearch(
         String like = "%" + search.toLowerCase() + "%";
 
         ps.setString(1, category);
-        ps.setString(2, like); // username
-        ps.setString(3, like); // qtr
-        ps.setString(4, like); // phone
-        ps.setString(5, like); // date
-        ps.setString(6, like); // empn
-        ps.setInt(7, endRow);
-        ps.setInt(8, startRow);
+        ps.setString(2, like);                 // username
+        ps.setString(3, like);                 // complaint_type
+        ps.setString(4, like);                 // qtr
+        ps.setString(5, "%" + search + "%");   // phone
+        ps.setString(6, "%" + search + "%");   // date
+        ps.setString(7, "%" + search + "%");   // empn
+        ps.setInt(8, endRow);
+        ps.setInt(9, startRow);
 
         ResultSet rs = ps.executeQuery();
 
@@ -629,6 +660,7 @@ public List<Complaintdtls> getComplaintsPaginatedSearch(
             Complaintdtls c = new Complaintdtls();
             c.setid(rs.getInt("ID"));
             c.setCategory(rs.getString("CATEGORY"));
+            c.setComplaintType(rs.getString("COMPLAINT_TYPE")); // ✅ ADDED
             c.setTitle(rs.getString("TITLE"));
             c.setDescription(rs.getString("DESCRIPTION"));
             c.setCreatedate(rs.getString("COMPDATETIME"));
@@ -640,6 +672,7 @@ public List<Complaintdtls> getComplaintsPaginatedSearch(
             c.setQtrno(rs.getString("QTRNO"));
             c.setEmpn(rs.getLong("EMPN"));
             c.setAction(rs.getString("ACTIONTAKEN"));
+
             list.add(c);
         }
 
@@ -650,6 +683,7 @@ public List<Complaintdtls> getComplaintsPaginatedSearch(
     return list;
 }
 
+
 @Override
 
 public int getComplaintCountByCategorySearch(String category, String search) {
@@ -657,15 +691,22 @@ public int getComplaintCountByCategorySearch(String category, String search) {
     int count = 0;
 
     try {
+
+        // 🔒 NULL SAFETY
+        if (search == null) {
+            search = "";
+        }
+
         String sql =
             "SELECT COUNT(*) FROM CTRACK.COMPLAINTDTLS " +
             "WHERE CATEGORY = ? " +
             "AND ( " +
-            "  LOWER(USERNAME) LIKE ? OR " +
-            "  QTRNO LIKE ? OR " +
-            "  PHONE LIKE ? OR " +
-            "  TO_CHAR(COMPDATETIME,'YYYY-MM-DD') LIKE ? OR " +
-            "  TO_CHAR(EMPN) LIKE ? " +
+            "  LOWER(USERNAME) LIKE ? " +
+            "  OR LOWER(COMPLAINT_TYPE) LIKE ? " +   // ✅ ADDED
+            "  OR LOWER(QTRNO) LIKE ? " +
+            "  OR PHONE LIKE ? " +
+            "  OR TO_CHAR(COMPDATETIME,'YYYY-MM-DD') LIKE ? " +
+            "  OR TO_CHAR(EMPN) LIKE ? " +
             ")";
 
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -673,11 +714,12 @@ public int getComplaintCountByCategorySearch(String category, String search) {
         String like = "%" + search.toLowerCase() + "%";
 
         ps.setString(1, category);
-        ps.setString(2, like);
-        ps.setString(3, like);
-        ps.setString(4, like);
-        ps.setString(5, like);
-        ps.setString(6, like);
+        ps.setString(2, like);               // username
+        ps.setString(3, like);               // complaint_type
+        ps.setString(4, like);               // qtr
+        ps.setString(5, "%" + search + "%"); // phone
+        ps.setString(6, "%" + search + "%"); // date
+        ps.setString(7, "%" + search + "%"); // empn
 
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
@@ -701,6 +743,12 @@ public List<Complaintdtls> getPendingComplaintsPaginatedSearch(
     List<Complaintdtls> list = new ArrayList<>();
 
     try {
+
+        // 🔒 NULL SAFETY (IMPORTANT)
+        if (search == null) {
+            search = "";
+        }
+
         String sql =
             "SELECT * FROM ( " +
             "  SELECT a.*, ROWNUM rnum FROM ( " +
@@ -709,6 +757,7 @@ public List<Complaintdtls> getPendingComplaintsPaginatedSearch(
             "      AND STATUS <> 'Closed' " +
             "      AND ( " +
             "           LOWER(USERNAME) LIKE ? " +
+            "        OR LOWER(COMPLAINT_TYPE) LIKE ? " +   // ✅ ADDED
             "        OR TO_CHAR(EMPN) LIKE ? " +
             "        OR LOWER(QTRNO) LIKE ? " +
             "        OR PHONE LIKE ? " +
@@ -720,17 +769,18 @@ public List<Complaintdtls> getPendingComplaintsPaginatedSearch(
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
-        ps.setString(1, category);
-
         String like = "%" + search.toLowerCase() + "%";
-        ps.setString(2, like); // username
-        ps.setString(3, "%" + search + "%"); // empn
-        ps.setString(4, like); // qtr
-        ps.setString(5, "%" + search + "%"); // phone
-        ps.setString(6, "%" + search + "%"); // date
 
-        ps.setInt(7, endRow);
-        ps.setInt(8, startRow);
+        ps.setString(1, category);
+        ps.setString(2, like); // username
+        ps.setString(3, like); // complaint_type
+        ps.setString(4, "%" + search + "%"); // empn
+        ps.setString(5, like); // qtr
+        ps.setString(6, "%" + search + "%"); // phone
+        ps.setString(7, "%" + search + "%"); // date
+
+        ps.setInt(8, endRow);
+        ps.setInt(9, startRow);
 
         ResultSet rs = ps.executeQuery();
 
@@ -739,6 +789,7 @@ public List<Complaintdtls> getPendingComplaintsPaginatedSearch(
             c.setid(rs.getInt("ID"));
             c.setImage(rs.getString("IMAGEFILE"));
             c.setCategory(rs.getString("CATEGORY"));
+            c.setComplaintType(rs.getString("COMPLAINT_TYPE")); // ✅ ADDED
             c.setTitle(rs.getString("TITLE"));
             c.setDescription(rs.getString("DESCRIPTION"));
             c.setQtrno(rs.getString("QTRNO"));
@@ -761,6 +812,7 @@ public List<Complaintdtls> getPendingComplaintsPaginatedSearch(
 }
 
 
+
 @Override
 
 public int getPendingComplaintCountByCategorySearch(
@@ -770,12 +822,19 @@ public int getPendingComplaintCountByCategorySearch(
     int count = 0;
 
     try {
+
+        // 🔒 NULL SAFETY
+        if (search == null) {
+            search = "";
+        }
+
         String sql =
             "SELECT COUNT(*) FROM CTRACK.COMPLAINTDTLS " +
             "WHERE CATEGORY = ? " +
             "  AND STATUS <> 'Closed' " +
             "  AND ( " +
             "       LOWER(USERNAME) LIKE ? " +
+            "    OR LOWER(COMPLAINT_TYPE) LIKE ? " +   // ✅ ADDED
             "    OR TO_CHAR(EMPN) LIKE ? " +
             "    OR LOWER(QTRNO) LIKE ? " +
             "    OR PHONE LIKE ? " +
@@ -784,14 +843,15 @@ public int getPendingComplaintCountByCategorySearch(
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
-        ps.setString(1, category);
-
         String like = "%" + search.toLowerCase() + "%";
-        ps.setString(2, like);
-        ps.setString(3, "%" + search + "%");
-        ps.setString(4, like);
-        ps.setString(5, "%" + search + "%");
-        ps.setString(6, "%" + search + "%");
+
+        ps.setString(1, category);
+        ps.setString(2, like);               // username
+        ps.setString(3, like);               // complaint_type
+        ps.setString(4, "%" + search + "%"); // empn
+        ps.setString(5, like);               // qtr
+        ps.setString(6, "%" + search + "%"); // phone
+        ps.setString(7, "%" + search + "%"); // date
 
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
@@ -804,6 +864,7 @@ public int getPendingComplaintCountByCategorySearch(
 
     return count;
 }
+
 
 
 @Override

@@ -251,7 +251,7 @@ body {
                     <th>Emp No</th>
                     <th>User</th>
                     <th>Phone</th>
-                    <th>Status</th>
+                    <th>Type</th>
                     <th>Edit</th>
                     <th>Close</th>
                 </tr>
@@ -290,7 +290,7 @@ body {
                     <td><%= c.getPhone() %></td>
 
                     <td>
-                        <span class="status-open"><%= c.getStatus() %></span>
+                        <span class="status-open"><%= c.getComplaintType() %></span>
                     </td>
 
                     <td>

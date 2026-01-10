@@ -215,6 +215,9 @@ html.dark-mode .label {
 
                 <div class="label">Category</div>
                 <div class="value"><%= c.getCategory() %></div>
+                
+                <div class="label">Complaint Type</div>
+                <div class="value"><%= c.getComplaintType() %></div>
 
                 <div class="label">Title</div>
                 <div class="value"><%= c.getTitle() %></div>
