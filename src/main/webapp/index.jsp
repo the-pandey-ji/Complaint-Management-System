@@ -25,7 +25,7 @@ body {
         rgba(0,0,0,0.55),
         rgba(0,0,0,0.55)
     ),
-    url('/Complaint-Management-System/img/download.jpeg') no-repeat center center fixed;
+    url('/Complaint-Management-System/download.jpeg') no-repeat center center fixed;
     background-size: cover;
     height: 100vh;
 
@@ -302,7 +302,7 @@ label {
 
     <!-- BRAND -->
     <div class="brand-logo">
-        <img src="/Complaint-Management-System/img/nflimage.png" alt="NFL Logo">
+        <img src="/Complaint-Management-System/nflimage.png" alt="NFL Logo">
     </div>
 
     <!-- COMPANY -->

@@ -133,7 +133,7 @@ body { background:#f4f6f9; font-family:"Segoe UI",Roboto,Arial; }
     <a href="viewComplaints.jsp">
         <i class="fas fa-list mr-2"></i> View All Complaints
     </a>
-
+<a href="complaintReport.jsp" ><i class="fas fa-file-alt mr-2"></i> Complaint Report</a>
     <a href="changePassword.jsp">
         <i class="fas fa-key mr-2"></i> Change Password
     </a>

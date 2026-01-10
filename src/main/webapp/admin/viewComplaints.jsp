@@ -188,7 +188,7 @@ body {
     <a href="viewComplaints.jsp" class="active">
         <i class="fas fa-list mr-2"></i> View All Complaints
     </a>
-
+<a href="complaintReport.jsp" ><i class="fas fa-file-alt mr-2"></i> Complaint Report</a>
     <a href="changePassword.jsp">
         <i class="fas fa-key mr-2"></i> Change Password
     </a>
