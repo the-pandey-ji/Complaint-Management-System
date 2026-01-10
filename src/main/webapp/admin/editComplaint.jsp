@@ -269,7 +269,7 @@ html.dark-mode .admin-sidebar {
                     <div class="form-group">
                         <label>Complaint Title</label>
                         <input name="title" class="form-control"
-                               value="<%= complaint.getTitle() %>" disabled>
+                               value="<%= complaint.getTitle() %>" readonly>
                     </div>
 
                     <div class="form-group">
