@@ -114,11 +114,11 @@
                 </a>
             </li>
             
-            <li class="nav-item active">
+          <!--   <li class="nav-item active">
 			    <a class="nav-link" href="allComplaints.jsp">
 			        <i class="fas fa-list mr-1"></i> All Complaints
 			    </a>
-			</li>
+			</li> -->
 			
 			<li class="nav-item active">
 			    <a class="nav-link" href="civilComplaints.jsp">
@@ -129,6 +129,11 @@
 			<li class="nav-item active">
 			    <a class="nav-link" href="eComplaints.jsp">
 			        <i class="fas fa-bolt mr-1"></i> Electrical Complaints
+			    </a>
+			</li>
+			 <li class="nav-item active">
+			    <a class="nav-link" href="closedComplaints.jsp">
+			        <i class="fas fa-list mr-1"></i> Closed Complaints
 			    </a>
 			</li>
 
