@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ page import="java.util.List" %>
+<%@ page import="java.sql.*" %>
 <%@ page import="com.DB.DBConnect" %>
 <%@ page import="com.DAO.ComplaintDAOImpl" %>
 <%@ page import="com.entity.Complaintdtls" %>
@@ -285,6 +286,9 @@ body {
                     <th>Action</th>
                     <th>Edit</th>
                     <th>Close</th>
+
+                    <!-- ✅ ADDED FEEDBACK COLUMN -->
+                    <th>Feedback</th>
                 </tr>
                 </thead>
 
@@ -354,13 +358,75 @@ body {
                             <i class="fas fa-times-circle"></i>
                         </a>
                     </td>
+
+                    <!-- ✅ FEEDBACK CELL ADDED (ONLY) -->
+					<td>
+					    <%
+					        if ("Closed".equalsIgnoreCase(c.getStatus())) {
+					
+					            int fbRating = 0;
+					
+					            try {
+					                Connection connFB = DBConnect.getConnection();
+					
+					                String fbCheckSql =
+					                    "SELECT NVL(MAX(RATING),0) AS RT " +
+					                    "FROM CTRACK.COMPLAINT_FEEDBACK " +
+					                    "WHERE COMPLAINT_ID=?";
+					
+					                PreparedStatement psFB = connFB.prepareStatement(fbCheckSql);
+					                psFB.setInt(1, c.getid());
+					
+					                ResultSet rsFB = psFB.executeQuery();
+					                if (rsFB.next()) {
+					                    fbRating = rsFB.getInt("RT");
+					                }
+					
+					                rsFB.close();
+					                psFB.close();
+					
+					            } catch(Exception ex) {
+					                ex.printStackTrace();
+					            }
+					
+					            if (fbRating > 0) {
+					    %>
+					                <!-- ✅ Only given stars + clickable -->
+					                <a href="viewComplaint.jsp?id=<%= c.getid() %>"
+					                   target="_blank"
+					                   style="text-decoration:none; font-size:18px;">
+					                    <%
+					                        for(int s=1; s<=fbRating; s++){
+					                    %>
+					                        <span style="color:#f59e0b;">&#9733;</span>
+					                    <%
+					                        }
+					                    %>
+					                </a>
+					    <%
+					            } else {
+					    %>
+					                <span class="text-muted">No Feedback</span>
+					    <%
+					            }
+					
+					        } else {
+					    %>
+					            <span class="text-muted">-</span>
+					    <%
+					        }
+					    %>
+					</td>
+
+
+
                 </tr>
                 <%
                         }
                     } else {
                 %>
                 <tr>
-                    <td colspan="15" class="text-center text-muted">
+                    <td colspan="16" class="text-center text-muted">
                         No complaints found
                     </td>
                 </tr>
