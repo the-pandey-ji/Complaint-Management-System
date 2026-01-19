@@ -170,11 +170,11 @@ a{text-decoration:none}
       </div>
     </div>
     <div class="col-md-4">
-      <div class="action-card" onclick="location.href='allComplaints.jsp'">
+      <div class="action-card" onclick="location.href='closedComplaints.jsp'">
         <div class="action-icon text-success"><i class="fas fa-list-alt"></i></div>
         <div>
-          <div class="action-title"><h4>View Complaints</h4></div>
-          <h6 class="text-muted">Track status</h6>
+          <div class="action-title"><h4>Closed Complaints</h4></div>
+          <h6 class="text-muted">Give Feedback</h6>
         </div>
       </div>
     </div>

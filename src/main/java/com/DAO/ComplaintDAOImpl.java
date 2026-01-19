@@ -331,12 +331,44 @@ public List<Complaintdtls> getElectricalComplaints() {
     return electricalComplaints;
 }
 
-
 @Override
 public List<Complaintdtls> getUserComplaints(long empn) {
     List<Complaintdtls> userComplaints = new ArrayList<>();
     try {
         String query = "SELECT * FROM complaintdtls WHERE empn=? ORDER BY id DESC";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setLong(1, empn);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            Complaintdtls complaint = new Complaintdtls();
+            complaint.setid(rs.getInt("id"));
+            complaint.setImage(rs.getString("imagefile"));
+            complaint.setCategory(rs.getString("category"));
+            complaint.setComplaintType(rs.getString("complaint_type"));
+            complaint.setTitle(rs.getString("title"));
+            complaint.setDescription(rs.getString("description"));
+            complaint.setQtrno(rs.getString("qtrno"));
+            complaint.setEmpn(rs.getLong("empn"));
+            complaint.setUsername(rs.getString("username"));
+            complaint.setPhone(rs.getString("phone"));
+            complaint.setCreatedate(rs.getString("compdatetime"));
+            complaint.setStatus(rs.getString("status"));
+            complaint.setAction(rs.getString("actiontaken"));
+            userComplaints.add(complaint);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return userComplaints;
+}
+
+@Override
+public List<Complaintdtls> getUserClosedComplaints(long empn) {
+    List<Complaintdtls> userComplaints = new ArrayList<>();
+    try {
+        String query = "SELECT * FROM complaintdtls WHERE empn=? and status='Closed' ORDER BY id DESC";
         PreparedStatement pstmt = conn.prepareStatement(query);
         pstmt.setLong(1, empn);
         ResultSet rs = pstmt.executeQuery();

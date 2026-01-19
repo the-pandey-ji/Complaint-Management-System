@@ -120,7 +120,7 @@ html, body {
                             new ComplaintDAOImpl(DBConnect.getConnection());
 
                         List<Complaintdtls> list =
-                            dao.getUserComplaints(user.getEmpn());
+                            dao.getUserClosedComplaints(user.getEmpn());
 
                         if (list != null && !list.isEmpty()) {
                             for (Complaintdtls c : list) {

@@ -89,6 +89,8 @@ public interface ComplaintDAO {
 
 	int[] getMonthlyComplaintCountByUser(long empn);
 
+	List<Complaintdtls> getUserClosedComplaints(long empn);
+
 	
 	
 
